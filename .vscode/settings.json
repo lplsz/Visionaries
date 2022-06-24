@@ -1,0 +1,25 @@
+{
+    "editor.formatOnSave": true,
+    "[javascript]": {
+	    "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "[typescript]": {
+	    "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "[javascript|react]": {
+	    "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "[typescript|react]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "[less]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "[css]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "[json]": {
+	    "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "prettier.configPath": ".prettierrc.js",
+}
