@@ -1,4 +1,4 @@
-from app.extensions import db
+from wellbeing.extensions import db
 
 qa_tags = db.Table(
     "qa_tags",
@@ -28,3 +28,14 @@ class Tag(db.Model):
 
     # Relationships
     qas = db.relationship('QA', lazy=False, useList=True, back_populates='tags', secondary=qa_tags)
+
+
+class Category(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    category_name = db.Column(db.Text, nullable=False)
+    category_image_url = db.Column(db.Text, nullable=True)
+
+    # Relationships
+    threads = db.relationship('Thread', lazy=False, useList=True, back_populates='category')
+    qas = db.relationship('QA', lazy=False, useList=True, back_populates='category')
+    interested_users = db.relationship('User', lazy=False, useList=True, back_populates='interested_categories')

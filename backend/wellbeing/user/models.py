@@ -1,27 +1,6 @@
 import bcrypt
 
-from app.extensions import db
-
-
-####################
-#  Authentication  #
-####################
-
-class TokenBlocklist(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    jti = db.Column(db.Text, nullable=False)
-    created_at = db.Column(db.DateTime, nullable=False)
-
-
-class RegisterPhone2FA(db.Model):
-    phone = db.Column(db.String(15), primary_key=True)  # E.164 format
-    last_sent_at = db.Column(db.DateTime, nullable=True)
-
-
-class PWResetPhone2FA(db.Model):
-    phone = db.Column(db.String(15), primary_key=True)  # E.164 format
-    last_sent_at = db.Column(db.DateTime, nullable=True)
-
+from wellbeing.extensions import db
 
 ####################
 #       User       #
@@ -37,6 +16,12 @@ user_experience = db.Table(
     "user_experience",
     db.Column("user_id", db.ForeignKey("user.id"), primary_key=True),
     db.Column("experience_id", db.ForeignKey("experience.id"), primary_key=True),
+)
+
+interested_category = db.Table(
+    "interested_category",
+    db.Column("user_id", db.ForeignKey("user.id"), primary_key=True),
+    db.Column("category_id", db.ForeignKey("category.id"), primary_key=True),
 )
 
 
@@ -57,6 +42,7 @@ class User(db.Model):
     qualifications = db.relationship('Qualification', lazy=False, useList=True, back_populates='user')
 
     # # Threads
+    interested_categories = db.relationship('Category', lazy=False, useList=True, back_populates='interested_users')
     threads = db.relationship('Thread', lazy=True, useList=True, back_populates='user')
     replies = db.relationship('Reply', lazy=True, useList=True, back_populates='user')
     qas = db.relationship('QA', lazy=True, useList=True, back_populates='user')
