@@ -44,13 +44,13 @@ class Login(MethodView):
 class Logout(MethodView):
 
     @blueprint.doc(
+        security='JWT Bearer Token',
         summary='Logout a user',
         description='Logout a user',
         responses={
             200: "User logged out",
             401: "Invalid Token",
-        },
-        security='JWT Bearer Token')
+        })
     @jwt_required()
     def post(self):
         return controllers.logout()
