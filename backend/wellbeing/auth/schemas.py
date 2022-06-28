@@ -5,9 +5,9 @@ from wellbeing.user.schemas import UserSchema
 
 
 class RegisterInSchema(Schema):
-    username = String(required=True)
-    email = String(required=True)
-    password = String(required=True)
+    username = String(required=True, example='Taylor Swift')
+    email = String(required=True, example='ts@gmail.com')
+    password = String(required=True, example='password')
 
 
 class RegisterOutSchema(Schema):
@@ -16,10 +16,14 @@ class RegisterOutSchema(Schema):
 
 
 class LoginInSchema(Schema):
-    email = String(required=True)
-    password = String(required=True)
+    email = String(required=True, example='ts@gmail.com')
+    password = String(required=True, example='password')
 
 
 class LoginOutSchema(Schema):
     access_token = String(required=True)
     user = Nested(UserSchema, required=True)
+
+
+class LogoutInSchema(Schema):
+    access_token = String(required=True)

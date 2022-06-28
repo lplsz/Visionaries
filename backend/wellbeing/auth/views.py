@@ -1,7 +1,8 @@
 from apiflask import APIBlueprint
 from flask.views import MethodView
+from flask_jwt_extended import jwt_required
 
-import controllers
+import wellbeing.auth.controllers as controllers
 from wellbeing.auth.schemas import RegisterInSchema, RegisterOutSchema, LoginInSchema, LoginOutSchema
 
 blueprint = APIBlueprint('auth', __name__)
@@ -37,3 +38,19 @@ class Login(MethodView):
         })
     def post(self, data):
         return controllers.login(data)
+
+
+@blueprint.route('/logout')
+class Logout(MethodView):
+
+    @blueprint.doc(
+        summary='Logout a user',
+        description='Logout a user',
+        responses={
+            200: "User logged out",
+            401: "Invalid Token",
+        },
+        security='JWT Bearer Token')
+    @jwt_required()
+    def post(self):
+        return controllers.logout()

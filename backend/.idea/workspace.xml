@@ -4,33 +4,30 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f3aeeb94-3d47-4a9c-92d7-63e92f4baabb" name="Changes" comment="initialize models.py">
-      <change afterPath="$PROJECT_DIR$/wellbeing/auth/schemas.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/wellbeing/auth/views.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/wellbeing/user/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/wellbeing/user/schemas.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/backend.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/backend.iml" afterDir="false" />
+    <list default="true" id="f3aeeb94-3d47-4a9c-92d7-63e92f4baabb" name="Changes" comment="Implemented login and register">
+      <change afterPath="$PROJECT_DIR$/autoapp.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wellbeing/meeting/views.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wellbeing/thread/views.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wellbeing/user/views.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/QA/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/wellbeing/QA/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/QA/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/wellbeing/QA/models.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/wellbeing/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/wellbeing/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/wellbeing/app.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/auth/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/wellbeing/auth/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/auth/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/wellbeing/auth/models.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/auth/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/wellbeing/QA/views.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/commands.py" beforeDir="false" afterPath="$PROJECT_DIR$/wellbeing/commands.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/extensions.py" beforeDir="false" afterPath="$PROJECT_DIR$/wellbeing/extensions.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/meeting/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/wellbeing/auth/controllers.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/meeting/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/wellbeing/meeting/models.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/models.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/wellbeing/settings.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/thread/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/wellbeing/meeting/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/thread/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/wellbeing/thread/models.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/user/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/wellbeing/thread/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/user/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/wellbeing/user/models.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/public/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/public/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/wellbeing/QA/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/wellbeing/QA/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/wellbeing/QA/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/wellbeing/QA/models.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/wellbeing/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/wellbeing/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/wellbeing/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/wellbeing/app.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/wellbeing/auth/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/wellbeing/auth/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/wellbeing/auth/controllers.py" beforeDir="false" afterPath="$PROJECT_DIR$/wellbeing/auth/controllers.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/wellbeing/auth/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/wellbeing/auth/models.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/wellbeing/auth/schemas.py" beforeDir="false" afterPath="$PROJECT_DIR$/wellbeing/auth/schemas.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/wellbeing/auth/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/wellbeing/auth/views.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/wellbeing/extensions.py" beforeDir="false" afterPath="$PROJECT_DIR$/wellbeing/extensions.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/wellbeing/meeting/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/wellbeing/meeting/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/wellbeing/meeting/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/wellbeing/meeting/models.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/wellbeing/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/wellbeing/settings.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/wellbeing/thread/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/wellbeing/thread/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/wellbeing/thread/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/wellbeing/thread/models.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/wellbeing/user/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/wellbeing/user/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/wellbeing/user/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/wellbeing/user/models.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/wellbeing/user/schemas.py" beforeDir="false" afterPath="$PROJECT_DIR$/wellbeing/user/schemas.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -96,7 +93,7 @@
     "node.js.selected.package.stylelint": "",
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "com.jetbrains.python.configuration.PythonContentEntriesConfigurable"
+    "settings.editor.selected.configurable": "preferences.sourceCode.Python"
   }
 }]]></component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
@@ -109,7 +106,8 @@
       <updated>1656208006447</updated>
       <workItem from="1656208007631" duration="113000" />
       <workItem from="1656208121641" duration="8924000" />
-      <workItem from="1656332427222" duration="6070000" />
+      <workItem from="1656332427222" duration="8891000" />
+      <workItem from="1656410601045" duration="8295000" />
     </task>
     <task id="LOCAL-00001" summary="initialize models.py">
       <created>1656223471844</created>
@@ -118,7 +116,14 @@
       <option name="project" value="LOCAL" />
       <updated>1656223471844</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="Implemented login and register">
+      <created>1656338989965</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1656338989965</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -137,6 +142,7 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="initialize models.py" />
-    <option name="LAST_COMMIT_MESSAGE" value="initialize models.py" />
+    <MESSAGE value="Implemented login and register" />
+    <option name="LAST_COMMIT_MESSAGE" value="Implemented login and register" />
   </component>
 </project>

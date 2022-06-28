@@ -17,9 +17,9 @@ class QA(db.Model):
     category_id = db.Column(db.Integer, db.ForeignKey('category.id'), nullable=False)
 
     # Relationships
-    category = db.relationship('Category', lazy=False, useList=False, back_populates='qas')
-    user = db.relationship('User', lazy=False, useList=False, back_populates='threads')
-    tags = db.relationship('Tag', lazy=False, useList=True, back_populates='qas', secondary=qa_tags)
+    category = db.relationship('Category', lazy=False, uselist=False, back_populates='qas')
+    user = db.relationship('User', lazy=False, uselist=False, back_populates='threads')
+    tags = db.relationship('Tag', lazy=False, uselist=True, back_populates='qas', secondary=qa_tags)
 
 
 class Tag(db.Model):
@@ -27,7 +27,7 @@ class Tag(db.Model):
     tag_name = db.Column(db.Text, nullable=False)
 
     # Relationships
-    qas = db.relationship('QA', lazy=False, useList=True, back_populates='tags', secondary=qa_tags)
+    qas = db.relationship('QA', lazy=False, uselist=True, back_populates='tags', secondary=qa_tags)
 
 
 class Category(db.Model):
@@ -36,6 +36,6 @@ class Category(db.Model):
     category_image_url = db.Column(db.Text, nullable=True)
 
     # Relationships
-    threads = db.relationship('Thread', lazy=False, useList=True, back_populates='category')
-    qas = db.relationship('QA', lazy=False, useList=True, back_populates='category')
-    interested_users = db.relationship('User', lazy=False, useList=True, back_populates='interested_categories')
+    threads = db.relationship('Thread', lazy=False, uselist=True, back_populates='category')
+    qas = db.relationship('QA', lazy=False, uselist=True, back_populates='category')
+    interested_users = db.relationship('User', lazy=False, uselist=True, back_populates='interested_categories')

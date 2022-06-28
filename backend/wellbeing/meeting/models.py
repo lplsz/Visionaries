@@ -9,7 +9,7 @@ class AvailableTimeRange(db.Model):
     week_day = db.Column(db.Integer, nullable=False)
 
     # Relationships
-    user = db.relationship('User', lazy=False, useList=False, back_populates='available_time_ranges')
+    user = db.relationship('User', lazy=False, uselist=False, back_populates='available_time_ranges')
 
 
 class Meeting(db.Model):
@@ -21,6 +21,6 @@ class Meeting(db.Model):
     metadata = db.Column(db.Text, nullable=False)
 
     # Relationships
-    user = db.relationship('User', foreign_keys=[user_id], lazy=False, useList=False, back_populates='meetings_as_user')
-    expert = db.relationship('User', foreign_keys=[expert_id], lazy=False, useList=False,
+    user = db.relationship('User', foreign_keys=[user_id], lazy=False, uselist=False, back_populates='meetings_as_user')
+    expert = db.relationship('User', foreign_keys=[expert_id], lazy=False, uselist=False,
                              back_populates='meetings_as_expert')

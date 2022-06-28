@@ -11,9 +11,9 @@ class Thread(db.Model):
     resolved = db.Column(db.Boolean, default=False, nullable=False)
 
     # Relationships
-    category = db.relationship('Category', lazy=False, useList=False, back_populates='threads')
-    replies = db.relationship('Reply', lazy=False, useList=True, back_populates='thread')
-    user = db.relationship('User', lazy=False, useList=False, back_populates='threads')
+    category = db.relationship('Category', lazy=False, uselist=False, back_populates='threads')
+    replies = db.relationship('Reply', lazy=False, uselist=True, back_populates='thread')
+    user = db.relationship('User', lazy=False, uselist=False, back_populates='threads')
 
 
 class Reply(db.Model):
@@ -24,5 +24,5 @@ class Reply(db.Model):
     created_at = db.Column(db.DateTime, nullable=False)
 
     # Relationships
-    thread = db.relationship('Thread', lazy=False, useList=False, back_populates='replies')
-    user = db.relationship('User', lazy=False, useList=False, back_populates='replies')
+    thread = db.relationship('Thread', lazy=False, uselist=False, back_populates='replies')
+    user = db.relationship('User', lazy=False, uselist=False, back_populates='replies')

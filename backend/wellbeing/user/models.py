@@ -36,22 +36,22 @@ class User(db.Model):
 
     # Relationships
     # # Profile
-    languages = db.relationship('Language', lazy=False, useList=True, back_populates='users', secondary=user_language)
-    experiences = db.relationship('Experience', lazy=False, useList=True, back_populates='users',
+    languages = db.relationship('Language', lazy=False, uselist=True, back_populates='users', secondary=user_language)
+    experiences = db.relationship('Experience', lazy=False, uselist=True, back_populates='users',
                                   secondary=user_experience)
-    qualifications = db.relationship('Qualification', lazy=False, useList=True, back_populates='user')
+    qualifications = db.relationship('Qualification', lazy=False, uselist=True, back_populates='user')
 
     # # Threads
-    interested_categories = db.relationship('Category', lazy=False, useList=True, back_populates='interested_users')
-    threads = db.relationship('Thread', lazy=True, useList=True, back_populates='user')
-    replies = db.relationship('Reply', lazy=True, useList=True, back_populates='user')
-    qas = db.relationship('QA', lazy=True, useList=True, back_populates='user')
+    interested_categories = db.relationship('Category', lazy=False, uselist=True, back_populates='interested_users')
+    threads = db.relationship('Thread', lazy=True, uselist=True, back_populates='user')
+    replies = db.relationship('Reply', lazy=True, uselist=True, back_populates='user')
+    qas = db.relationship('QA', lazy=True, uselist=True, back_populates='user')
 
     # # meeting
-    available_time_ranges = db.relationship('AvailableTimeRange', lazy=True, useList=True, back_populates='user')
+    available_time_ranges = db.relationship('AvailableTimeRange', lazy=True, uselist=True, back_populates='user')
 
-    meetings_as_user = db.relationship('Meeting', lazy=True, useList=True, back_populates='user')
-    meetings_as_export = db.relationship('Meeting', lazy=True, useList=True, back_populates='expert')
+    meetings_as_user = db.relationship('Meeting', lazy=True, uselist=True, back_populates='user')
+    meetings_as_export = db.relationship('Meeting', lazy=True, uselist=True, back_populates='expert')
 
     def __repr__(self):
         return f'<User {self.username} {self.email} {self.account_type}>'
@@ -82,7 +82,7 @@ class Language(db.Model):
     language_name = db.Column(db.Text, nullable=False)
 
     # Relationships
-    users = db.relationship('User', lazy=False, useList=True, back_populates='languages', secondary=user_language)
+    users = db.relationship('User', lazy=False, uselist=True, back_populates='languages', secondary=user_language)
 
     def __repr__(self):
         return f'<Language {self.language_name}>'
@@ -93,7 +93,7 @@ class Experience(db.Model):
     experience_name = db.Column(db.Text, nullable=False)
 
     # Relationships
-    users = db.relationship('User', lazy=False, useList=True, back_populates='experiences', secondary=user_experience)
+    users = db.relationship('User', lazy=False, uselist=True, back_populates='experiences', secondary=user_experience)
 
     def __repr__(self):
         return f'<Experience {self.experience_name}>'
