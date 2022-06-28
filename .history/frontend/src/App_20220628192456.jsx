@@ -10,10 +10,6 @@ import StudentMain from './page/StudentMain';
 import ExpertMain from './page/ExpertMain';
 import StudentProfile from './page/StudentProfile';
 import ExpertProfile from './page/ExpertProfile';
-import StudentLogin from './page/StudentLogin';
-import ExpertLogin from './page/ExpertLogin.jsx';
-import StudentRegister from './page/StudentRegister.jsx';
-import ExpertRegister from './page/ExpertRegister.jsx';
 
 function App () {
   return (
