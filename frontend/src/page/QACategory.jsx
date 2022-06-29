@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import * as React from 'react';
 import Accordion from '@mui/material/Accordion';
 import AccordionDetails from '@mui/material/AccordionDetails';
@@ -21,6 +22,14 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
 import InterpreterModeIcon from '@mui/icons-material/InterpreterMode';
 import FeedbackIcon from '@mui/icons-material/Feedback';
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogContentText from "@mui/material/DialogContentText";
+import DialogTitle from "@mui/material/DialogTitle";
+import Grid from '@mui/material/Grid';
+import PotentialQA from '../component/PotentialQA';
+
 // or for Day.js
 const SearchIconWrapper = styled('div')(({ theme }) => ({
   padding: theme.spacing(0, 2),
@@ -64,46 +73,59 @@ const Search = styled('div')(({ theme }) => ({
 }))
 
 const QACategory = () => {
-  const [expanded, setExpanded] = React.useState(false);
+  // const [expanded, setExpanded] = React.useState(false);
   const [value, setValue] = React.useState(new Date('2014-08-18T21:11:54'));
   const category = 'Vaccinations'
+  const [open, setOpen] = React.useState(false);
+  const categories = ['Career Advice', 'Covid-19', 'Mental Health Amid', 'Study From Home', 'Vaccinations', 'Others'];
+  const [questionName, setQuestionName] = React.useState('');
+  const [questionCategory, setQuestionCategory] = React.useState('');
+  const [questionDescription, setQuestionDescription] = React.useState('');
+  
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+  
   const handleChangeTime = (newValue) => {
     setValue(newValue);
   };
 
-  const handleChange = (panel) => (event, isExpanded) => {
-    setExpanded(isExpanded ? panel : false);
-  };
+  // const handleChange = (panel) => (event, isExpanded) => {
+  //   setExpanded(isExpanded ? panel : false);
+  // };
 
-  const [qaList, setQaList] = React.useState([
-    { question: 'How much does it cost?', answer: 'All appointments are completely free of charge for students who are currently enrolled at UNSW.' },
-    { question: 'Worried about sharing your concerns?', answer: 'All information we gather is completely confidential. Your personal information will not be shared with anyone without your consent, this includes your faculty or lecturers. For further information, see our privacy statement by clicking here. ' },
-    { question: 'What can I expect if offered an appointment?', answer: 'Appointments are scheduled to last around 30 minutes. We will ask you some questions to help work out what might help. We always work with you as an individual and will always treat you with respect.', video: 'https://youtu.be/wm5nhB0lYL8' },
-  ])
+  // const [qaList, setQaList] = React.useState([
+  //   { question: 'How much does it cost?', answer: 'All appointments are completely free of charge for students who are currently enrolled at UNSW.' },
+  //   { question: 'Worried about sharing your concerns?', answer: 'All information we gather is completely confidential. Your personal information will not be shared with anyone without your consent, this includes your faculty or lecturers. For further information, see our privacy statement by clicking here. ' },
+  //   { question: 'What can I expect if offered an appointment?', answer: 'Appointments are scheduled to last around 30 minutes. We will ask you some questions to help work out what might help. We always work with you as an individual and will always treat you with respect.', video: 'https://www.youtube.com/watch?v=4ca48mSe6LY' },
+  // ])
 
+  // const qaList = [
+  //   { question: 'How much does it cost?', answer: 'All appointments are completely free of charge for students who are currently enrolled at UNSW.' },
+  //   { question: 'Worried about sharing your concerns?', answer: 'All information we gather is completely confidential. Your personal information will not be shared with anyone without your consent, this includes your faculty or lecturers. For further information, see our privacy statement by clicking here. ' },
+  //   { question: 'What can I expect if offered an appointment?', answer: 'Appointments are scheduled to last around 30 minutes. We will ask you some questions to help work out what might help. We always work with you as an individual and will always treat you with respect.' },
+  // ];
 
-  const SingleQA = (props) => {
-    const Video = () => {
-      if (props.data.video !== undefined) {
-        return (
-          <ReactPlayer
-            url={props.data.video}
-            className='react-player'
-            width='80%'
-            height='300px' />
+  // const SingleQA = (props) => {
+  //   return (
+  //     <div>
+  //       {props.data.video === undefined
+  //           ? <></>
+  //           : <ReactPlayer
+  //             url={props.data.video}
+  //             className='react-player'
+  //             width='80%'
+  //             height='300px'/>}
+  //       <Typography >{props.data.answer} </Typography>
+        
+  //     </div>
 
-        )
-      }
-      return
-    }
-    return (
-      <div>
-        <Video />
-        <Typography >{props.data.answer} </Typography>
-      </div>
-
-    )
-  }
+  //   )
+  // }
 
   const FilterCategory = () => {
     return (
@@ -119,33 +141,33 @@ const QACategory = () => {
     );
   }
 
-  const PotantialQA = () => {
-    return (
-      <div>
-        {qaList.map((data, i) => {
-          return (
-            <div key={i} style={{ marginTop: '5px', width: '100%', marginBottom: '5px' }}>
-              <Accordion fullWidth expanded={expanded === `panel${i}`} onChange={handleChange(`panel${i}`)}>
-                <AccordionSummary
+  // const PotantialQA = () => {
+  //   return (
+  //     <div>
+  //       {qaList.map((data, i) => {
+  //         return (
+  //           <div key={i} style={{ marginTop: '5px', width: '100%', marginBottom: '5px' }}>
+  //             <Accordion fullWidth expanded={expanded === `panel${i}`} onChange={handleChange(`panel${i}`)}>
+  //               <AccordionSummary
 
-                  expandIcon={<ExpandMoreIcon />}
-                  aria-controls={`panel${i}bh-content`}
-                  id={`panel${i}bh-header`}
-                >
-                  <Typography sx={{ flexShrink: 0 }}>
-                    Question {i}: {data.question}
-                  </Typography>
-                </AccordionSummary>
-                <AccordionDetails>
-                  <SingleQA data={data} />
-                </AccordionDetails>
-              </Accordion>
-            </div>
-          );
-        })}
-      </div>
-    );
-  }
+  //                 expandIcon={<ExpandMoreIcon />}
+  //                 aria-controls={`panel${i}bh-content`}
+  //                 id={`panel${i}bh-header`}
+  //               >
+  //                 <Typography sx={{ flexShrink: 0 }}>
+  //                   Question {i}: {data.question}
+  //                 </Typography>
+  //               </AccordionSummary>
+  //               <AccordionDetails>
+  //                 <SingleQA data={data} />
+  //               </AccordionDetails>
+  //             </Accordion>
+  //           </div>
+  //         );
+  //       })}
+  //     </div>
+  //   );
+  // }
 
   const solveSearch = (event) => {
     if (event.keyCode === 13) {
@@ -155,6 +177,16 @@ const QACategory = () => {
 
       document.getElementById('searchInput').value = '';
     }
+  }
+
+  const handleSubmit = () => {
+    const info = {
+      question_name: questionName,
+      question_category: questionCategory,
+      question_description: questionDescription,
+    }
+    console.log(info);
+    handleClose();
   }
 
   return (
@@ -222,7 +254,8 @@ const QACategory = () => {
               }}>Catgory: <FilterCategory /></div>
             </div>
             <div style={{ width: '100%' }}>
-              <PotantialQA />
+              {/* <PotantialQA /> */}
+              <PotentialQA />
             </div>
 
           </Box>
@@ -252,7 +285,68 @@ const QACategory = () => {
             </div>
             <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%', justifyItems: 'center', marginTop: '50px' }}>
               <div><FeedbackIcon sx={{ margin: 'auto', fontSize: 60, color: '#74b2a4' }} /> </div>
-              <Button sx={{ marginTop: '5px', borderColor: 'gray', height: '55px', color: '#74b2a4' }} fullWidth variant="outlined"> Post Your Question </Button>
+              <Button sx={{ marginTop: '5px', borderColor: 'gray', height: '55px', color: '#74b2a4' }} fullWidth variant="outlined" onClick={handleClickOpen}> Post Your Question </Button>
+              <Dialog
+                fullWidth={true}
+                maxWidth={"lg"}
+                open={open}
+                onClose={handleClose}
+              >
+                  <DialogContent sx={{marginLeft:'5%', marginRight: '5%', marginTop: '10px'}}>
+                    <Typography variant="h3" gutterBottom sx={{textAlign: 'center', marginBottom: '50px'}}>
+                      Create Your Question Here:
+                    </Typography>
+                    <div>
+                      <Grid container spacing={3}>
+                        <Grid item xs={8}>
+                          <Typography variant="h6" gutterBottom>
+                            Question Name:
+                          </Typography>
+                          <TextField
+                            required
+                            id="recipeName"
+                            name="recipeName"
+                            label="Enhancement your question name here"
+                            fullWidth={true}
+                            variant="standard"
+                            onChange={e => {setQuestionName(e.target.value)}}
+                          />
+                        </Grid>
+                        <Grid item xs={4}>
+                          <Typography gutterBottom>
+                              Choose Question Category:
+                          </Typography>
+                          <Autocomplete
+                            disablePortal
+                            id="combo-box-demo"
+                            options={categories}
+                            sx={{ width: 200, marginLeft: '10px' }}
+                            renderInput={(params) => <TextField {...params} label="Type" />}
+                            onChange={(e) => setQuestionCategory(categories[e.target.getAttribute("data-option-index")])}
+                          />
+                        </Grid>
+                        <Grid item xs={12}>
+                          <Typography variant="h6" gutterBottom>
+                            Question Description:
+                          </Typography>
+                          <TextField
+                            required
+                            id="recipeName"
+                            name="recipeName"
+                            label="Enhancement your detail question description here"
+                            fullWidth={true}
+                            variant="standard"
+                            onChange={e => {setQuestionDescription(e.target.value)}}
+                          />
+                        </Grid>
+                      </Grid>
+                    </div>
+                  </DialogContent>
+                  <DialogActions>
+                    <Button onClick={handleClose}>CANCLE</Button>
+                    <Button onClick={handleSubmit}>SUMBIT</Button>
+                  </DialogActions>
+              </Dialog>
             </div>
           </Box>
         </div>

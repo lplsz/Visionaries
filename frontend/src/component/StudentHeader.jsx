@@ -37,7 +37,6 @@ export default function StudentHeader() {
   const isMenuOpen = Boolean(anchorEl); 
   const navigate = useNavigate();
   const sid = localStorage.getItem('sid');
-  console.log((sid==null), 'sid');
   const handleProfileMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
   };
