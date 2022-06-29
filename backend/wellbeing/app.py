@@ -3,7 +3,7 @@
 
 from apiflask import APIFlask  # step one
 
-from wellbeing import auth, QA
+from wellbeing import auth, user, QA
 from wellbeing.extensions import (
     jwt,
     db,
@@ -35,7 +35,10 @@ def register_extensions(app):
 def register_blueprints(app):
     """Register Flask blueprints."""
     app.register_blueprint(auth.views.blueprint)
-    app.register_blueprint(QA.views.blueprint)
+    app.register_blueprint(user.views.blueprint)
+    app.register_blueprint(QA.views.qa_blueprint)
+    app.register_blueprint(QA.views.tag_blueprint)
+    app.register_blueprint(QA.views.category_blueprint)
 
 
 # def register_shellcontext(app):

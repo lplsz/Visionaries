@@ -32,7 +32,7 @@ class User(db.Model):
     password = db.Column(db.Text, nullable=False)
     account_type = db.Column(db.Enum(('student', 'expert')), nullable=False)
     biography = db.Column(db.Text, nullable=True)
-    profile_image = db.Column(db.Text, nullable=True)  # base64 encoded image
+    profile_image_src = db.Column(db.Text, nullable=True)  # base64 encoded image
 
     # Relationships
     # # Profile

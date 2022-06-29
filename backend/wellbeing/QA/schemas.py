@@ -3,12 +3,23 @@ from apiflask.fields import Integer, String, DateTime, Nested, List
 
 from wellbeing.user.schemas import UserSchema
 
+'''
+Object Schema
+'''
+
 
 class CategorySchema(Schema):
     id = Integer(required=True, example=0)
     category_name = String(required=True, example='Pop')
     category_image_url = String(required=True)
-    creator_id = Integer(required=True, example=0)
+    category_description = String(required=True,
+                                  example='Pop is a genre of music that emerged in the United States in the late '
+                                          '1960s, and has since become a global phenomenon.')
+
+
+class TagSchema(Schema):
+    id = Integer(required=True, example=0)
+    tag_name = String(required=True, example='Pop')
 
 
 class QASchema(Schema):
@@ -17,8 +28,44 @@ class QASchema(Schema):
     body = String(required=True, example='Cherry lips, crystal skies')
     created_at = DateTime(required=True, example='2020-01-01T00:00:00Z')
     reviewed_at = DateTime(required=True, example='2020-01-01T00:00:00Z')
-    author = Nested(UserSchema, required=True)
+    author = Nested(UserSchema, required=True, partial=True)
     category = Nested(CategorySchema, required=True)
+
+
+'''
+API Schema
+'''
+
+'''
+Category APIs
+'''
+
+
+class GetCategoriesOutSchema(Schema):
+    categories = List(Nested(CategorySchema), required=True)
+
+
+'''
+Tag APIs
+'''
+
+
+class GetTagsOutSchema(Schema):
+    tags = List(Nested(TagSchema), required=True)
+
+
+class PostTagInSchema(Schema):
+    tag_name = String(required=True, example='Country')
+
+
+class PutTagInSchema(Schema):
+    tag_id = Integer(required=True, example=0)
+    tag_name = String(required=True, example='Country')
+
+
+'''
+QA APIs
+'''
 
 
 class GetQAsInSchema(Schema):
@@ -41,3 +88,11 @@ class PostQAInSchema(Schema):
     title = String(required=True, example='Blank Space')
     body = String(required=True, example='Cherry lips, crystal skies')
     author_id = Integer(required=True, example=0)
+
+
+class PutQAInSchema(Schema):
+    title = String(required=True, example='Blank Space')
+    body = String(required=True, example='Cherry lips, crystal skies')
+    author_id = Integer(required=True, example=0)
+    category_id = Integer(required=True, example=0)
+    tag_ids = List(Integer, example=[2, 3])

@@ -34,7 +34,7 @@ class Category(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     category_name = db.Column(db.Text, nullable=False)
     category_image_src = db.Column(db.Text, nullable=True)
-    description = db.Column(db.Text, nullable=True)
+    category_description = db.Column(db.Text, nullable=True)
 
     # Relationships
     threads = db.relationship('Thread', lazy=False, uselist=True, back_populates='category')
