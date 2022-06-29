@@ -16,6 +16,7 @@ import StudentRegister from './page/StudentRegister.jsx';
 import ExpertRegister from './page/ExpertRegister.jsx';
 import StudentQAList from './page/StudentQAList.jsx';
 import QACategory from './page/QACategory'
+import ExpertAva from './page/ExpertAva.jsx';
 
 function App() {
   return (
@@ -32,6 +33,8 @@ function App() {
         <Route path="/expert_profile" element={<ExpertProfile />} />
         <Route path="/student_QA_list" element={<StudentQAList />} />
         <Route path="/QACategory" element={<QACategory />} />
+        <Route path="/expert_ava" element={<ExpertAva />} />
+
       </Routes>
     </BrowserRouter>
   );

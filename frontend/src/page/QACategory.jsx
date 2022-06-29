@@ -59,7 +59,7 @@ const Search = styled('div')(({ theme }) => ({
   borderRadius: theme.shape.borderRadius,
   border: '1px solid',
   borderColor: 'black',
-  height: '35px',
+  height: '37px',
   backgroundColor: alpha(theme.palette.common.white, 0.45),
   '&:hover': {
     backgroundColor: alpha(theme.palette.common.white, 0.55),
@@ -283,7 +283,7 @@ const QACategory = () => {
               </LocalizationProvider>
               <Button sx={{ marginTop: '5px', borderColor: 'gray', height: '55px', color: '#b25977' }} fullWidth variant="outlined">Schedule Meeting</Button>
             </div>
-            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%', justifyItems: 'center', marginTop: '50px' }}>
+            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%', justifyItems: 'center', marginTop: '85px' }}>
               <div><FeedbackIcon sx={{ margin: 'auto', fontSize: 60, color: '#74b2a4' }} /> </div>
               <Button sx={{ marginTop: '5px', borderColor: 'gray', height: '55px', color: '#74b2a4' }} fullWidth variant="outlined" onClick={handleClickOpen}> Post Your Question </Button>
               <Dialog
