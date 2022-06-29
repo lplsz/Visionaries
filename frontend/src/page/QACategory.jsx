@@ -12,7 +12,16 @@ import TextField from '@mui/material/TextField';
 import Autocomplete from '@mui/material/Autocomplete';
 import { styled, alpha } from '@mui/material/styles';
 import ReactPlayer from 'react-player';
-import MAIN from './img/covid-vaccine-01_original.jpg';
+import MAIN from './img/vaccinations.jpg';
+import StudentHeader from '../component/StudentHeader'
+import Button from '@mui/material/Button';
+// date-fns
+import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
+import InterpreterModeIcon from '@mui/icons-material/InterpreterMode';
+import FeedbackIcon from '@mui/icons-material/Feedback';
+// or for Day.js
 const SearchIconWrapper = styled('div')(({ theme }) => ({
   padding: theme.spacing(0, 2),
   height: '100%',
@@ -150,6 +159,7 @@ const QACategory = () => {
 
   return (
     <div>
+      <StudentHeader />
       <div style={{ display: 'flex', marginLeft: '200px', marginTop: '40px' }}>
         <Typography variant="h2" sx={{ marginTop: '30px' }}>{category}</Typography>
         <img
@@ -163,8 +173,6 @@ const QACategory = () => {
         <div style={{ display: 'flex', width: '100%', backgroundColor: '#ffffff', borderRadius: '10px', marginBottom: '10px' }}>
           <Box
             sx={{
-              display: 'flex',
-              flexDirection: 'column',
               alignItems: 'center',
               margin: 'auto',
               flex: 3,
@@ -174,6 +182,7 @@ const QACategory = () => {
               borderRight: '2.0px solid rgb(230, 230, 230)',
               paddingLeft: '40px',
               paddingRight: '40px',
+              height: '400px'
             }}
           >
             <div style={{
@@ -221,7 +230,6 @@ const QACategory = () => {
             sx={{
               paddingLeft: '40px',
               paddingRight: '40px',
-              paddingTop: '80px',
               display: 'flex',
               flexDirection: 'column',
               alignItems: 'center',
@@ -230,11 +238,21 @@ const QACategory = () => {
               borderRadius: '0px 10px 10px 0px'
             }}
           >
-            <div>
-
+            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyItems: 'center' }}>
+              <div><InterpreterModeIcon sx={{ margin: 'auto', fontSize: 60, color: '#f48fb1' }} /> </div>
+              <LocalizationProvider sx={{ borderColor: '#b25977' }} dateAdapter={AdapterDateFns}>
+                <DesktopDatePicker
+                  inputFormat="MM/dd/yyyy"
+                  value={value}
+                  onChange={handleChangeTime}
+                  renderInput={(params) => <TextField  {...params} />}
+                />
+              </LocalizationProvider>
+              <Button sx={{ marginTop: '5px', borderColor: 'gray', height: '55px', color: '#b25977' }} fullWidth variant="outlined">Schedule Meeting</Button>
             </div>
-            <div>
-
+            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%', justifyItems: 'center', marginTop: '50px' }}>
+              <div><FeedbackIcon sx={{ margin: 'auto', fontSize: 60, color: '#74b2a4' }} /> </div>
+              <Button sx={{ marginTop: '5px', borderColor: 'gray', height: '55px', color: '#74b2a4' }} fullWidth variant="outlined"> Post Your Question </Button>
             </div>
           </Box>
         </div>
