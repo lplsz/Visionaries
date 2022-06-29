@@ -32,7 +32,7 @@ const theme = createTheme({
 
 });
 
-export default function StudentHeader() {
+export default function ExplorerHeader() {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const isMenuOpen = Boolean(anchorEl); 
   const navigate = useNavigate();
@@ -124,5 +124,5 @@ export default function StudentHeader() {
         <RenderMenu/>
       </Box>
     </ThemeProvider>
-  )
+)
 }
