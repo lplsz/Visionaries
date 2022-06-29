@@ -1,3 +1,5 @@
+/* eslint-disable jsx-a11y/img-redundant-alt */
+/* eslint-disable no-unused-vars */
 import * as React from 'react';
 import ExpertHeader from "../component/ExpertHeader";
 import Typography from '@mui/material/Typography';
