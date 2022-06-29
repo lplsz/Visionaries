@@ -124,5 +124,5 @@ export default function StudentHeader() {
         <RenderMenu/>
       </Box>
     </ThemeProvider>
-  )
+)
 }

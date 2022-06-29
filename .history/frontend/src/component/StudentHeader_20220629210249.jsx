@@ -11,6 +11,8 @@ import AccountCircle from '@mui/icons-material/AccountCircle';
 import AssignmentIcon from '@mui/icons-material/Assignment';
 import { createTheme,ThemeProvider } from '@mui/material/styles';
 import Divider from '@mui/material/Divider';
+import StarIcon from '@mui/icons-material/Star';
+import CardMedia from '@mui/material/CardMedia';
 import { useNavigate } from 'react-router-dom';
 import { apiCall } from '../Main';
 
@@ -32,7 +34,7 @@ const theme = createTheme({
 
 });
 
-export default function StudentHeader() {
+export default function ExplorerHeader() {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const isMenuOpen = Boolean(anchorEl); 
   const navigate = useNavigate();
@@ -74,6 +76,30 @@ export default function StudentHeader() {
     );
   }
   
+  // const RenderMenuVisitor = () => {
+  //   return (
+  //     <Menu
+  //       anchorEl={anchorEl}
+  //       anchorOrigin={{
+  //         vertical: 'top',
+  //         horizontal: 'right',
+  //       }}
+  //       id={menuId}
+  //       keepMounted
+  //       transformOrigin={{
+  //         vertical: 'top',
+  //         horizontal: 'right',
+  //       }}
+  //       open={isMenuOpen}
+  //       onClose={handleMenuClose}
+  //     >
+  //       {/* <MenuItem onClick={()=>{navigate('/student_login'); handleMenuClose();}}>Log in</MenuItem>
+  //       <Divider />
+  //       <MenuItem onClick={()=>{navigate('/student_register'); handleMenuClose()}}>Register</MenuItem> */}
+  //     </Menu>
+  //   );
+  // }
+  
     return (
         <ThemeProvider theme={theme}>
         <Box sx={{ flexGrow: 1 }}>
@@ -88,6 +114,11 @@ export default function StudentHeader() {
             >
                 UNSW Wellbeing
             </Typography>
+            {/* <CardMedia
+            component="img"
+            sx={{ width: 40 , margin:'10px'}}
+            image={MainIcon}
+            /> */}
             <Box sx={{ flexGrow: 1 }} />
             <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
               {sid == null 
@@ -95,7 +126,7 @@ export default function StudentHeader() {
                 size="large" 
                 aria-label="show 4 new mails" 
                 color="inherit"
-                onClick={()=>{navigate('/student_login')}}
+                onClick={handleProfileMenuOpen}
               >
                 <AssignmentIcon fontSize="middle"/>
               </IconButton> 
@@ -107,6 +138,13 @@ export default function StudentHeader() {
               >
               <AssignmentIcon fontSize="middle"/>
             </IconButton>  }
+              
+              {/* <IconButton
+                size="large"
+                color='secondary'
+              >
+                  <StarIcon fontSize="middle" />
+              </IconButton> */}
               <IconButton
                 size="large"
                 edge="end"
@@ -121,8 +159,9 @@ export default function StudentHeader() {
             </Box>
           </Toolbar>
         </AppBar>
+        {/* {sid == null ? <RenderMenuVisitor /> : <RenderMenu/> } */}
         <RenderMenu/>
       </Box>
     </ThemeProvider>
-  )
+)
 }

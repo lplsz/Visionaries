@@ -11,6 +11,8 @@ import AccountCircle from '@mui/icons-material/AccountCircle';
 import AssignmentIcon from '@mui/icons-material/Assignment';
 import { createTheme,ThemeProvider } from '@mui/material/styles';
 import Divider from '@mui/material/Divider';
+import StarIcon from '@mui/icons-material/Star';
+import CardMedia from '@mui/material/CardMedia';
 import { useNavigate } from 'react-router-dom';
 import { apiCall } from '../Main';
 
@@ -32,7 +34,7 @@ const theme = createTheme({
 
 });
 
-export default function StudentHeader() {
+export default function ExplorerHeader() {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const isMenuOpen = Boolean(anchorEl); 
   const navigate = useNavigate();
@@ -124,5 +126,5 @@ export default function StudentHeader() {
         <RenderMenu/>
       </Box>
     </ThemeProvider>
-  )
+)
 }
