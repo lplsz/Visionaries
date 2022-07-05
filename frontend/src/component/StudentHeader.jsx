@@ -13,6 +13,8 @@ import { createTheme,ThemeProvider } from '@mui/material/styles';
 import Divider from '@mui/material/Divider';
 import { useNavigate } from 'react-router-dom';
 import { apiCall } from '../Main';
+import CardMedia from '@mui/material/CardMedia';
+import MAIN from './img/well-being-clear.png'
 
 const theme = createTheme({
   palette: {
@@ -37,7 +39,6 @@ export default function StudentHeader() {
   const isMenuOpen = Boolean(anchorEl); 
   const navigate = useNavigate();
   const sid = localStorage.getItem('sid');
-  console.log((sid==null), 'sid');
   const handleProfileMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -78,8 +79,13 @@ export default function StudentHeader() {
         <ThemeProvider theme={theme}>
         <Box sx={{ flexGrow: 1 }}>
         <AppBar position="static" sx={
-            { backgroundColor:'#bc477b', position:'relative',borderBottom: (t) => `1px solid ${t.palette.divider}`}}>
+            { backgroundColor:'#f06292', position:'relative',borderBottom: (t) => `1px solid ${t.palette.divider}`}}>
           <Toolbar>
+            <CardMedia
+              component="img"
+              sx={{ width: 130, height: 60, margin: '10px' }}
+              image={MAIN}
+            />
             <Typography
               variant="h4"
               noWrap
