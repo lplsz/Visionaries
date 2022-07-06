@@ -3,7 +3,7 @@
 
 from apiflask import APIFlask  # step one
 
-from wellbeing import auth, user, QA
+from wellbeing import commands, auth, user, QA
 from wellbeing.extensions import (
     jwt,
     db,
@@ -20,7 +20,7 @@ def create_app(config_object="wellbeing.settings"):
     register_extensions(app)
     register_blueprints(app)
     # register_shellcontext(app)
-    # register_commands(app)
+    register_commands(app)
     # configure_logger(app)
     configure_security_schemes(app)
     return app
@@ -51,10 +51,12 @@ def register_blueprints(app):
 #     app.shell_context_processor(shell_context)
 #
 #
-# def register_commands(app):
-#     """Register Click commands."""
-#     app.cli.add_command(commands.test)
-#     app.cli.add_command(commands.lint)
+def register_commands(app):
+    """Register Click commands."""
+    app.cli.add_command(commands.createdb)
+    app.cli.add_command(commands.dropdb)
+
+
 #
 #
 # def configure_logger(app):

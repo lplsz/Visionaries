@@ -30,6 +30,13 @@ class Tag(db.Model):
     qas = db.relationship('QA', lazy=False, uselist=True, back_populates='tags', secondary=qa_tags)
 
 
+user_category = db.Table(
+    "user_category",
+    db.Column("user_id", db.ForeignKey("user.id"), primary_key=True),
+    db.Column("category_id", db.ForeignKey("category.id"), primary_key=True)
+)
+
+
 class Category(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     category_name = db.Column(db.Text, nullable=False)
@@ -39,4 +46,5 @@ class Category(db.Model):
     # Relationships
     threads = db.relationship('Thread', lazy=False, uselist=True, back_populates='category')
     qas = db.relationship('QA', lazy=False, uselist=True, back_populates='category')
-    interested_users = db.relationship('User', lazy=False, uselist=True, back_populates='interested_categories')
+    interested_users = db.relationship('User', lazy=False, uselist=True, back_populates='interested_categories',
+                                       secondary=user_category)

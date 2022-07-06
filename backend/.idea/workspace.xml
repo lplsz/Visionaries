@@ -4,16 +4,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f3aeeb94-3d47-4a9c-92d7-63e92f4baabb" name="Changes" comment="Half way through QA Endpoints.">
+    <list default="true" id="f3aeeb94-3d47-4a9c-92d7-63e92f4baabb" name="Changes" comment="Add some further endpoints">
+      <change beforePath="$PROJECT_DIR$/.idea/backend.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/backend.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/requirement.txt" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/wellbeing/QA/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/wellbeing/QA/models.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wellbeing/QA/schemas.py" beforeDir="false" afterPath="$PROJECT_DIR$/wellbeing/QA/schemas.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wellbeing/QA/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/wellbeing/QA/views.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/wellbeing/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/wellbeing/app.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/wellbeing/commands.py" beforeDir="false" afterPath="$PROJECT_DIR$/wellbeing/commands.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/wellbeing/user/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/wellbeing/user/models.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wellbeing/user/schemas.py" beforeDir="false" afterPath="$PROJECT_DIR$/wellbeing/user/schemas.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wellbeing/user/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/wellbeing/user/views.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -94,7 +91,8 @@
       <workItem from="1656208121641" duration="8924000" />
       <workItem from="1656332427222" duration="8891000" />
       <workItem from="1656410601045" duration="13487000" />
-      <workItem from="1656464358233" duration="12645000" />
+      <workItem from="1656464358233" duration="13535000" />
+      <workItem from="1657100776604" duration="3755000" />
     </task>
     <task id="LOCAL-00001" summary="initialize models.py">
       <created>1656223471844</created>
@@ -124,7 +122,14 @@
       <option name="project" value="LOCAL" />
       <updated>1656425634581</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="Add some further endpoints">
+      <created>1656484687456</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1656484687456</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -149,6 +154,7 @@
     <MESSAGE value="Implemented login and register" />
     <MESSAGE value="Fix compilation issue, now there's no import issue" />
     <MESSAGE value="Half way through QA Endpoints." />
-    <option name="LAST_COMMIT_MESSAGE" value="Half way through QA Endpoints." />
+    <MESSAGE value="Add some further endpoints" />
+    <option name="LAST_COMMIT_MESSAGE" value="Add some further endpoints" />
   </component>
 </project>

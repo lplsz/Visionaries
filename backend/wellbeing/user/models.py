@@ -18,12 +18,6 @@ user_experience = db.Table(
     db.Column("experience_id", db.ForeignKey("experience.id"), primary_key=True),
 )
 
-interested_category = db.Table(
-    "interested_category",
-    db.Column("user_id", db.ForeignKey("user.id"), primary_key=True),
-    db.Column("category_id", db.ForeignKey("category.id"), primary_key=True),
-)
-
 
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
