@@ -4,13 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f3aeeb94-3d47-4a9c-92d7-63e92f4baabb" name="Changes" comment="Add some further endpoints">
-      <change beforePath="$PROJECT_DIR$/.idea/backend.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/backend.iml" afterDir="false" />
+    <list default="true" id="f3aeeb94-3d47-4a9c-92d7-63e92f4baabb" name="Changes" comment="Add db clis">
+      <change afterPath="$PROJECT_DIR$/wellbeing/QA/controllers.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/wellbeing/QA/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/wellbeing/QA/models.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wellbeing/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/wellbeing/app.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wellbeing/commands.py" beforeDir="false" afterPath="$PROJECT_DIR$/wellbeing/commands.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wellbeing/user/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/wellbeing/user/models.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/wellbeing/QA/schemas.py" beforeDir="false" afterPath="$PROJECT_DIR$/wellbeing/QA/schemas.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/wellbeing/QA/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/wellbeing/QA/views.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -76,7 +75,7 @@
     &quot;node.js.selected.package.stylelint&quot;: &quot;&quot;,
     &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
     &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.sourceCode.Python&quot;
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;
   }
 }</component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
@@ -92,7 +91,10 @@
       <workItem from="1656332427222" duration="8891000" />
       <workItem from="1656410601045" duration="13487000" />
       <workItem from="1656464358233" duration="13535000" />
-      <workItem from="1657100776604" duration="3755000" />
+      <workItem from="1657100776604" duration="3804000" />
+      <workItem from="1657159253836" duration="3138000" />
+      <workItem from="1657171320147" duration="741000" />
+      <workItem from="1657172071072" duration="1134000" />
     </task>
     <task id="LOCAL-00001" summary="initialize models.py">
       <created>1656223471844</created>
@@ -129,7 +131,14 @@
       <option name="project" value="LOCAL" />
       <updated>1656484687456</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="Add db clis">
+      <created>1657115870780</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1657115870780</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -155,6 +164,7 @@
     <MESSAGE value="Fix compilation issue, now there's no import issue" />
     <MESSAGE value="Half way through QA Endpoints." />
     <MESSAGE value="Add some further endpoints" />
-    <option name="LAST_COMMIT_MESSAGE" value="Add some further endpoints" />
+    <MESSAGE value="Add db clis" />
+    <option name="LAST_COMMIT_MESSAGE" value="Add db clis" />
   </component>
 </project>

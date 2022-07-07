@@ -2,6 +2,7 @@ from apiflask import APIBlueprint
 from flask.views import MethodView
 from flask_jwt_extended import jwt_required
 
+import wellbeing.QA.controllers as controllers
 from wellbeing.QA.schemas import (GetTagsOutSchema, GetCategoriesOutSchema, GetQAsInSchema, GetQAsOutSchema, \
                                   GetQAOutSchema, PostQAInSchema, PostTagInSchema, PutTagInSchema, PutQAInSchema)
 
@@ -21,7 +22,7 @@ class QA(MethodView):
     )
     @jwt_required()
     def post(self, data):
-        pass
+        return controllers.post_qa(data)
 
 
 @qa_blueprint.route('/qa/<int:qa_id>')
@@ -36,7 +37,7 @@ class QAByID(MethodView):
         }
     )
     def get(self, qa_id):
-        pass
+        return controllers.get_qa_by_id(qa_id)
 
     @qa_blueprint.doc(
         security='JWT Bearer Token',
@@ -49,7 +50,7 @@ class QAByID(MethodView):
     )
     @jwt_required()
     def delete(self, qa_id, data):
-        pass
+        controllers.delete_qa_by_id(qa_id)
 
     @qa_blueprint.input(PostQAInSchema)
     @qa_blueprint.doc(
@@ -63,7 +64,7 @@ class QAByID(MethodView):
     )
     @jwt_required()
     def put(self, qa_id, data):
-        pass
+        controllers.put_qa_by_id(qa_id, data)
 
 
 @qa_blueprint.route('/qas')
@@ -79,7 +80,7 @@ class QAs(MethodView):
         }
     )
     def get(self, data):
-        pass
+        return controllers.get_qas(data)
 
 
 '''
@@ -112,8 +113,8 @@ class Tag(MethodView):
         }
     )
     @jwt_required()
-    def post(self):
-        pass
+    def post(self, data):
+        return controllers.post_tag(data)
 
 
 @tag_blueprint.route('/tag/<int:tag_id>')
@@ -129,7 +130,7 @@ class TagById(MethodView):
     )
     @jwt_required()
     def delete(self, tag_id):
-        pass
+        return controllers.delete_qa_by_id(tag_id)
 
     @tag_blueprint.input(PutTagInSchema)
     @tag_blueprint.doc(
@@ -142,8 +143,8 @@ class TagById(MethodView):
         }
     )
     @jwt_required()
-    def put(self, tag_id):
-        pass
+    def put(self, tag_id, data):
+        return controllers.put_qa_by_id(tag_id, data)
 
 
 '''

@@ -1,3 +1,5 @@
+from sqlalchemy.sql import func
+
 from wellbeing.extensions import db
 
 qa_tags = db.Table(
@@ -11,8 +13,8 @@ class QA(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.Text, nullable=False)
     body = db.Column(db.Text, nullable=False)
-    created_at = db.Column(db.DateTime, nullable=False)
-    review_at = db.Column(db.DateTime, nullable=False)
+    created_at = db.Column(db.DateTime, nullable=False, server_default=func.now())
+    review_at = db.Column(db.DateTime, nullable=False, onupdate=func.now())
     author_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     category_id = db.Column(db.Integer, db.ForeignKey('category.id'), nullable=False)
 

@@ -45,6 +45,18 @@ class GetCategoriesOutSchema(Schema):
     categories = List(Nested(CategorySchema), required=True)
 
 
+class PostCategoryInSchema(Schema):
+    category_name = String(required=True, example='Pop')
+    category_image_url = String(required=True)
+    category_description = String(required=True,
+                                  example='Pop is a genre of music that emerged in the United States in the late '
+                                          '1960s, and has since become a global phenomenon.')
+
+
+class PutTagInSchema(Schema):
+    category = Nested(CategorySchema, required=True)
+
+
 '''
 Tag APIs
 '''
@@ -59,7 +71,6 @@ class PostTagInSchema(Schema):
 
 
 class PutTagInSchema(Schema):
-    tag_id = Integer(required=True, example=0)
     tag_name = String(required=True, example='Country')
 
 
@@ -87,7 +98,7 @@ class PostQAInSchema(Schema):
     tag_ids = List(Integer, example=[2, 3])
     title = String(required=True, example='Blank Space')
     body = String(required=True, example='Cherry lips, crystal skies')
-    author_id = Integer(required=True, example=0)
+    # author_id = Integer(required=True, example=0)
 
 
 class PutQAInSchema(Schema):
