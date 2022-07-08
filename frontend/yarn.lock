@@ -4359,6 +4359,11 @@
     "immutable" "~3.7.4"
     "object-assign" "^4.1.0"
 
+"draftjs-to-html@^0.9.1":
+  "integrity" "sha512-fFstE6+IayaVFBEvaFt/wN8vdj8FsTRzij7dy7LI9QIwf5LgfHFi9zSpvCg+feJ2tbYVqHxUkjcibwpsTpgFVQ=="
+  "resolved" "https://registry.npmjs.org/draftjs-to-html/-/draftjs-to-html-0.9.1.tgz"
+  "version" "0.9.1"
+
 "draftjs-utils@^0.10.2":
   "integrity" "sha512-EstHqr3R3JVcilJrBaO/A+01GvwwKmC7e4TCjC7S94ZeMh4IVmf60OuQXtHHpwItK8C2JCi3iljgN5KHkJboUg=="
   "resolved" "https://registry.npmjs.org/draftjs-utils/-/draftjs-utils-0.10.2.tgz"
@@ -8005,11 +8010,6 @@
   "integrity" "sha1-fjL3W0E4EpHQRhHxvxQQmsAGUdc="
   "resolved" "https://registry.npmjs.org/q/-/q-1.5.1.tgz"
   "version" "1.5.1"
-
-"qier-player@^2.0.3":
-  "integrity" "sha512-r3kIy0eQrHm+cO6DIZBw2zbGDfEYXjLxNv4mRbrvJmBgDh8Pg2h3ZVaE/2YvJNFv+S5pPdlg0ZMry8l+xEvmqg=="
-  "resolved" "https://registry.npmjs.org/qier-player/-/qier-player-2.0.3.tgz"
-  "version" "2.0.3"
 
 "qs@6.10.3":
   "integrity" "sha512-wr7M2E0OFRfIfJZjKGieI8lBKb7fRCH4Fv5KNPEs7gJ8jadvotdsS08PzOKR7opXhZ/Xkjtt3WF9g38drmyRqQ=="

@@ -27,7 +27,6 @@
         "dompurify": "^2.3.8",
         "draft-convert": "^2.1.12",
         "draft-js": "^0.11.7",
-        "draftjs-to-html": "^0.9.1",
         "moment": "^2.29.3",
         "mutationobserver-shim": "^0.3.7",
         "react": "^17.0.2",
@@ -7472,11 +7471,6 @@
         "asap": "~2.0.3"
       }
     },
-    "node_modules/draftjs-to-html": {
-      "version": "0.9.1",
-      "resolved": "https://registry.npmjs.org/draftjs-to-html/-/draftjs-to-html-0.9.1.tgz",
-      "integrity": "sha512-fFstE6+IayaVFBEvaFt/wN8vdj8FsTRzij7dy7LI9QIwf5LgfHFi9zSpvCg+feJ2tbYVqHxUkjcibwpsTpgFVQ=="
-    },
     "node_modules/draftjs-utils": {
       "version": "0.10.2",
       "resolved": "https://registry.npmjs.org/draftjs-utils/-/draftjs-utils-0.10.2.tgz",
@@ -14682,6 +14676,11 @@
         "node": ">=0.6.0",
         "teleport": ">=0.2.0"
       }
+    },
+    "node_modules/qier-player": {
+      "version": "2.0.3",
+      "resolved": "https://registry.npmjs.org/qier-player/-/qier-player-2.0.3.tgz",
+      "integrity": "sha512-r3kIy0eQrHm+cO6DIZBw2zbGDfEYXjLxNv4mRbrvJmBgDh8Pg2h3ZVaE/2YvJNFv+S5pPdlg0ZMry8l+xEvmqg=="
     },
     "node_modules/qs": {
       "version": "6.10.3",
@@ -23815,11 +23814,6 @@
         }
       }
     },
-    "draftjs-to-html": {
-      "version": "0.9.1",
-      "resolved": "https://registry.npmjs.org/draftjs-to-html/-/draftjs-to-html-0.9.1.tgz",
-      "integrity": "sha512-fFstE6+IayaVFBEvaFt/wN8vdj8FsTRzij7dy7LI9QIwf5LgfHFi9zSpvCg+feJ2tbYVqHxUkjcibwpsTpgFVQ=="
-    },
     "draftjs-utils": {
       "version": "0.10.2",
       "resolved": "https://registry.npmjs.org/draftjs-utils/-/draftjs-utils-0.10.2.tgz",
@@ -28929,6 +28923,11 @@
       "version": "1.5.1",
       "resolved": "https://registry.npmjs.org/q/-/q-1.5.1.tgz",
       "integrity": "sha1-fjL3W0E4EpHQRhHxvxQQmsAGUdc="
+    },
+    "qier-player": {
+      "version": "2.0.3",
+      "resolved": "https://registry.npmjs.org/qier-player/-/qier-player-2.0.3.tgz",
+      "integrity": "sha512-r3kIy0eQrHm+cO6DIZBw2zbGDfEYXjLxNv4mRbrvJmBgDh8Pg2h3ZVaE/2YvJNFv+S5pPdlg0ZMry8l+xEvmqg=="
     },
     "qs": {
       "version": "6.10.3",
