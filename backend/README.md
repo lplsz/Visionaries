@@ -1,35 +1,58 @@
-# Get Started
+# Prerequisites
 
+* Place the `.env`  file under the `/backend` folder
 
+# Instruction
 
+**Step 1: Clone this repository**
 
+Clone the repository to desired directory
 
+**Step 2: Install dependencies**
 
+```
+cd /Visionaries/backend
 
+python3 -m venv venv
+source venv/bin/activate
 
+python3 -m pip install -r requirements.txt
+```
 
+**Step 3: Clear the AWS database (Optional)**
 
+```
+flask createdb
+flask dropdb
+```
 
+**Step 4: Start the flask server**
 
+```
+cd /Visionaries/backend
 
+flask run
+```
 
+After starting the server, Swagger UI documentation is available at `<hostname>:<port>/docs`.
 
+# Database Operations
 
+**Create all tables**
 
+```
+flask createdb
+```
 
+**Drop all tables**
 
-
-
-
-
-
-
-
-
-
+```
+flask dropdb
+```
 
 # Folder Structure
 
+```
 backend
 ┣ app
 ┃ ┣ auth # The auth module
@@ -51,3 +74,4 @@ backend
 ┣ config.py # Run-time config
 ┣ .env # Environment variables
 ┗ requirements.txt # Python dependencies
+```
