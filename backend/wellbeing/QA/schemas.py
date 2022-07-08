@@ -53,7 +53,7 @@ class PostCategoryInSchema(Schema):
                                           '1960s, and has since become a global phenomenon.')
 
 
-class PutTagInSchema(Schema):
+class PutCategoryInSchema(Schema):
     category = Nested(CategorySchema, required=True)
 
 

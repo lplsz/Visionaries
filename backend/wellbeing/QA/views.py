@@ -4,7 +4,7 @@ from flask_jwt_extended import jwt_required
 
 import wellbeing.QA.controllers as controllers
 from wellbeing.QA.schemas import (GetTagsOutSchema, GetCategoriesOutSchema, GetQAsInSchema, GetQAsOutSchema, \
-                                  GetQAOutSchema, PostQAInSchema, PostTagInSchema, PutTagInSchema, PutQAInSchema)
+                                  GetQAOutSchema, PostQAInSchema, PostTagInSchema, PutTagInSchema, PutCategoryInSchema)
 
 qa_blueprint = APIBlueprint('QA', __name__)
 
@@ -194,7 +194,7 @@ class CategoryById(MethodView):
     def delete(self, category_id):
         pass
 
-    @category_blueprint.input(PutQAInSchema)
+    @category_blueprint.input(PutCategoryInSchema)
     @category_blueprint.doc(
         security='JWT Bearer Token',
         summary='Update category',

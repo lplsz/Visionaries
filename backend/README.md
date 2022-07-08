@@ -1,3 +1,35 @@
+# Get Started
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# Folder Structure
+
 backend
 ┣ app
 ┃ ┣ auth # The auth module
