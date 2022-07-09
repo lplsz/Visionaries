@@ -5,6 +5,9 @@ from glob import glob
 from subprocess import call
 
 import click
+from flask.cli import with_appcontext
+
+from wellbeing.extensions import db
 
 HERE = os.path.abspath(os.path.dirname(__file__))
 PROJECT_ROOT = os.path.join(HERE, os.pardir)
@@ -14,10 +17,41 @@ TEST_PATH = os.path.join(PROJECT_ROOT, "tests")
 @click.command()
 def test():
     """Run the tests."""
-    import pytest
+    # import pytest
+    #
+    # rv = pytest.main([TEST_PATH, "--verbose"])
+    # exit(rv)
 
-    rv = pytest.main([TEST_PATH, "--verbose"])
-    exit(rv)
+
+@click.command()
+@with_appcontext
+def createdb():
+    """Create the database and tables."""
+
+    db.create_all()
+    click.echo("Database created.")
+
+
+@click.command()
+@with_appcontext
+def dropdb():
+    """Drop the database."""
+
+    db.drop_all()
+    click.echo("Database dropped.")
+
+
+@click.command()
+@with_appcontext
+def seed():
+    """Drop the database."""
+
+    from wellbeing.utility.seed_database import seed_database
+    try:
+        seed_database()
+        click.echo("Database seeded.")
+    except Exception as e:
+        click.echo(e)
 
 
 @click.command()
