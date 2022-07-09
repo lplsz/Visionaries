@@ -86,3 +86,40 @@ def put_tag_by_id(tag_id, data):
     tag.tag_name = data['tag_name']
     db.session.commit()
     return {'message': 'Tag Updated'}
+
+
+'''
+Category Controllers
+'''
+
+
+def get_categories():
+    return {'categories': Category.query.all()}
+
+
+def post_category(data):
+    new_category = Category(
+        category_name=data['category_name'],
+        category_image_src=data['category_image_src'],
+        category_description=data['category_description']
+    )
+    db.session.add(new_category)
+    db.session.commit()
+    return {'message': 'Category Created'}
+
+
+def delete_category_by_id(category_id):
+    db.session.delete(Category.query.filter_by(id=category_id).first_or_404(description='Category Not Found'))
+    db.session.commit()
+    return {'message': 'Category Deleted'}
+
+
+def put_category_by_id(category_id, data):
+    category = Category.query.filter_by(id=category_id).first_or_404(description='Category Not Found')
+
+    category.category_name = data['category_name']
+    category.category_image_src = data['category_image_src']
+    category.category_description = data['category_description']
+
+    db.session.commit()
+    return {'message': 'Category Updated'}

@@ -50,7 +50,7 @@ class QAByID(MethodView):
     )
     @jwt_required()
     def delete(self, qa_id, data):
-        controllers.delete_qa_by_id(qa_id)
+        return controllers.delete_qa_by_id(qa_id)
 
     @qa_blueprint.input(PostQAInSchema)
     @qa_blueprint.doc(
@@ -64,7 +64,7 @@ class QAByID(MethodView):
     )
     @jwt_required()
     def put(self, qa_id, data):
-        controllers.put_qa_by_id(qa_id, data)
+        return controllers.put_qa_by_id(qa_id, data)
 
 
 @qa_blueprint.route('/qas')
@@ -98,7 +98,7 @@ class Tags(MethodView):
         description='Get all tags',
     )
     def get(self):
-        pass
+        return controllers.get_tags()
 
 
 @tag_blueprint.route('/tag')
@@ -162,7 +162,7 @@ class Categories(MethodView):
         description='Get all categories',
     )
     def get(self):
-        pass
+        return controllers.get_categories()
 
 
 @category_blueprint.route('/category')
@@ -175,8 +175,8 @@ class Category(MethodView):
         responses={
             200: 'Category Created',
         })
-    def post(self):
-        pass
+    def post(self, data):
+        return controllers.post_category(data)
 
 
 @category_blueprint.route('/category/<int:category_id>')
@@ -191,8 +191,8 @@ class CategoryById(MethodView):
         },
     )
     @jwt_required()
-    def delete(self, category_id):
-        pass
+    def delete(self, category_id, data):
+        return controllers.delete_category_by_id(category_id)
 
     @category_blueprint.input(PutCategoryInSchema)
     @category_blueprint.doc(
@@ -205,5 +205,5 @@ class CategoryById(MethodView):
         }
     )
     @jwt_required()
-    def put(self, category_id):
-        pass
+    def put(self, category_id, data):
+        return controllers.put_category_by_id(category_id, data)
