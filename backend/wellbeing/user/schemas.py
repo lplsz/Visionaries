@@ -9,6 +9,15 @@ class QualificationSchema(Schema):
     description = String(required=True, example='I love my country')
 
 
+class CategorySchema(Schema):
+    id = Integer(required=True, example=0)
+    category_name = String(required=True, example='Pop')
+    category_image_url = String(required=True)
+    category_description = String(required=True,
+                                  example='Pop is a genre of music that emerged in the United States in the late '
+                                          '1960s, and has since become a global phenomenon.')
+
+
 class UserSchema(Schema):
     id = Integer(required=True, example=1)
     username = String(required=True, example='Taylor Swift')
@@ -20,6 +29,8 @@ class UserSchema(Schema):
     languages = List(String())
     experiences = List(String())
     qualifications = List(Nested(QualificationSchema))
+
+    interested_categories = List(Nested(CategorySchema))
 
 
 class GetUserOutSchema(Schema):
@@ -34,4 +45,19 @@ class PutUserInSchema(Schema):
 
     language_ids = List(Integer())
     experience_ids = List(Integer())
-    qualifications = List(String())
+    qualifications = List(Nested(QualificationSchema))
+
+
+'''
+Qualification Schemas
+'''
+
+
+class PutQualificationInSchema(Schema):
+    qualification_id = Integer(required=True, example=1)
+    acquired_at = DateTime(required=True, example='2020-01-01T00:00:00')
+    description = String(required=True, example='I love my country')
+
+
+class DeleteQualificationInSchema(Schema):
+    qualification_id = Integer(required=True, example=1)
