@@ -20,8 +20,7 @@ import ExpertAva from './page/ExpertAva.jsx';
 import StudentFindExpert from './page/StudentFindExpert.jsx';
 import Test from './page/Test.jsx'
 import QAadd from './page/QAadd.jsx';
-import QuestionThread from './page/QuestionThread.jsx';
-import ExpertPostRecord from './page/ExpertPostRecord.jsx';
+import QuestionThread from './page/QuestionThread.jsx'
 
 function App() {
   return (
@@ -43,7 +42,7 @@ function App() {
         <Route path="/test" element={<Test />}></Route>
         <Route path="/qaAdd" element={<QAadd />}></Route>
         <Route path="/question_thread" element={<QuestionThread />}> </Route>
-        <Route path="/expert_post_record" element={<ExpertPostRecord />}> </Route>
+        <Route path="/post_record" element={<QuestionThread />}> </Route>
       </Routes>
     </BrowserRouter>
   );

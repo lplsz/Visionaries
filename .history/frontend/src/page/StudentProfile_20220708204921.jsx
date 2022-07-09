@@ -34,32 +34,32 @@ export default function StudentProfile () {
     const [errorMessage, setErrorMessage] = React.useState('');
     const [open2,setOpen2] = React.useState(false);
 
-    // React.useEffect(() =>{
-    //   getUserInfo();
-    // },[]);
+    React.useEffect(() =>{
+      getUserInfo();
+    },[]);
 
     //get user default information
-    // const getUserInfo = async() => {
-    //   const userId = localStorage.getItem('uid');
-    //   const info = await apiCall('user?id='+ userId, 'GET');
-    //   if (typeof (info) === 'string' && info.startsWith('400')) {
-    //   setErrorMessage(info.slice(6, info.length - 4));
-    //   setOpen(true);
-    //   } else {
-    //       const userInfo = info.explorer;
-    //       setName(userInfo.name);
-    //       setEmail(userInfo.email);
-    //       setCalories(userInfo.calorie);
-    //       setWeight(userInfo.weight);
-    //       setHeight(userInfo.height);
-    //       if (userInfo.gender === "OTHERS") {
-    //         setGender("Others");
-    //       } else {
-    //         setGender(userInfo.gender);
-    //       }
+    const getUserInfo = async() => {
+      const userId = localStorage.getItem('uid');
+      const info = await apiCall('user?id='+ userId, 'GET');
+      if (typeof (info) === 'string' && info.startsWith('400')) {
+      setErrorMessage(info.slice(6, info.length - 4));
+      setOpen(true);
+      } else {
+          const userInfo = info.explorer;
+          setName(userInfo.name);
+          setEmail(userInfo.email);
+          setCalories(userInfo.calorie);
+          setWeight(userInfo.weight);
+          setHeight(userInfo.height);
+          if (userInfo.gender === "OTHERS") {
+            setGender("Others");
+          } else {
+            setGender(userInfo.gender);
+          }
           
-    //   } 
-    // }
+      } 
+    }
 
     const changePassword = async () => {
       const userId = localStorage.getItem('uid'); 
@@ -143,7 +143,7 @@ export default function StudentProfile () {
 
     
     return (
-        <div style = {{backgroundSize: '100% 100%'}}>
+        <div style = {{backgroundColor: '#FCF8E8', backgroundSize: '100% 100%'}}>
           <StudentHeader />
           <ErrorSnackbar open={open} setOpen={setOpen} message={errorMessage}/>
           <SuccessSnackbar open={open2} setOpen={setOpen2} message={'You have successfully update your profile'}></SuccessSnackbar>
@@ -162,7 +162,7 @@ export default function StudentProfile () {
                     
                   }}
                 >
-                  <Avatar sx={{ m: 1, bgcolor: 'primary.main', backgroundColor:'#000000',color:'white' }}>
+                  <Avatar sx={{ m: 1, bgcolor: 'primary.main' }}>
                   </Avatar>
                   <Typography component="h1" variant="h5">
                     My profile
@@ -198,11 +198,11 @@ export default function StudentProfile () {
                         <Grid container spacing={0}>
                         <Grid item xs={3}>
                         <Typography component="h1" variant="h5">
-                          Contact:
+                          {"Weight: "}
                         </Typography>
                         </Grid>
                         <Grid item xs={9}>
-                        <TextField fullWidth label="Enter Contact Number Here" variant="standard" size="medium" onChange = {e => setWeight(e.target.value)} value={weight}/>
+                        <TextField fullWidth label="Enter Weight (kg) Here" variant="standard" size="medium" onChange = {e => setWeight(e.target.value)} value={weight}/>
                       </Grid>
                       </Grid>
                       </Box>
@@ -218,11 +218,11 @@ export default function StudentProfile () {
                       </Grid>
                       </Grid>
                       </Box>
-                      {/* <Box sx={{ display: 'flex', alignItems: 'flex-end' , marginBottom:'15px'}}>
+                      <Box sx={{ display: 'flex', alignItems: 'flex-end' , marginBottom:'15px'}}>
                           <Typography component="h1" variant="h5">
                             {`Calories: ${calories}`}
                           </Typography>
-                      </Box> */}
+                      </Box>
                       <Typography component="h6" variant="h6" style={{marginTop: '30px'}}>
                         {"Choose Your Gender Here: "}
                       </Typography>
@@ -245,7 +245,7 @@ export default function StudentProfile () {
                         fullWidth
                         id="submit_Login"
                         variant="contained"
-                        sx={{ mt: 3, mb: 2, backgroundColor:'#000000',color:'white' }}
+                        sx={{ mt: 3, mb: 2 }}
                         onClick={update}
                       >
                         UPDATE
@@ -299,7 +299,7 @@ export default function StudentProfile () {
                         fullWidth
                         id="submit_Login"
                         variant="contained"
-                        sx={{ mt: 3, mb: 2, backgroundColor:'#000000',color:'white' }}
+                        sx={{ mt: 3, mb: 2 }}
                         onClick={changePassword}
                       >
                         CONFIRM
@@ -309,7 +309,7 @@ export default function StudentProfile () {
             </Box>
           </div>
             <div style={{display:'flex', justifyContent: 'flex-end' , alignItems: 'flex-end', marginTop: '40px'}}>
-              <Button size="large"  sx={{backgroundColor:'#000000',color:'white'}} onClick={(event) => {navigate('/explorer_main') }} endIcon={<KeyboardReturnOutlinedIcon size="large" />} >Return</Button>
+              <Button size="large"  sx={{backgroundColor:'#809A6F',color:'white'}} onClick={(event) => {navigate('/explorer_main') }} endIcon={<KeyboardReturnOutlinedIcon size="large" />} >Return</Button>
             </div>
             </Container>
         </div>

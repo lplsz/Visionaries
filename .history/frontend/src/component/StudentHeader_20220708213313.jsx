@@ -14,7 +14,7 @@ import Divider from '@mui/material/Divider';
 import { useNavigate } from 'react-router-dom';
 import { apiCall } from '../Main';
 import CardMedia from '@mui/material/CardMedia';
-import MAIN from './img/student_header.png'
+import MAIN from './img/unsw_logo.png'
 
 const theme = createTheme({
   palette: {
@@ -79,14 +79,29 @@ export default function StudentHeader() {
         <ThemeProvider theme={theme}>
         <Box sx={{ flexGrow: 1 }}>
         <AppBar position="static" sx={
-            { backgroundColor:'#ffdc00', position:'relative',borderBottom: (t) => `1px solid ${t.palette.divider}`}}>
+            { backgroundColor:'#ffd40b', position:'relative',borderBottom: (t) => `1px solid ${t.palette.divider}`}}>
           <Toolbar>
             <CardMedia
               component="img"
-              sx={{ width: 200, height: '100%', margin: '10px' }}
+              sx={{ width: 40, height: 60, margin: '10px' }}
               image={MAIN}
             />
-            
+            <Typography
+              variant="h4"
+              noWrap
+              component="div"
+              sx={{ display: { xs: 'none', sm: 'block', color:"rgb(0,0,0)", fontWeight: 'bold' } }}
+            >
+                UNSW 
+            </Typography>
+            <Typography
+              variant="h6"
+              noWrap
+              component="div"
+              sx={{ display: { xs: 'none', sm: 'block', color:"rgb(0,0,0)", fontWeight: 'bold' } }}
+            >
+              Wellbeing
+            </Typography>
             <Box sx={{ flexGrow: 1 }} />
             <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
               {sid == null 

@@ -162,7 +162,7 @@ export default function StudentProfile () {
                     
                   }}
                 >
-                  <Avatar sx={{ m: 1, bgcolor: 'primary.main', backgroundColor:'#000000',color:'white' }}>
+                  <Avatar sx={{ m: 1, bgcolor: 'primary.main', backgroundColor:'#f06292',color:'white' }}>
                   </Avatar>
                   <Typography component="h1" variant="h5">
                     My profile
@@ -198,11 +198,11 @@ export default function StudentProfile () {
                         <Grid container spacing={0}>
                         <Grid item xs={3}>
                         <Typography component="h1" variant="h5">
-                          Contact:
+                          {"Weight: "}
                         </Typography>
                         </Grid>
                         <Grid item xs={9}>
-                        <TextField fullWidth label="Enter Contact Number Here" variant="standard" size="medium" onChange = {e => setWeight(e.target.value)} value={weight}/>
+                        <TextField fullWidth label="Enter Weight (kg) Here" variant="standard" size="medium" onChange = {e => setWeight(e.target.value)} value={weight}/>
                       </Grid>
                       </Grid>
                       </Box>
@@ -245,7 +245,7 @@ export default function StudentProfile () {
                         fullWidth
                         id="submit_Login"
                         variant="contained"
-                        sx={{ mt: 3, mb: 2, backgroundColor:'#000000',color:'white' }}
+                        sx={{ mt: 3, mb: 2, backgroundColor:'#f06292',color:'white' }}
                         onClick={update}
                       >
                         UPDATE

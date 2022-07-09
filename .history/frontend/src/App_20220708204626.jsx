@@ -1,3 +1,11 @@
+/*
+ * @Author: Echooooo-zhn haonanZHONG17@outlook.com
+ * @Date: 2022-07-08 13:25:29
+ * @LastEditors: Echooooo-zhn haonanZHONG17@outlook.com
+ * @LastEditTime: 2022-07-08 20:46:26
+ * @FilePath: \Visionaries\frontend\src\App.jsx
+ * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
+ */
 import React from 'react';
 import {
   BrowserRouter,
@@ -20,8 +28,7 @@ import ExpertAva from './page/ExpertAva.jsx';
 import StudentFindExpert from './page/StudentFindExpert.jsx';
 import Test from './page/Test.jsx'
 import QAadd from './page/QAadd.jsx';
-import QuestionThread from './page/QuestionThread.jsx';
-import ExpertPostRecord from './page/ExpertPostRecord.jsx';
+import QuestionThread from './page/QuestionThread.jsx'
 
 function App() {
   return (
@@ -43,7 +50,7 @@ function App() {
         <Route path="/test" element={<Test />}></Route>
         <Route path="/qaAdd" element={<QAadd />}></Route>
         <Route path="/question_thread" element={<QuestionThread />}> </Route>
-        <Route path="/expert_post_record" element={<ExpertPostRecord />}> </Route>
+
       </Routes>
     </BrowserRouter>
   );

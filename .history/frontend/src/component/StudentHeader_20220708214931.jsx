@@ -79,11 +79,11 @@ export default function StudentHeader() {
         <ThemeProvider theme={theme}>
         <Box sx={{ flexGrow: 1 }}>
         <AppBar position="static" sx={
-            { backgroundColor:'#ffdc00', position:'relative',borderBottom: (t) => `1px solid ${t.palette.divider}`}}>
+            { backgroundColor:'#ffd40b', position:'relative',borderBottom: (t) => `1px solid ${t.palette.divider}`}}>
           <Toolbar>
             <CardMedia
               component="img"
-              sx={{ width: 200, height: '100%', margin: '10px' }}
+              sx={{ width: 540, height: '40%', margin: '10px' }}
               image={MAIN}
             />
             

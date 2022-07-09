@@ -198,11 +198,11 @@ export default function StudentProfile () {
                         <Grid container spacing={0}>
                         <Grid item xs={3}>
                         <Typography component="h1" variant="h5">
-                          Contact:
+                          Contance Number:
                         </Typography>
                         </Grid>
                         <Grid item xs={9}>
-                        <TextField fullWidth label="Enter Contact Number Here" variant="standard" size="medium" onChange = {e => setWeight(e.target.value)} value={weight}/>
+                        <TextField fullWidth label="Enter Weight (kg) Here" variant="standard" size="medium" onChange = {e => setWeight(e.target.value)} value={weight}/>
                       </Grid>
                       </Grid>
                       </Box>
