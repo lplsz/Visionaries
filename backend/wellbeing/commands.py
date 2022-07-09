@@ -42,6 +42,19 @@ def dropdb():
 
 
 @click.command()
+@with_appcontext
+def seed():
+    """Drop the database."""
+
+    from wellbeing.utility.seed_database import seed_database
+    try:
+        seed_database()
+        click.echo("Database seeded.")
+    except Exception as e:
+        click.echo(e)
+
+
+@click.command()
 @click.option(
     "-f",
     "--fix-imports",

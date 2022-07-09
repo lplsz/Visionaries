@@ -1,56 +1,52 @@
 {
-    "user": [
-        {
-            "id": 1,
-            "username": "Administer",
-            "email": "admin@gmail.com",
-            "password": "admin",
-            "biography": "I am the admin",
-            "account_type": "expert",
-            "profile_image_src": ""
-        }
-    ],
-    "category": [
-        {
-            "id": 1,
-            "category_name": "Category 1",
-            "category_image_src": "https://www.google.com/images/branding/googlelogo/2x/googlelogo_color_272x92dp.png",
-            "description": "Category 1 description"
-        },
-        {
-            "id": 2,
-            "category_name": "Category 2",
-            "category_image_src": "https://www.google.com/images/branding/googlelogo/2x/googlelogo_color_272x92dp.png",
-            "description": "Category 2 description"
-        }
-    ],
-    "tag": [
-        {
-            "id": 1,
-            "tag_name": "Tag 1",
-            "tag_image_src": "https://www.google.com/images/branding/googlelogo/2x/googlelogo_color_272x92dp.png",
-            "description": "Tag 1 description"
-        },
-        {
-            "id": 2,
-            "tag_name": "Tag 2",
-            "tag_image_src": "https://www.google.com/images/branding/googlelogo/2x/googlelogo_color_272x92dp.png",
-            "description": "Tag 2 description"
-        }
-    ],
-    "qa": [
-        {
-            "id": 1,
-            "title": "QA 1",
-            "body": "QA 1 body",
-            "author_id": 1,
-            "category_id": 1
-        }
-    ],
-    "qa_tag": [
-        {
-            "qa_id": 1,
-            "tag_id": 1
-        }
-    ]
+  "user": [
+    {
+      "id": 1,
+      "username": "Administer",
+      "email": "admin@gmail.com",
+      "password": "admin",
+      "biography": "I am the admin",
+      "account_type": "expert",
+      "profile_image_src": ""
+    }
+  ],
+  "category": [
+    {
+      "id": 1,
+      "category_name": "Category 1",
+      "category_image_src": "https://www.google.com/images/branding/googlelogo/2x/googlelogo_color_272x92dp.png",
+      "category_description": "Category 1 description"
+    },
+    {
+      "id": 2,
+      "category_name": "Category 2",
+      "category_image_src": "https://www.google.com/images/branding/googlelogo/2x/googlelogo_color_272x92dp.png",
+      "category_description": "Category 2 description"
+    }
+  ],
+  "tag": [
+    {
+      "id": 1,
+      "tag_name": "Tag 1"
+    },
+    {
+      "id": 2,
+      "tag_name": "Tag 2"
+    }
+  ],
+  "qa": [
+    {
+      "id": 1,
+      "title": "QA 1",
+      "body": "QA 1 body",
+      "author_id": 1,
+      "category_id": 1
+    }
+  ],
+  "qa_tag": [
+    {
+      "qa_id": 1,
+      "tag_id": 1
+    }
+  ]
 }

@@ -55,6 +55,7 @@ def register_commands(app):
     """Register Click commands."""
     app.cli.add_command(commands.createdb)
     app.cli.add_command(commands.dropdb)
+    app.cli.add_command(commands.seed)
 
 
 #

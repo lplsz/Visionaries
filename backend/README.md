@@ -26,7 +26,13 @@ flask createdb
 flask dropdb
 ```
 
-**Step 4: Start the flask server**
+**Step 4: Seed (Initialize) the database (Optional)**
+
+```
+flask seed
+```
+
+**Step 5: Start the flask server**
 
 ```
 cd /Visionaries/backend
@@ -48,6 +54,12 @@ flask createdb
 
 ```
 flask dropdb
+```
+
+**Seed database using `backend/seeding_data.json`**
+
+```
+flask seed
 ```
 
 # Folder Structure
