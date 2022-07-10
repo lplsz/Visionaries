@@ -27,9 +27,7 @@ class UserSchema(Schema):
     profile_image_src = String()
 
     languages = List(String())
-    experiences = List(String())
     qualifications = List(Nested(QualificationSchema))
-
     interested_categories = List(Nested(CategorySchema))
 
 
@@ -44,20 +42,19 @@ class PutUserInSchema(Schema):
     profile_image_src = String()
 
     language_ids = List(Integer())
-    experience_ids = List(Integer())
+    interested_category_ids = List(Integer())
     qualifications = List(Nested(QualificationSchema))
 
 
 '''
-Qualification Schemas
+Langauge Schema
 '''
 
 
-class PutQualificationInSchema(Schema):
-    qualification_id = Integer(required=True, example=1)
-    acquired_at = DateTime(required=True, example='2020-01-01T00:00:00')
-    description = String(required=True, example='I love my country')
+class LanguageSchema(Schema):
+    id = Integer(required=True, example=1)
+    language_name = String(required=True, example='English')
 
 
-class DeleteQualificationInSchema(Schema):
-    qualification_id = Integer(required=True, example=1)
+class GetLanguagesOutSchema(Schema):
+    languages = List(Nested(LanguageSchema))

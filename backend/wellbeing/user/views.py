@@ -2,8 +2,11 @@ from apiflask import APIBlueprint
 from flask.views import MethodView
 from flask_jwt_extended import jwt_required
 
-from wellbeing.user.schemas import GetUserOutSchema, PutUserInSchema, PutQualificationInSchema, \
-    DeleteQualificationInSchema
+from wellbeing.user.schemas import (
+    GetUserOutSchema,
+    PutUserInSchema,
+    GetLanguagesOutSchema,
+)
 
 import wellbeing.user.controllers as controllers
 
@@ -51,32 +54,12 @@ class UserProfile(MethodView):
         pass
 
 
-@blueprint.route('/qualification')
-class Qualification(MethodView):
-    @blueprint.input(PutQualificationInSchema)
+@blueprint.route('/languages')
+class Languages(MethodView):
+    @blueprint.output(GetLanguagesOutSchema, 200)
     @blueprint.doc(
-        security='JWT Bearer Token',
-        summary='Update user qualification',
-        description='Update user qualification',
-        responses={
-            200: 'User qualification Updated',
-            403: 'Forbidden',
-            404: 'User Not Found',
-        })
-    @jwt_required()
-    def put(self, data):
+        summary='Get Languages',
+        description='Get Languages',
+    )
+    def get(self):
         pass
-
-    @blueprint.input(DeleteQualificationInSchema)
-    @blueprint.doc(
-        security='JWT Bearer Token',
-        summary='Delete a qualification',
-        description='Delete a qualification',
-        responses={
-            200: 'Qualification Deleted',
-            403: 'Forbidden',
-            404: 'Qualification Not Found',
-        })
-    @jwt_required()
-    def delete(self, data):
-        return controllers.delete_qualification_by_id(data['qualification_id'])
