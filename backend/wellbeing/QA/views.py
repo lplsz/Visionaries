@@ -127,6 +127,7 @@ class TagById(MethodView):
             200: 'Tag Deleted',
             404: 'Tag Not Found',
         },
+        hide=True,
     )
     @jwt_required()
     def delete(self, tag_id):
@@ -189,6 +190,7 @@ class CategoryById(MethodView):
             200: 'Category Deleted',
             404: 'Category Not Found',
         },
+        hide=True,
     )
     @jwt_required()
     def delete(self, category_id, data):

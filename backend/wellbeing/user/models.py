@@ -18,12 +18,6 @@ user_language = db.Table(
     db.Column("language_id", db.ForeignKey("language.id"), primary_key=True),
 )
 
-user_experience = db.Table(
-    "user_experience",
-    db.Column("user_id", db.ForeignKey("user.id"), primary_key=True),
-    db.Column("experience_id", db.ForeignKey("experience.id"), primary_key=True),
-)
-
 user_category = db.Table(
     "user_category",
     db.Column("user_id", db.ForeignKey("user.id"), primary_key=True),
@@ -36,15 +30,13 @@ class User(db.Model):
     username = db.Column(db.Text, nullable=False)
     email = db.Column(db.String(200), unique=True, nullable=False)
     password = db.Column(db.Text, nullable=False)
-    account_type = db.Column(db.Enum('student', 'expert'), server_default='student', nullable=False)
+    account_type = db.Column(db.Enum('student', 'expert', 'admin'), server_default='student', nullable=False)
     biography = db.Column(db.Text, nullable=True)
     profile_image_src = db.Column(db.Text, nullable=True)  # base64 encoded image
 
     # Relationships
     # # Profile
     languages = db.relationship('Language', lazy=False, uselist=True, back_populates='users', secondary=user_language)
-    experiences = db.relationship('Experience', lazy=False, uselist=True, back_populates='users',
-                                  secondary=user_experience)
     qualifications = db.relationship('Qualification', lazy=False, uselist=True, back_populates='user')
 
     # # Threads
@@ -93,17 +85,6 @@ class Language(db.Model):
 
     def __repr__(self):
         return f'<Language {self.language_name}>'
-
-
-class Experience(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    experience_name = db.Column(db.Text, nullable=False)
-
-    # Relationships
-    users = db.relationship('User', lazy=False, uselist=True, back_populates='experiences', secondary=user_experience)
-
-    def __repr__(self):
-        return f'<Experience {self.experience_name}>'
 
 
 class Qualification(db.Model):
