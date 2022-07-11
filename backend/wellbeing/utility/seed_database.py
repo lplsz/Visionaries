@@ -28,6 +28,9 @@ def seed_database():
         for language in data['language']:
             db.session.add(Language(**language))
 
+        for qualification in data['qualification']:
+            db.session.add(Qualification(**qualification))
+
         try:
             db.session.commit()
 

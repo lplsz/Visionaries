@@ -24,7 +24,7 @@ class UserProfileByID(MethodView):
         }
     )
     def get(self, user_id):
-        pass
+        return controllers.get_profile_by_id(user_id)
 
 
 @blueprint.route('/user_profile')
