@@ -62,4 +62,4 @@ class Languages(MethodView):
         description='Get Languages',
     )
     def get(self):
-        pass
+        return controllers.get_all_languages()

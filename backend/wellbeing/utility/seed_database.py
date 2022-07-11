@@ -4,6 +4,7 @@ from pathlib import Path
 from wellbeing.extensions import db
 from wellbeing.user.models import User
 from wellbeing.QA.models import QA, Tag, Category, QATag
+from wellbeing.user.models import User, Language, Qualification
 
 SEEDING_DATA_PATH = Path(__file__).absolute().parents[2] / "seeding_data.json"
 
@@ -23,6 +24,9 @@ def seed_database():
 
         for qa in data['qa']:
             db.session.add(QA(**qa))
+
+        for language in data['language']:
+            db.session.add(Language(**language))
 
         try:
             db.session.commit()

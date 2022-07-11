@@ -641,5 +641,39 @@
       "qa_id": 51,
       "tag_id": 12
     }
+  ],
+  "language": [
+    {
+      "id": 1,
+      "language_name": "Mandarin"
+    },
+    {
+      "id": 2,
+      "language_name": "Cantonese"
+    },
+    {
+      "id": 3,
+      "language_name": "Korean"
+    },
+    {
+      "id": 4,
+      "language_name": "Japanese"
+    },
+    {
+      "id": 5,
+      "language_name": "Italian"
+    },
+    {
+      "id": 6,
+      "language_name": "French"
+    },
+    {
+      "id": 7,
+      "language_name": "Vietnamese"
+    },
+    {
+      "id": 8,
+      "language_name": "Thai"
+    }
   ]
 }
