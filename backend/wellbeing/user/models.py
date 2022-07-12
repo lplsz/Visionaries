@@ -8,21 +8,44 @@ from wellbeing.meeting.models import AvailableTimeRange, Meeting
 # noinspection PyUnresolvedReferences
 from wellbeing.thread.models import Thread
 
+import json
+from flask import jsonify
+import dataclasses
+from dataclasses import dataclass
+
 ####################
 #       User       #
 ####################
 
-user_language = db.Table(
-    "user_language",
-    db.Column("user_id", db.ForeignKey("user.id"), primary_key=True),
-    db.Column("language_id", db.ForeignKey("language.id"), primary_key=True),
-)
+# user_language = db.Table(
+#     "user_language",
+#     db.Column("user_id", db.ForeignKey("user.id"), primary_key=True),
+#     db.Column("language_id", db.ForeignKey("language.id"), primary_key=True),
+# )
 
-user_category = db.Table(
-    "user_category",
-    db.Column("user_id", db.ForeignKey("user.id"), primary_key=True),
-    db.Column("category_id", db.ForeignKey("category.id"), primary_key=True)
-)
+# user_category = db.Table(
+#     "user_category",
+#     db.Column("user_id", db.ForeignKey("user.id"), primary_key=True),
+#     db.Column("category_id", db.ForeignKey("category.id"), primary_key=True)
+# )
+
+
+class UserLanguage(db.Model):
+    __tablename__ = "user_language"
+    user_id = db.Column(db.Integer, db.ForeignKey("user.id"), primary_key=True)
+    language_id = db.Column(db.Integer, db.ForeignKey("language.id"), primary_key=True)
+
+
+class UserCategory(db.Model):
+    __tablename__ = "user_category"
+    user_id = db.Column(db.Integer, db.ForeignKey("user.id"), primary_key=True)
+    category_id = db.Column(db.Integer, db.ForeignKey("category.id"), primary_key=True)
+
+
+class UserQualification(db.Model):
+    __tablename__ = "user_qualification"
+    user_id = db.Column(db.Integer, db.ForeignKey("user.id"), primary_key=True)
+    qualification_id = db.Column(db.Integer, db.ForeignKey("qualification.id"), primary_key=True)
 
 
 class User(db.Model):
@@ -36,12 +59,12 @@ class User(db.Model):
 
     # Relationships
     # # Profile
-    languages = db.relationship('Language', lazy=False, uselist=True, back_populates='users', secondary=user_language)
-    qualifications = db.relationship('Qualification', lazy=False, uselist=True, back_populates='user')
+    languages = db.relationship('Language', lazy=False, uselist=True, back_populates='users', secondary=UserLanguage.__tablename__)
+    qualifications = db.relationship('Qualification', lazy=False, uselist=True, back_populates='user',secondary=UserQualification.__tablename__)
 
     # # Threads
     interested_categories = db.relationship('Category', lazy=False, uselist=True, backref='interested_users',
-                                            secondary=user_category)
+                                            secondary=UserCategory.__tablename__)
     threads = db.relationship('Thread', lazy=True, uselist=True, back_populates='user')
     replies = db.relationship('Reply', lazy=True, uselist=True, back_populates='user')
     qas = db.relationship('QA', lazy=True, uselist=True, back_populates='author')
@@ -65,28 +88,34 @@ class User(db.Model):
             password.encode('utf-8'), self.password.encode('utf-8')
         )
 
-    # @property
-    # def serialized(self):
-    #     return {
-    #         'user_id': self.id,
-    #         'email': self.email,
-    #         'phone': self.phone,
-    #         'firstname': self.firstname,
-    #         'lastname': self.lastname,
-    #     }
+    @property
+    def serialized(self):
+        return {
+            'id': self.id,
+            'username': self.username,
+            'email': self.email,
+            'account_type': self.account_type,
+            'biography': self.biography,
+            'profile_image_src': self.profile_image_src,
+            'languages': self.languages,
+            # 'languages': repr(self.languages),
+            'qualifications': self.qualifications,
+            'interested_categories': self.interested_categories,
+            # 'interested_categories': repr(self.interested_categories),           
+        }
 
-
+@dataclass
 class Language(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     language_name = db.Column(db.Text, nullable=False)
 
     # Relationships
-    users = db.relationship('User', lazy=False, uselist=True, back_populates='languages', secondary=user_language)
+    users = db.relationship('User', lazy=False, uselist=True, back_populates='languages', secondary=UserLanguage.__tablename__)
 
     def __repr__(self):
         return f'<Language {self.language_name}>'
 
-
+@dataclass
 class Qualification(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
@@ -97,4 +126,5 @@ class Qualification(db.Model):
     user = db.relationship('User', lazy=False, back_populates='qualifications')
 
     def __repr__(self):
-        return f'<Qualification {self.qualification_name}>'
+        return f'<Qualification {self.description}>'
+

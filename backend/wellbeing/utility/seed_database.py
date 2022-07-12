@@ -4,7 +4,8 @@ from pathlib import Path
 from wellbeing.extensions import db
 from wellbeing.user.models import User
 from wellbeing.QA.models import QA, Tag, Category, QATag
-from wellbeing.user.models import User, Language, Qualification
+from wellbeing.user.models import User, Language, Qualification, UserLanguage, UserCategory
+from wellbeing.user.models import UserLanguage, UserCategory, UserQualification
 
 SEEDING_DATA_PATH = Path(__file__).absolute().parents[2] / "seeding_data.json"
 
@@ -36,6 +37,15 @@ def seed_database():
 
             for qa_tag in data['qa_tag']:
                 db.session.add(QATag(**qa_tag))
+
+            for user_language in data['user_language']:
+                db.session.add(UserLanguage(**user_language))
+
+            for user_category in data['user_category']:
+                db.session.add(UserCategory(**user_category))
+
+            for user_qualification in data['user_qualification']:
+                db.session.add(UserQualification(**user_qualification))
                 
             db.session.commit()
         except Exception as e:

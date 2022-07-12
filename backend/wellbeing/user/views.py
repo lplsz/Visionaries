@@ -2,15 +2,19 @@ from apiflask import APIBlueprint
 from flask.views import MethodView
 from flask_jwt_extended import jwt_required
 
+from flask import jsonify
+
+
 from wellbeing.user.schemas import (
     GetUserOutSchema,
     PutUserInSchema,
-    GetLanguagesOutSchema,
+    GetLanguagesOutSchema
 )
 
 import wellbeing.user.controllers as controllers
 
 blueprint = APIBlueprint('user', __name__)
+
 
 
 @blueprint.route('/user_profile/<int:user_id>')
@@ -24,8 +28,17 @@ class UserProfileByID(MethodView):
         }
     )
     def get(self, user_id):
-        return controllers.get_profile_by_id(user_id)
-
+        results = controllers.get_profile_by_id(user_id)
+        
+        # user_profile_schema = UserSchema(many=True)
+        # dump_data = user_profile_schema.dump(results)
+        # return jsonify({'user' : dump_data})
+        return jsonify({
+            # 'user': [result.serialized for result in results]
+            'user': [results.serialized]
+        })
+ 
+ 
 
 @blueprint.route('/user_profile')
 class UserProfile(MethodView):
@@ -38,7 +51,10 @@ class UserProfile(MethodView):
         }
     )
     def get(self):
-        pass
+        results = controllers.get_current_user_profile()
+        return jsonify({
+            'user': [results.serialized]
+        })
 
     @blueprint.input(PutUserInSchema)
     @blueprint.doc(

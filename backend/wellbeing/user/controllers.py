@@ -15,3 +15,6 @@ def get_all_languages():
 
 def get_profile_by_id(user_id):
    return User.query.filter_by(id=user_id).first_or_404()
+
+def get_current_user_profile():
+    return User.query.filter_by(id=current_user.user_id).first_or_404()

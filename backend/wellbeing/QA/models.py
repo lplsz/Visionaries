@@ -1,7 +1,7 @@
 from sqlalchemy.sql import func
 
 from wellbeing.extensions import db
-
+from dataclasses import dataclass
 
 # qa_tag = db.Table(
 #     "qa_tag",
@@ -39,7 +39,7 @@ class Tag(db.Model):
     # Relationships
     qas = db.relationship('QA', lazy=False, uselist=True, back_populates='tags', secondary="qa_tag")
 
-
+@dataclass
 class Category(db.Model):
     __tablename__ = 'category'
     id = db.Column(db.Integer, primary_key=True)
@@ -51,4 +51,7 @@ class Category(db.Model):
     threads = db.relationship('Thread', lazy=False, uselist=True, back_populates='category')
     qas = db.relationship('QA', lazy=False, uselist=True, back_populates='category')
     # interested_users = db.relationship('User', lazy=False, uselist=True, back_populates='interested_categories',
-    #                                    secondary=user_category)
+    # 
+
+    def __repr__(self):
+        return f'<Category {self.category_name}>'

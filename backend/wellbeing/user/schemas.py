@@ -2,6 +2,7 @@ from apiflask import Schema
 from apiflask.fields import String, Integer, Email, List, Nested, DateTime
 from apiflask.validators import OneOf
 
+# from flask_marshmallow import Marshmallow
 
 class QualificationSchema(Schema):
     id = Integer(required=True, example=1)
@@ -23,7 +24,7 @@ class UserSchema(Schema):
     username = String(required=True, example='Taylor Swift')
     email = Email(required=True, example='ts@gmail.com')
     account_type = String(required=True, validate=OneOf(['student', 'expert']), example='student')
-    biograph = String(example='Hello, I am Taylor Swift')
+    biography = String(example='Hello, I am Taylor Swift')
     profile_image_src = String()
 
     languages = List(String())
