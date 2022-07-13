@@ -47,13 +47,18 @@ const StudentLogin = () => {
                 email: email,
                 password: password,
             }
-            const data = await apiCall('student/login', 'POST', student);
+            const data = await apiCall('/login', 'POST', student);
             if (typeof (data) === 'string' && data.startsWith('400')) {
                 setErrorMessage(data.slice(6, data.length - 4));
                 setOpen(true);
             } else {
-                localStorage.setItem('sid', data.id);
-                navigate('/student_main');
+                localStorage.setItem('token', data.access_token);
+				localStorage.setItem('id', data.user.id)
+				if (data.user.account_type === 'student') {
+					navigate('/student_main');
+				} else {
+                    navigate('/expert_main');
+                }
             }
         }
     }

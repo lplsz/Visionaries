@@ -27,10 +27,10 @@ const QACard = (props) => {
 
     const navigate = useNavigate();
     const id = props.category.id;
-    console.log(props.category, 'prop')
+
     return (
         <Grid item className="GC" key={props.category.key} xs={12} sm={6} md={4}>
-            <Card sx={{ height: '100%', display: 'flex', flexDirection: 'column' }} onClick={()=> navigate('/')}>
+            <Card sx={{ height: '100%', display: 'flex', flexDirection: 'column' }} onClick={()=> navigate('/QACategory', {state: {id: id}})}>
                 { props.category.category_image_url === null
                 ? <CardMedia
                     componnet="img"

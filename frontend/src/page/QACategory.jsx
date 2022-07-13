@@ -29,6 +29,8 @@ import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import Grid from '@mui/material/Grid';
 import PotentialQA from '../component/PotentialQA';
+import { apiCall } from '../Main';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 // or for Day.js
 const SearchIconWrapper = styled('div')(({ theme }) => ({
@@ -75,12 +77,15 @@ const Search = styled('div')(({ theme }) => ({
 const QACategory = () => {
   // const [expanded, setExpanded] = React.useState(false);
   const [value, setValue] = React.useState(new Date('2014-08-18T21:11:54'));
-  const category = 'Vaccinations'
+  const [category, setCategory] = React.useState('');
   const [open, setOpen] = React.useState(false);
   const categories = ['Career Advice', 'Covid-19', 'Mental Health Amid', 'Study From Home', 'Vaccinations', 'Others'];
   const [questionName, setQuestionName] = React.useState('');
   const [questionCategory, setQuestionCategory] = React.useState('');
   const [questionDescription, setQuestionDescription] = React.useState('');
+  const [qaList, setQAList] = React.useState([]);
+  const { state } = useLocation();
+
   
   const handleClickOpen = () => {
     setOpen(true);
@@ -94,38 +99,18 @@ const QACategory = () => {
     setValue(newValue);
   };
 
-  // const handleChange = (panel) => (event, isExpanded) => {
-  //   setExpanded(isExpanded ? panel : false);
-  // };
+  const getQADetail = async (id) => {
+    const data = await apiCall(`qas?category_ids=${id}`, 'GET');
+    setQAList(data.qas);
+    setCategory(data.qas[0].category.category_name);
+  }
 
-  // const [qaList, setQaList] = React.useState([
-  //   { question: 'How much does it cost?', answer: 'All appointments are completely free of charge for students who are currently enrolled at UNSW.' },
-  //   { question: 'Worried about sharing your concerns?', answer: 'All information we gather is completely confidential. Your personal information will not be shared with anyone without your consent, this includes your faculty or lecturers. For further information, see our privacy statement by clicking here. ' },
-  //   { question: 'What can I expect if offered an appointment?', answer: 'Appointments are scheduled to last around 30 minutes. We will ask you some questions to help work out what might help. We always work with you as an individual and will always treat you with respect.', video: 'https://www.youtube.com/watch?v=4ca48mSe6LY' },
-  // ])
-
-  // const qaList = [
-  //   { question: 'How much does it cost?', answer: 'All appointments are completely free of charge for students who are currently enrolled at UNSW.' },
-  //   { question: 'Worried about sharing your concerns?', answer: 'All information we gather is completely confidential. Your personal information will not be shared with anyone without your consent, this includes your faculty or lecturers. For further information, see our privacy statement by clicking here. ' },
-  //   { question: 'What can I expect if offered an appointment?', answer: 'Appointments are scheduled to last around 30 minutes. We will ask you some questions to help work out what might help. We always work with you as an individual and will always treat you with respect.' },
-  // ];
-
-  // const SingleQA = (props) => {
-  //   return (
-  //     <div>
-  //       {props.data.video === undefined
-  //           ? <></>
-  //           : <ReactPlayer
-  //             url={props.data.video}
-  //             className='react-player'
-  //             width='80%'
-  //             height='300px'/>}
-  //       <Typography >{props.data.answer} </Typography>
-        
-  //     </div>
-
-  //   )
-  // }
+  React.useEffect(() => {
+    
+    if (state !== null) {
+      getQADetail(state.id);
+    }
+  }, [])
 
   const FilterCategory = () => {
     return (
@@ -140,34 +125,6 @@ const QACategory = () => {
       />
     );
   }
-
-  // const PotantialQA = () => {
-  //   return (
-  //     <div>
-  //       {qaList.map((data, i) => {
-  //         return (
-  //           <div key={i} style={{ marginTop: '5px', width: '100%', marginBottom: '5px' }}>
-  //             <Accordion fullWidth expanded={expanded === `panel${i}`} onChange={handleChange(`panel${i}`)}>
-  //               <AccordionSummary
-
-  //                 expandIcon={<ExpandMoreIcon />}
-  //                 aria-controls={`panel${i}bh-content`}
-  //                 id={`panel${i}bh-header`}
-  //               >
-  //                 <Typography sx={{ flexShrink: 0 }}>
-  //                   Question {i}: {data.question}
-  //                 </Typography>
-  //               </AccordionSummary>
-  //               <AccordionDetails>
-  //                 <SingleQA data={data} />
-  //               </AccordionDetails>
-  //             </Accordion>
-  //           </div>
-  //         );
-  //       })}
-  //     </div>
-  //   );
-  // }
 
   const solveSearch = (event) => {
     if (event.keyCode === 13) {
@@ -255,7 +212,7 @@ const QACategory = () => {
             </div>
             <div style={{ width: '100%' }}>
               {/* <PotantialQA /> */}
-              <PotentialQA />
+              <PotentialQA qaList={qaList}/>
             </div>
 
           </Box>
