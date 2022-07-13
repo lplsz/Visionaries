@@ -28,17 +28,17 @@ class UserProfileByID(MethodView):
         }
     )
     def get(self,user_id):
-        # results = controllers.get_profile_by_id(user_id)
+        return controllers.get_profile_by_id(user_id)
         # return results
         # user_profile_schema = UserSchema(many=True)
         # dump_data = user_profile_schema.dump(results)
         # return jsonify({'user' : dump_data})
 
-        results = controllers.get_profile_by_id(user_id)
-        return jsonify({
-            # 'user': [result.serialized for result in results]
-            'user': [results.serialized]
-        })
+        # results = controllers.get_profile_by_id(user_id)
+        # return jsonify({
+        #     # 'user': [result.serialized for result in results]
+        #     'user': [results.serialized]
+        # })
  
  
 
@@ -54,10 +54,7 @@ class UserProfile(MethodView):
     )
     @jwt_required()
     def get(self):
-        results = controllers.get_current_user_profile()
-        return jsonify({
-            'user': [results.serialized]
-        })
+        return controllers.get_current_user_profile()
 
     @blueprint.input(PutUserInSchema)
     @blueprint.doc(

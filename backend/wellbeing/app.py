@@ -2,6 +2,7 @@
 """The wellbeing module, containing the app factory function."""
 
 from apiflask import APIFlask  # step one
+# from flask_cors import *
 
 from wellbeing import commands, auth, user, QA
 from wellbeing.extensions import (
@@ -17,6 +18,7 @@ def create_app(config_object="wellbeing.settings"):
     """
     app = APIFlask(__name__.split(".")[0])
     app.config.from_object(config_object)
+    # CORS(app, supports_credentials=True)
     register_extensions(app)
     register_blueprints(app)
     # register_shellcontext(app)
