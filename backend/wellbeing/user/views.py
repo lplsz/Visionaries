@@ -27,12 +27,14 @@ class UserProfileByID(MethodView):
             404: 'User Not Found',
         }
     )
-    def get(self, user_id):
-        results = controllers.get_profile_by_id(user_id)
-        
+    def get(self,user_id):
+        # results = controllers.get_profile_by_id(user_id)
+        # return results
         # user_profile_schema = UserSchema(many=True)
         # dump_data = user_profile_schema.dump(results)
         # return jsonify({'user' : dump_data})
+
+        results = controllers.get_profile_by_id(user_id)
         return jsonify({
             # 'user': [result.serialized for result in results]
             'user': [results.serialized]
@@ -50,6 +52,7 @@ class UserProfile(MethodView):
             404: 'User Not Found',
         }
     )
+    @jwt_required()
     def get(self):
         results = controllers.get_current_user_profile()
         return jsonify({
@@ -66,8 +69,8 @@ class UserProfile(MethodView):
             404: 'User Not Found',
         })
     @jwt_required()
-    def put(self, user_id):
-        pass
+    def put(self):
+        return put_current_user_profile(data)
 
 
 @blueprint.route('/languages')
