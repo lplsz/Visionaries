@@ -2,7 +2,7 @@
  * @Author: Echooooo-zhn haonanZHONG17@outlook.com
  * @Date: 2022-07-12 03:48:01
  * @LastEditors: Echooooo-zhn haonanZHONG17@outlook.com
- * @LastEditTime: 2022-07-13 00:44:32
+ * @LastEditTime: 2022-07-13 22:58:05
  * @FilePath: \Visionaries\frontend\src\page\DragList.jsx
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  */
@@ -36,7 +36,7 @@ const addToList = (list, index, element) => {
 };
 
 
-function DragList() {
+function ReviewPost () {
 
   const pending = [
     { id: '0', name: 'Rhea', time: '04/09/2022', question: 'How much does it cost?', category: 'vacation', description: 'All appointments are completely free of charge for students who are currently enrolled at UNSW.' },
@@ -99,4 +99,4 @@ function DragList() {
   );
 }
 
-export default DragList;
+export default ReviewPost;
