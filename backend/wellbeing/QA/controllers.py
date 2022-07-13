@@ -16,7 +16,7 @@ def post_qa(data):
         author_id=current_user.id,
     )
     new_qa.category = Category.query.filter_by(id=data['category_id']).first_or_404()
-    new_qa.tags = Tag.query.filter(Tag.id.in_(data['tag_ids'])).all
+    new_qa.tags = Tag.query.filter(Tag.id.in_(data['tag_ids'])).all()
 
     db.session.add(new_qa)
     db.session.commit()

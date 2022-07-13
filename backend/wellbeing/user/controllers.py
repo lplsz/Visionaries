@@ -1,7 +1,8 @@
 from flask_jwt_extended import current_user
-from sqlalchemy.sql import and_
+from sqlalchemy.sql import and_, in_
 
 from wellbeing.user.models import User, Language, Qualification
+from wellbeing.QA.models import Category
 from wellbeing.extensions import db
 from wellbeing.user.schemas import UserSchema
 
@@ -15,21 +16,17 @@ def get_all_languages():
 
 
 def get_profile_by_id(user_id):
-   return User.query.filter_by(id=user_id).first_or_404()
-
-
-def get_current_user_profile():
-    return User.query.filter_by(id=current_user.id).first_or_404()
+    return {'user': User.query.filter_by(id=user_id).first_or_404()}
 
 
 def put_current_user_profile(data):
     user = User.query.filter_by(id=current_user.id).first_or_404()
     user.username = data['username']
-    # assume that user email cannot be changed
-    # can password be chanegd here?
+    user.set_password(data['password'])
     user.biography = data['biography']
     user.profile_image_src = data['profile_image_src']
-    user.languages = Language.query.filter_by(id=data['language_id']).first_or_404()
-    user.interested_categories = Category.query.filter_by(id=data['category_id']).first_or_404()
+    user.languages = Language.query.filter(Language.id.in_(data['language_ids'])).all()
+    user.interested_categories = Category.query.filter(Category.id.in_(data['category_ids'])).all()
+    # TODO: Qualifications
     db.session.commit()
     return {'message': 'User Profile Updated'}
