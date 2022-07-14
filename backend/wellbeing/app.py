@@ -2,7 +2,7 @@
 """The wellbeing module, containing the app factory function."""
 
 from apiflask import APIFlask  # step one
-from flask_cors import *
+from flask_cors import*
 
 from wellbeing import commands, auth, user, QA
 from wellbeing.extensions import (
