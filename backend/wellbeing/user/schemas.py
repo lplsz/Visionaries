@@ -4,6 +4,10 @@ from apiflask.validators import OneOf
 
 
 # from flask_marshmallow import Marshmallow
+class ExperienceSchema(Schema):
+    id = Integer(required=True, example=1)
+    description = String(required=True, example='Ten years of mentoring.')
+
 
 class QualificationSchema(Schema):
     id = Integer(required=True, example=1)
@@ -35,6 +39,7 @@ class UserSchema(Schema):
 
     languages = List(Nested(LanguageSchema))
     qualifications = List(Nested(QualificationSchema))
+    experiences = List(Nested(ExperienceSchema))
     interested_categories = List(Nested(CategorySchema))
 
 
@@ -50,7 +55,8 @@ class PutUserInSchema(Schema):
 
     language_ids = List(Integer())
     interested_category_ids = List(Integer())
-    qualifications = List(Nested(QualificationSchema))
+    # qualifications = List(Nested(QualificationSchema))       // can't be chanegd
+    experiences = List(Nested(ExperienceSchema))
 
 
 '''
