@@ -1,20 +1,17 @@
 from apiflask import APIBlueprint
 from flask.views import MethodView
-from flask_jwt_extended import jwt_required
-
-from flask import jsonify
-
+from flask_jwt_extended import jwt_required, current_user
 
 from wellbeing.user.schemas import (
     GetUserOutSchema,
     PutUserInSchema,
-    GetLanguagesOutSchema
+    GetLanguagesOutSchema,
+    ExperienceSchema
 )
 
 import wellbeing.user.controllers as controllers
 
 blueprint = APIBlueprint('user', __name__)
-
 
 
 @blueprint.route('/user_profile/<int:user_id>')
@@ -27,25 +24,15 @@ class UserProfileByID(MethodView):
             404: 'User Not Found',
         }
     )
-    def get(self,user_id):
+    def get(self, user_id):
         return controllers.get_profile_by_id(user_id)
-        # return results
-        # user_profile_schema = UserSchema(many=True)
-        # dump_data = user_profile_schema.dump(results)
-        # return jsonify({'user' : dump_data})
 
-        # results = controllers.get_profile_by_id(user_id)
-        # return jsonify({
-        #     # 'user': [result.serialized for result in results]
-        #     'user': [results.serialized]
-        # })
- 
- 
 
 @blueprint.route('/user_profile')
 class UserProfile(MethodView):
     @blueprint.output(GetUserOutSchema, 200)
     @blueprint.doc(
+        security='JWT Bearer Token',
         summary='Get current user profile',
         description='Get current user profile',
         responses={
@@ -54,7 +41,7 @@ class UserProfile(MethodView):
     )
     @jwt_required()
     def get(self):
-        return controllers.get_current_user_profile()
+        return controllers.get_profile_by_id(current_user.id)
 
     @blueprint.input(PutUserInSchema)
     @blueprint.doc(
@@ -66,8 +53,8 @@ class UserProfile(MethodView):
             404: 'User Not Found',
         })
     @jwt_required()
-    def put(self):
-        return put_current_user_profile(data)
+    def put(self, data):
+        return controllers.put_current_user_profile(data)
 
 
 @blueprint.route('/languages')
