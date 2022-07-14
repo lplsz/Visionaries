@@ -1,5 +1,5 @@
 from flask_jwt_extended import current_user
-from sqlalchemy.sql import and_, in_
+from sqlalchemy.sql import and_
 
 from wellbeing.user.models import User, Language, Qualification
 from wellbeing.QA.models import Category
