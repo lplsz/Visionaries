@@ -1,11 +1,11 @@
 from apiflask import APIBlueprint
 from flask.views import MethodView
-from flask_jwt_extended import jwt_required
+from flask_jwt_extended import jwt_required, current_user
 
 from wellbeing.user.schemas import (
     GetUserOutSchema,
     PutUserInSchema,
-    GetLanguagesOutSchema,
+    GetLanguagesOutSchema
 )
 
 import wellbeing.user.controllers as controllers
@@ -24,21 +24,23 @@ class UserProfileByID(MethodView):
         }
     )
     def get(self, user_id):
-        pass
+        return controllers.get_profile_by_id(user_id)
 
 
 @blueprint.route('/user_profile')
 class UserProfile(MethodView):
     @blueprint.output(GetUserOutSchema, 200)
     @blueprint.doc(
+        security='JWT Bearer Token',
         summary='Get current user profile',
         description='Get current user profile',
         responses={
             404: 'User Not Found',
         }
     )
+    @jwt_required()
     def get(self):
-        pass
+        return controllers.get_profile_by_id(current_user.id)
 
     @blueprint.input(PutUserInSchema)
     @blueprint.doc(
@@ -50,8 +52,8 @@ class UserProfile(MethodView):
             404: 'User Not Found',
         })
     @jwt_required()
-    def put(self, user_id):
-        pass
+    def put(self, data):
+        return controllers.put_current_user_profile(data)
 
 
 @blueprint.route('/languages')
@@ -62,4 +64,4 @@ class Languages(MethodView):
         description='Get Languages',
     )
     def get(self):
-        pass
+        return controllers.get_all_languages()

@@ -641,5 +641,85 @@
       "qa_id": 51,
       "tag_id": 12
     }
+  ],
+  "language": [
+    {
+      "id": 1,
+      "language_name": "Mandarin"
+    },
+    {
+      "id": 2,
+      "language_name": "Cantonese"
+    },
+    {
+      "id": 3,
+      "language_name": "Korean"
+    },
+    {
+      "id": 4,
+      "language_name": "Japanese"
+    },
+    {
+      "id": 5,
+      "language_name": "Italian"
+    },
+    {
+      "id": 6,
+      "language_name": "French"
+    },
+    {
+      "id": 7,
+      "language_name": "Vietnamese"
+    },
+    {
+      "id": 8,
+      "language_name": "Thai"
+    }
+  ],
+  "qualification": [
+    {
+      "id": 1,
+      "user_id": 1,
+      "acquired_at":"1998-06-05T00:00:00",
+      "description": "Doctorate of Medicine"
+    },
+    {
+      "id": 2,
+      "user_id": 2,
+      "acquired_at":"1978-02-02T00:00:00",
+      "description": "Doctorate of Medicine"
+    }
+  ],
+  "user_language": [
+    {
+      "user_id": 1,
+      "language_id": 1
+    },
+    {
+      "user_id": 2,
+      "language_id": 5
+    }
+  ],
+  "user_category": [
+    {
+      "user_id": 1,
+      "category_id": 2
+    },
+    {
+      "user_id": 2,
+      "category_id": 4
+    }
+  ],
+  "user_qualification": [
+    {
+      "user_id": 1,
+      "qualification_id": 2
+    },
+    {
+      "user_id": 2,
+      "qualification_id": 1
+    }
   ]
+
+
 }

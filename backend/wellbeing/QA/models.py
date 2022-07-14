@@ -3,13 +3,6 @@ from sqlalchemy.sql import func
 from wellbeing.extensions import db
 
 
-# qa_tag = db.Table(
-#     "qa_tag",
-#     db.Column("qa_id", db.ForeignKey("qa.id"), primary_key=True),
-#     db.Column("tag_id", db.ForeignKey("tag.id"), primary_key=True),
-# )
-
-
 class QATag(db.Model):
     __tablename__ = "qa_tag"
     qa_id = db.Column(db.Integer, db.ForeignKey("qa.id"), primary_key=True)
@@ -50,5 +43,9 @@ class Category(db.Model):
     # Relationships
     threads = db.relationship('Thread', lazy=False, uselist=True, back_populates='category')
     qas = db.relationship('QA', lazy=False, uselist=True, back_populates='category')
+
     # interested_users = db.relationship('User', lazy=False, uselist=True, back_populates='interested_categories',
-    #                                    secondary=user_category)
+    # 
+
+    def __repr__(self):
+        return f'<Category {self.category_name}>'
