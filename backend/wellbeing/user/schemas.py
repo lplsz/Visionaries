@@ -23,7 +23,7 @@ class LanguageSchema(Schema):
 class CategorySchema(Schema):
     id = Integer(required=True, example=0)
     category_name = String(required=True, example='Pop')
-    category_image_url = String(required=True)
+    category_image_src = String(required=True)
     category_description = String(required=True,
                                   example='Pop is a genre of music that emerged in the United States in the late '
                                           '1960s, and has since become a global phenomenon.')
