@@ -15,49 +15,60 @@ import Others from './img/others.jpg';
 import StudyFromHome from './img/study_from_home.jpg';
 import Vaccinations from './img/vaccinations.jpg';
 import WellBeing from '../component/img/well-being.jpg';
+import { apiCall } from '../Main';
 
-const categories = [
-    {
-        id: 0,
-        category_name: 'Career Advice',
-        category_image_url: CareerAdvice,
-        category_description: 'Career Advice',
-    },
-    {
-        id: 1,
-        category_name: 'Covid-19',
-        category_image_url: COVID19,
-        category_description: 'Covid-19',
-    },
-    {
-        id: 2,
-        category_name: 'Mental Health Amid',
-        category_image_url: MentalHealth,
-        category_description: 'Mental Health Amid',
-    },
-    {
-        id: 3,
-        category_name: 'Study From Home',
-        category_image_url: StudyFromHome,
-        category_description: 'Study From Home',
-    },
-    {
-        id: 4,
-        category_name: 'Vaccinations',
-        category_image_url: Vaccinations,
-        category_description: 'Vaccinations',
-    },
-    {
-        id: 5,
-        category_name: 'Others',
-        category_image_url: Others,
-        category_description: 'Others',
-    },
-];
+// const categories = [
+//     {
+//         id: 0,
+//         category_name: 'Career Advice',
+//         category_image_url: CareerAdvice,
+//         category_description: 'Career Advice',
+//     },
+//     {
+//         id: 1,
+//         category_name: 'Covid-19',
+//         category_image_url: COVID19,
+//         category_description: 'Covid-19',
+//     },
+//     {
+//         id: 2,
+//         category_name: 'Mental Health Amid',
+//         category_image_url: MentalHealth,
+//         category_description: 'Mental Health Amid',
+//     },
+//     {
+//         id: 3,
+//         category_name: 'Study From Home',
+//         category_image_url: StudyFromHome,
+//         category_description: 'Study From Home',
+//     },
+//     {
+//         id: 4,
+//         category_name: 'Vaccinations',
+//         category_image_url: Vaccinations,
+//         category_description: 'Vaccinations',
+//     },
+//     {
+//         id: 5,
+//         category_name: 'Others',
+//         category_image_url: Others,
+//         category_description: 'Others',
+//     },
+// ];
 
 const StudentMain = () => {
 
     const navigate = useNavigate();
+    const [categories, setCategories] = React.useState([]);
+
+    const getCategories = async () => {
+        const data = await apiCall('/categories', 'GET');
+        setCategories(data.categories);
+    };
+
+    React.useEffect(() => {
+        getCategories();
+    }, []);
 
     const CategoryCard = () => {
         const cards = categories.map((c, i) => {
@@ -91,11 +102,6 @@ const StudentMain = () => {
                     alt={"recipe_image"} />
             </Container>
             <Container maxWidth="lg" component="main"  sx={{paddingTop: '20px'}}>
-                {/* <Grid container spacing={5} alignItems="flex-end">
-                <ContributorHomeButton url={setIcon} content={"Menage Your Recipes"} navigate={navigate} router={'/add_recipe'}/>
-                <ContributorHomeButton url={addIcon} content={"Creat New Recipe"} navigate={navigate} router={'/add_recipe'}/>
-                </Grid> */}
-                {/* <Container sx={{ py: 8 }}></Container> */}
                 <CategoryCard />
             </Container>
         

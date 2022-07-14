@@ -39,7 +39,7 @@ export default function ExpertHeader() {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const isMenuOpen = Boolean(anchorEl);
   const navigate = useNavigate();
-  const cid = localStorage.getItem('cid');
+  const id = localStorage.getItem('id');
   const handleProfileMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -68,9 +68,9 @@ export default function ExpertHeader() {
       <MenuItem onClick={() => { navigate('/contributor_profile'); handleMenuClose(); }}>My Profile</MenuItem>
       <Divider />
       <MenuItem onClick={() => {
-        apiCall('user/logout', 'POST', { id: cid });
-        localStorage.removeItem('cid');
-        navigate('/'); handleMenuClose()
+        apiCall('/logout', 'POST', { id: id });
+        localStorage.removeItem('id');
+        navigate('/login'); handleMenuClose()
       }}>Logout</MenuItem>
     </Menu>
   );

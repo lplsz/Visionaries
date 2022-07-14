@@ -7,8 +7,36 @@ import Box from '@mui/material/Box';
 import ExpertHeader from "../component/ExpertHeader";
 import Badge from '@mui/material/Badge';
 import Avatar from '@mui/material/Avatar';
+import TextField from '@mui/material/TextField';
 import { styled } from '@mui/material/styles';
-import { fontSize } from '@mui/system';
+import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
+import UploadImageChoice from '../component/UploadImageChoice';
+import { IconButton } from '@mui/material';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+const theme = createTheme({
+  components: {
+    MuiButton: {
+      Paper: {
+        root: {
+          backgroundColor: '#ffffff',
+          borderRadius: '10px',
+          backGround: 'rgba(255, 255, 255, 0.1)',
+          borderTop: '1px solid rgba(255, 255, 255, 0.15)',
+          backdropFilter: 'blur(15px)',
+          boxShadow: '0 15px 25px rgba(0,0,0,0.1)',
+        },
+      },
+    },
+  },
+  palette: {
+    primary: {
+      main: '#000000',
+    },
+    secondary: {
+      main: '#D82148'
+    }
+  },
+});
 
 const StyledBadge = styled(Badge)(({ theme }) => ({
   '& .MuiBadge-badge': {
@@ -136,11 +164,24 @@ export default function QuestionThread() {
         <div>
           <HandleReply q={props.q} />
         </div>
+        <div style={{ display: 'flex', marginTop: '10px', background: '#F7F7F7', padding: '15px', borderRadius: '15px' }}>
+          <div style={{ width: '700px', marginRight: '4px' }}>
+            <TextField fullWidth size="small" id="fullWidth" />
+          </div>
+          <div style={{ width: '40px' }}>
+            <IconButton><ArrowUpwardIcon></ArrowUpwardIcon></IconButton>
+          </div>
+          <div style={{ width: '40px' }}>
+            <UploadImageChoice />
+          </div>
+        </div>
       </div>
     )
   }
+
   return (
-    <div>
+    <ThemeProvider theme={theme}>
+
       <ExpertHeader />
       <div style={{ display: 'flex', marginLeft: '80px', marginTop: '40px' }}>
         <Typography variant="h3" sx={{ padding: 0, margin: 0 }}>Questions</Typography>
@@ -149,7 +190,6 @@ export default function QuestionThread() {
         <Box
           sx={{ flexGrow: 1, bgcolor: 'background.paper', display: 'flex', height: 524 }}
         >
-
           <Tabs
             orientation="vertical"
             variant="scrollable"
@@ -177,8 +217,8 @@ export default function QuestionThread() {
 
           {qaList.map((q, i) => {
             return (
-              <TabPanel value={value} index={i}>
-                {<HandleThread q={q} />}
+              <TabPanel value={value} index={i} sx={{ borderRight: 1, borderColor: 'divider', minwidth: '450px', maxwidth: '450px', float: 'left', }}>
+                {< HandleThread q={q} />}
               </TabPanel>
             )
           })}
@@ -186,7 +226,7 @@ export default function QuestionThread() {
         </Box>
       </div>
 
-    </div>
+    </ThemeProvider>
 
   );
 }
