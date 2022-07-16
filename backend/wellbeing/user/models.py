@@ -2,7 +2,7 @@ import bcrypt
 
 from wellbeing.QA.models import QA, Category
 from wellbeing.extensions import db
-from wellbeing.meeting.models import AvailableTimeRange, Meeting
+from wellbeing.meeting.models import Availability
 from wellbeing.thread.models import Thread
 
 
@@ -52,10 +52,8 @@ class User(db.Model):
     qas = db.relationship('QA', lazy=True, uselist=True, back_populates='author')
 
     # # meeting
-    available_time_ranges = db.relationship('AvailableTimeRange', lazy=True, uselist=True, back_populates='user')
-
-    # meetings_as_user = db.relationship('Meeting', lazy=True, uselist=True, back_populates='user')
-    # meetings_as_expert = db.relationship('Meeting', lazy=True, uselist=True, back_populates='expert')
+    availability_as_user = db.relationship('Availability', lazy=True, uselist=True, back_populates='user')
+    availability_as_expert = db.relationship('Availability', lazy=True, uselist=True, back_populates='expert')
 
     def __repr__(self):
         return f'<User {self.username} {self.email} {self.account_type}>'

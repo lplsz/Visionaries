@@ -36,9 +36,21 @@ def createdb():
 @with_appcontext
 def dropdb():
     """Drop the database."""
-
+    db.reflect()
     db.drop_all()
     click.echo("Database dropped.")
+
+
+@click.command()
+@with_appcontext
+def cleardb():
+    """Clear the database."""
+    meta = db.metadata
+    for table in reversed(meta.sorted_tables):
+        click.echo(f'Clear table {table}')
+        session.execute(table.delete())
+    session.commit()
+    click.echo('Date cleared')
 
 
 @click.command()
