@@ -1,6 +1,6 @@
 from flask_jwt_extended import current_user
 from sqlalchemy.sql import and_
-
+import datetime
 from wellbeing.QA.models import QA, Tag, Category
 from wellbeing.extensions import db
 
@@ -15,7 +15,8 @@ def post_qa(data):
         body=data['body'],
         author_id=current_user.id,
     )
-    new_qa.category = Category.query.filter_by(id=data['category_id']).first_or_404()
+    new_qa.category = Category.query.filter_by(
+        id=data['category_id']).first_or_404()
     new_qa.tags = Tag.query.filter(Tag.id.in_(data['tag_ids'])).all()
 
     db.session.add(new_qa)
@@ -24,11 +25,18 @@ def post_qa(data):
 
 
 def get_qa_by_id(qa_id):
-    return QA.query.filter_by(id=qa_id).first_or_404()
+    return {'qa': QA.query.filter_by(id=qa_id).first_or_404()}
+
+
+def get_qas_by_time():
+    three_months_ago = datetime.datetime.today() - datetime.timedelta(weeks=12)
+    #print(QA.query.filter(QA.review_at > three_months_ago).all())
+    return {'qas': QA.query.filter(QA.review_at > three_months_ago).all()}
 
 
 def delete_qa_by_id(qa_id):
-    db.session.delete(QA.query.filter_by(id=qa_id).first_or_404(description='QA Not Found'))
+    db.session.delete(QA.query.filter_by(
+        id=qa_id).first_or_404(description='QA Not Found'))
     db.session.commit()
     return {'message': 'QA Deleted'}
 
@@ -38,7 +46,8 @@ def put_qa_by_id(qa_id, data):
     qa.title = data['title']
     qa.body = data['body']
     qa.author_id = data['author_id']
-    qa.category = Category.query.filter_by(id=data['category_id']).first_or_404()
+    qa.category = Category.query.filter_by(
+        id=data['category_id']).first_or_404()
     qa.tags = Tag.query.filter(Tag.id.in_(data['tag_ids'])).all()
     db.session.commit()
     return {'message': 'QA Updated'}
@@ -76,13 +85,15 @@ def post_tag(data):
 
 
 def delete_tag_by_id(tag_id):
-    db.session.delete(Tag.query.filter_by(id=tag_id).first_or_404(description='Tag Not Found'))
+    db.session.delete(Tag.query.filter_by(
+        id=tag_id).first_or_404(description='Tag Not Found'))
     db.session.commit()
     return {'message': 'Tag Deleted'}
 
 
 def put_tag_by_id(tag_id, data):
-    tag = Tag.query.filter_by(id=tag_id).first_or_404(description='Tag Not Found')
+    tag = Tag.query.filter_by(id=tag_id).first_or_404(
+        description='Tag Not Found')
     tag.tag_name = data['tag_name']
     db.session.commit()
     return {'message': 'Tag Updated'}
@@ -109,13 +120,15 @@ def post_category(data):
 
 
 def delete_category_by_id(category_id):
-    db.session.delete(Category.query.filter_by(id=category_id).first_or_404(description='Category Not Found'))
+    db.session.delete(Category.query.filter_by(
+        id=category_id).first_or_404(description='Category Not Found'))
     db.session.commit()
     return {'message': 'Category Deleted'}
 
 
 def put_category_by_id(category_id, data):
-    category = Category.query.filter_by(id=category_id).first_or_404(description='Category Not Found')
+    category = Category.query.filter_by(id=category_id).first_or_404(
+        description='Category Not Found')
 
     category.category_name = data['category_name']
     category.category_image_src = data['category_image_src']
