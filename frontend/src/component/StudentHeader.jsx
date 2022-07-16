@@ -38,7 +38,7 @@ export default function StudentHeader() {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const isMenuOpen = Boolean(anchorEl); 
   const navigate = useNavigate();
-  const sid = localStorage.getItem('sid');
+  const id = localStorage.getItem('id');
   const handleProfileMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -68,9 +68,9 @@ export default function StudentHeader() {
         <MenuItem onClick={()=>{navigate('/student_profile'); handleMenuClose();}}>My Profile</MenuItem>
         <Divider />
         <MenuItem onClick={()=>{
-          apiCall('student/logout', 'POST', {id: sid});
-          localStorage.removeItem('sid');
-          navigate('/'); handleMenuClose()}}>Logout</MenuItem>
+          apiCall('/logout', 'POST', {id: id});
+          localStorage.removeItem('id');
+          navigate('/login'); handleMenuClose()}}>Logout</MenuItem>
       </Menu>
     );
   }
@@ -89,7 +89,7 @@ export default function StudentHeader() {
             
             <Box sx={{ flexGrow: 1 }} />
             <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
-              {sid == null 
+              {id == null 
               ? <IconButton 
                 size="large" 
                 aria-label="show 4 new mails" 

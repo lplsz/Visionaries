@@ -5,7 +5,8 @@ from flask_jwt_extended import jwt_required, current_user
 from wellbeing.user.schemas import (
     GetUserOutSchema,
     PutUserInSchema,
-    GetLanguagesOutSchema
+    GetLanguagesOutSchema,
+    ExperienceSchema
 )
 
 import wellbeing.user.controllers as controllers

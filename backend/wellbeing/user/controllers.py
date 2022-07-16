@@ -27,6 +27,7 @@ def put_current_user_profile(data):
     user.profile_image_src = data['profile_image_src']
     user.languages = Language.query.filter(Language.id.in_(data['language_ids'])).all()
     user.interested_categories = Category.query.filter(Category.id.in_(data['category_ids'])).all()
-    # TODO: Qualifications
+    # TODO: Experience
+    user.experiences = Experience.query.filter(Experience.id.in_(data['experience_ids'])).all()
     db.session.commit()
     return {'message': 'User Profile Updated'}

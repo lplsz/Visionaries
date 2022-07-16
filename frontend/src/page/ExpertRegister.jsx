@@ -49,7 +49,7 @@ const ExpertRegister = () => {
                 password: password,
                 name: name,
             }
-            const data = await apiCall('expert/register', 'POST', expert);
+            const data = await apiCall('register_expert_account', 'POST', expert);
             if (typeof (data) === 'string' && data.startsWith('400')) {
                 setErrorMessage(data.slice(6, data.length - 4));
                 setOpen(true);
