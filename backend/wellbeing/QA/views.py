@@ -3,7 +3,7 @@ from flask.views import MethodView
 from flask_jwt_extended import jwt_required
 
 import wellbeing.QA.controllers as controllers
-from wellbeing.QA.schemas import (GetTagsOutSchema, GetCategoriesOutSchema, GetQAsInSchema, GetQAsOutSchema, \
+from wellbeing.QA.schemas import (GetTagsOutSchema, GetCategoriesOutSchema, GetQAsInSchema, GetQAsOutSchema,
                                   GetQAOutSchema, PostQAInSchema, PostTagInSchema, PutTagInSchema, PutCategoryInSchema)
 
 qa_blueprint = APIBlueprint('QA', __name__)
@@ -81,6 +81,20 @@ class QAs(MethodView):
     )
     def get(self, data):
         return controllers.get_qas(data)
+
+
+@qa_blueprint.route('/qa_reviewed')
+class QAByTime(MethodView):
+    @qa_blueprint.output(GetQAsOutSchema, 200)
+    @qa_blueprint.doc(
+        summary='Get list of QA reviewed in three month',
+        description='Get QAs by time',
+        responses={
+            404: 'Not Found',
+        }
+    )
+    def get(self):
+        return controllers.get_qas_by_time()
 
 
 '''
