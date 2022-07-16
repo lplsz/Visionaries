@@ -30,8 +30,13 @@ def get_qa_by_id(qa_id):
 
 def get_qas_by_time():
     three_months_ago = datetime.datetime.today() - datetime.timedelta(weeks=12)
-    #print(QA.query.filter(QA.review_at > three_months_ago).all())
     return {'qas': QA.query.filter(QA.review_at > three_months_ago).all()}
+
+
+def get_qas_not_reviewed():
+    three_months_ago = datetime.datetime.today() - datetime.timedelta(weeks=12)
+    #print(QA.query.filter(QA.review_at > three_months_ago).all())
+    return {'qas': QA.query.filter(QA.review_at < three_months_ago).all()}
 
 
 def delete_qa_by_id(qa_id):

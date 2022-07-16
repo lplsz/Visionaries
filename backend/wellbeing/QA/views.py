@@ -96,6 +96,20 @@ class QAByTime(MethodView):
         return controllers.get_qas_by_time()
 
 
+@qa_blueprint.route('/qa_not_reviewed')
+class QANotReviewed(MethodView):
+    @qa_blueprint.output(GetQAsOutSchema, 200)
+    @qa_blueprint.doc(
+        summary='Get list of QA have not been reviewed in three month',
+        description='Get QAs by time',
+        responses={
+            404: 'Not Found',
+        }
+    )
+    def get(self):
+        return controllers.get_qas_not_reviewed()
+
+
 '''
 Tag APIs
 '''
