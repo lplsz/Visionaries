@@ -24,7 +24,7 @@ def post_qa(data):
 
 
 def get_qa_by_id(qa_id):
-    return QA.query.filter_by(id=qa_id).first_or_404()
+    return {'qa': QA.query.filter_by(id=qa_id).first_or_404()}
 
 
 def delete_qa_by_id(qa_id):
