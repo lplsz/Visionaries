@@ -83,36 +83,7 @@
     }
   ],
   "category": [
-    {
-      "id": 1,
-      "category_name": "Studying from Home",
-      "category_image_src": "https://www.google.com/images/branding/googlelogo/2x/googlelogo_color_272x92dp.png",
-      "category_description": "Studying at home has its perks: it’s a comfortable, low-pressure environment. However, there are a few reasons it can be difficult to study at home; with so many distractions, it’s easy to procrastinate—when you do start, it’s easy to get off track.\n\nAt home, procrastination and distraction can prevent you from accomplishing what you need to get done. Watching TV, taking a nap, scrolling through social media, or other activities (maybe even cleaning your room!), are big productivity killers that take you away from your goal of studying for or completing that assignment.\n\nFortunately, there are a few tricks you can use to help you be more productive"
-    },
-    {
-      "id": 2,
-      "category_name": "Mental health",
-      "category_image_src": "https://www.google.com/images/branding/googlelogo/2x/googlelogo_color_272x92dp.png",
-      "category_description": "Stress and anxiety are common for people who live in fast-moving cities like Hong Kong.  Knowing how to stay psychologically healthy and deal with daily stress can help you to enjoy life and maintain good relationships. This page provides information on mental well-being and the professional services offered for those with serious mental distress.\n"
-    },
-    {
-      "id": 3,
-      "category_name": "Vaccinations",
-      "category_image_src": "https://www.google.com/images/branding/googlelogo/2x/googlelogo_color_272x92dp.png",
-      "category_description": "Here you can find information about the influenza and COVID vaccinations"
-    },
-    {
-      "id": 4,
-      "category_name": "COVID-19",
-      "category_image_src": "https://www.google.com/images/branding/googlelogo/2x/googlelogo_color_272x92dp.png",
-      "category_description": "We find ourselves in extraordinary times where the world is changing in the way that it hasn't changed for over a century. Understandably that's causing a lot of anxiety. People are worried about themselves, their families, their futures, and about society more broadly. And of course, this is a natural response. None of us can say with any certainty what the future holds.\n\nThis extraordinary challenge is also an extraordinary opportunity. Out of this complex situation, I think some wonderful opportunities will arise and people amongst the student body will have the opportunity to do extraordinary things that would not have otherwise existed.\n\nEven with that in mind, here at the Faculty of Medicine at UNSW, rest assured that our number one priority is the health and wellbeing of every single one of our students. Equally important is making sure that you progress in your studies and that you achieve your educational goals on time, on target and with all the support that you need going forward.\n\nHere you’ll find answers to common questions we’ve received from students. If your query isn’t covered, remember our door is open. Please do submit your question and we’ll provide an answer as soon as we can"
-    },
-    {
-      "id": 5,
-      "category_name": "Career advice",
-      "category_image_src": "https://www.google.com/images/branding/googlelogo/2x/googlelogo_color_272x92dp.png",
-      "category_description": "If you want to get ahead, one of the best ways to do this is to find out from others how they got there and did it. Most successful people are successful for a reason and are only too happy to share their insights and advice to help others."
-    }
+   
   ],
   "tag": [
     {
