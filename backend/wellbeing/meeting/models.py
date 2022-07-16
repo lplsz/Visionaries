@@ -43,7 +43,7 @@ class Availability(db.Model):
                            back_populates='availability_as_user')
     expert = db.relationship('User', foreign_keys=[expert_id], lazy=False, uselist=False,
                              back_populates='availability_as_expert')
-    time_range = db.relationship('TimeRange', lazy=False, uselist=False, backref='availabilities')
+    time_range = db.relationship('TimeRange', lazy=False, uselist=False, back_populates='availabilities')
 
 
 class TimeRange(db.Model):
@@ -52,4 +52,4 @@ class TimeRange(db.Model):
     start_at = db.Column(db.Time, nullable=False)
     end_at = db.Column(db.Time, nullable=False)
 
-    availabilities = db.relationship('Availability', lazy=True, uselist=True, backref='time_range')
+    availabilities = db.relationship('Availability', lazy=True, uselist=True, back_populates='time_range')

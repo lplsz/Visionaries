@@ -52,7 +52,7 @@ class User(db.Model):
 
     # TODO: Experience
     experiences = db.relationship('Experience', lazy=False, uselist=True, back_populates='user',
-                                     secondary=UserExperience.__tablename__)
+                                  secondary=UserExperience.__tablename__)
 
     # # Threads
     interested_categories = db.relationship('Category', lazy=False, uselist=True, backref='interested_users',
@@ -62,8 +62,10 @@ class User(db.Model):
     qas = db.relationship('QA', lazy=True, uselist=True, back_populates='author')
 
     # # meeting
-    availability_as_user = db.relationship('Availability', lazy=True, uselist=True, back_populates='user')
-    availability_as_expert = db.relationship('Availability', lazy=True, uselist=True, back_populates='expert')
+    availability_as_user = db.relationship('Availability', foreign_keys='Availability.user_id', lazy=True, uselist=True,
+                                           back_populates='user')
+    availability_as_expert = db.relationship('Availability', foreign_keys='Availability.expert_id', lazy=True,
+                                             uselist=True, back_populates='expert')
 
     def __repr__(self):
         return f'<User {self.username} {self.email} {self.account_type}>'
@@ -113,6 +115,7 @@ class Qualification(db.Model):
 
     # Relationships
     user = db.relationship('User', lazy=False, back_populates='qualifications')
+
 
 # TODO: Experience
 class Experience(db.Model):
