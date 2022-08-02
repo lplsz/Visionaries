@@ -21,8 +21,8 @@ import QAadd from './page/QAadd.jsx';
 import QuestionThread from './page/QuestionThread.jsx';
 import ExpertPostRecord from './page/ExpertPostRecord.jsx';
 import ReviewPost from './page/ReviewPost.jsx';
-import StudentQuestionThread from './page/StudentQuestionThread.jsx'
-
+import StudentQuestionThread from './page/StudentQuestionThread.jsx';
+import AddExpert from './page/AddExpert.jsx';
 function App() {
   return (
     <BrowserRouter>
@@ -44,6 +44,7 @@ function App() {
         <Route path="/student_question_thread" element={<StudentQuestionThread />}> </Route>
         <Route path="/expert_post_record" element={<ExpertPostRecord />}> </Route>
         <Route path="/review_post" element={<ReviewPost />}> </Route>
+        <Route path="/addExpert" element={<AddExpert />}> </Route>
       </Routes>
     </BrowserRouter>
   );
