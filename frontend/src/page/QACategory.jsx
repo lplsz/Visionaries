@@ -13,6 +13,7 @@ import TextField from '@mui/material/TextField';
 import Autocomplete from '@mui/material/Autocomplete';
 import { styled, alpha } from '@mui/material/styles';
 import ReactPlayer from 'react-player';
+
 import MAIN from './img/vaccinations.jpg';
 import StudentHeader from '../component/StudentHeader'
 import Button from '@mui/material/Button';
@@ -76,7 +77,8 @@ const Search = styled('div')(({ theme }) => ({
 
 const QACategory = () => {
   // const [expanded, setExpanded] = React.useState(false);
-  const [value, setValue] = React.useState(new Date('2014-08-18T21:11:54'));
+  const navigate = useNavigate();
+  const [value, setValue] = React.useState(new Date());
   const [category, setCategory] = React.useState('');
   const [open, setOpen] = React.useState(false);
   const categories = ['Career Advice', 'Covid-19', 'Mental Health Amid', 'Study From Home', 'Vaccinations', 'Others'];
@@ -86,7 +88,7 @@ const QACategory = () => {
   const [qaList, setQAList] = React.useState([]);
   const { state } = useLocation();
 
-  
+
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -94,7 +96,7 @@ const QACategory = () => {
   const handleClose = () => {
     setOpen(false);
   };
-  
+
   const handleChangeTime = (newValue) => {
     setValue(newValue);
   };
@@ -106,7 +108,7 @@ const QACategory = () => {
   }
 
   React.useEffect(() => {
-    
+
     if (state !== null) {
       getQADetail(state.id);
     }
@@ -212,7 +214,7 @@ const QACategory = () => {
             </div>
             <div style={{ width: '100%' }}>
               {/* <PotantialQA /> */}
-              <PotentialQA qaList={qaList}/>
+              <PotentialQA qaList={qaList} />
             </div>
 
           </Box>
@@ -238,7 +240,7 @@ const QACategory = () => {
                   renderInput={(params) => <TextField  {...params} />}
                 />
               </LocalizationProvider>
-              <Button sx={{ marginTop: '5px', borderColor: 'gray', height: '55px', color: '#b25977' }} fullWidth variant="outlined">Schedule Meeting</Button>
+              <Button sx={{ marginTop: '5px', borderColor: 'gray', height: '55px', color: '#b25977' }} fullWidth variant="outlined" onClick={() => { navigate('/student_main/find_expert'); }}>Schedule Meeting</Button>
             </div>
             <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%', justifyItems: 'center', marginTop: '85px' }}>
               <div><FeedbackIcon sx={{ margin: 'auto', fontSize: 60, color: '#74b2a4' }} /> </div>
@@ -249,60 +251,60 @@ const QACategory = () => {
                 open={open}
                 onClose={handleClose}
               >
-                  <DialogContent sx={{marginLeft:'5%', marginRight: '5%', marginTop: '10px'}}>
-                    <Typography variant="h3" gutterBottom sx={{textAlign: 'center', marginBottom: '50px'}}>
-                      Create Your Question Here:
-                    </Typography>
-                    <div>
-                      <Grid container spacing={3}>
-                        <Grid item xs={8}>
-                          <Typography variant="h6" gutterBottom>
-                            Question Name:
-                          </Typography>
-                          <TextField
-                            required
-                            id="recipeName"
-                            name="recipeName"
-                            label="Enhancement your question name here"
-                            fullWidth={true}
-                            variant="standard"
-                            onChange={e => {setQuestionName(e.target.value)}}
-                          />
-                        </Grid>
-                        <Grid item xs={4}>
-                          <Typography gutterBottom>
-                              Choose Question Category:
-                          </Typography>
-                          <Autocomplete
-                            disablePortal
-                            id="combo-box-demo"
-                            options={categories}
-                            sx={{ width: 200, marginLeft: '10px' }}
-                            renderInput={(params) => <TextField {...params} label="Type" />}
-                            onChange={(e) => setQuestionCategory(categories[e.target.getAttribute("data-option-index")])}
-                          />
-                        </Grid>
-                        <Grid item xs={12}>
-                          <Typography variant="h6" gutterBottom>
-                            Question Description:
-                          </Typography>
-                          <TextField
-                            required
-                            id="recipeName"
-                            name="recipeName"
-                            label="Enhancement your detail question description here"
-                            fullWidth={true}
-                            variant="standard"
-                            onChange={e => {setQuestionDescription(e.target.value)}}
-                          />
-                        </Grid>
+                <DialogContent sx={{ marginLeft: '5%', marginRight: '5%', marginTop: '10px' }}>
+                  <Typography variant="h3" gutterBottom sx={{ textAlign: 'center', marginBottom: '50px' }}>
+                    Create Your Question Here:
+                  </Typography>
+                  <div>
+                    <Grid container spacing={3}>
+                      <Grid item xs={8}>
+                        <Typography variant="h6" gutterBottom>
+                          Question Name:
+                        </Typography>
+                        <TextField
+                          required
+                          id="recipeName"
+                          name="recipeName"
+                          label="Enhancement your question name here"
+                          fullWidth={true}
+                          variant="standard"
+                          onChange={e => { setQuestionName(e.target.value) }}
+                        />
                       </Grid>
-                    </div>
-                  </DialogContent>
-                  <DialogActions>
-                    <Button onClick={handleClose}>CANCLE</Button>
-                    <Button onClick={handleSubmit}>SUMBIT</Button>
-                  </DialogActions>
+                      <Grid item xs={4}>
+                        <Typography gutterBottom>
+                          Choose Question Category:
+                        </Typography>
+                        <Autocomplete
+                          disablePortal
+                          id="combo-box-demo"
+                          options={categories}
+                          sx={{ width: 200, marginLeft: '10px' }}
+                          renderInput={(params) => <TextField {...params} label="Type" />}
+                          onChange={(e) => setQuestionCategory(categories[e.target.getAttribute("data-option-index")])}
+                        />
+                      </Grid>
+                      <Grid item xs={12}>
+                        <Typography variant="h6" gutterBottom>
+                          Question Description:
+                        </Typography>
+                        <TextField
+                          required
+                          id="recipeName"
+                          name="recipeName"
+                          label="Enhancement your detail question description here"
+                          fullWidth={true}
+                          variant="standard"
+                          onChange={e => { setQuestionDescription(e.target.value) }}
+                        />
+                      </Grid>
+                    </Grid>
+                  </div>
+                </DialogContent>
+                <DialogActions>
+                  <Button onClick={handleClose}>CANCLE</Button>
+                  <Button onClick={handleSubmit}>SUMBIT</Button>
+                </DialogActions>
               </Dialog>
             </div>
           </Box>

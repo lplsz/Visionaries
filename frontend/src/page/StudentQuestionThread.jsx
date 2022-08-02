@@ -4,7 +4,7 @@ import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
-import ExpertHeader from "../component/ExpertHeader";
+import StudentHeader from "../component/StudentHeader";
 import Badge from '@mui/material/Badge';
 import Avatar from '@mui/material/Avatar';
 import TextField from '@mui/material/TextField';
@@ -85,13 +85,14 @@ function stringAvatar(name) {
     children: `${name.split(' ')[0][0]}${name.split(' ')[1][0]}`,
   };
 }
-export default function QuestionThread() {
-  const me = 'Jimmy Oliver';
+export default function StudentQuestionThread() {
+  const me = 'Rhea Chang';
   const [value, setValue] = React.useState(0);
   const [qaList, setQaList] = React.useState([
     { name: 'Rhea Chang', time: '04/09/2022', question: 'Why do I need two vaccines?', category: 'vacation', discription: 'According to the current recommendation, why do I need two caccines? Does two vaccines can protect me from attacking by COVID-19.', new: 1, reply: [{ name: 'Jimmy Oliver', time: '2022/7/5 22:30', body: 'Hi I think you should go and get another booster' }, { name: 'Rhea Chang', time: '2022/7/5 22:31', body: 'Thanks a lot, but can I take it in UNSW?' }, { name: 'Rhea Chang', time: '2022/7/5 22:32', body: 'Do I need to book 1?' }, { name: 'Jimmy Oliver', time: '2022/7/5 22:32', body: 'Yes, you should do on hotdoc' }, { name: 'Rhea Chang', time: '2022/7/5 22:30', body: 'Thanks' }, { name: 'Rhea Chang', time: '2022/7/5 22:32', body: 'byebye' }, { name: 'Jimmy Oliver', time: '2022/7/5 22:32', body: 'byebye' }] },
     { name: 'Echo', time: '10/09/2022', question: 'Worried about sharing your concerns?', category: 'mentor', discription: 'All information we gather is completely confidential. Your personal information will not be shared with anyo ', new: 0, reply: [{ name: 'Jimmy Oliver', time: '2022/7/5 22:30', body: 'Hi I think you should go ' }, { name: 'Rhea Chang', time: '2022/7/5 22:31', body: 'Hi I think you should go too' }, { name: 'Rhea Chang', time: '2022/7/5 22:32', body: 'byebye' }, { name: 'Jimmy Oliver', time: '2022/7/5 22:32', body: 'byebye' }] },
     { name: 'Skylar', time: '04/06/2022', question: 'What can I expect if offered an appointment?', category: 'vacation', discription: 'Appointments are scheduled to last around 30 minutes. We will ask you some questions to help work', new: 0, reply: [{ name: 'Jimmy Oliver', time: '2022/7/5 22:30', body: 'Hi I think you should go ' }, { name: 'Rhea Chang', time: '2022/7/5 22:31', body: 'Hi I think you should go too' }, { name: 'Rhea Chang', time: '2022/7/5 22:32', body: 'byebye' }, { name: 'Jimmy Oliver', time: '2022/7/5 22:32', body: 'byebye' }] },
+
   ])
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -173,7 +174,7 @@ export default function QuestionThread() {
   return (
     <ThemeProvider theme={theme}>
 
-      <ExpertHeader />
+      <StudentHeader />
       <div style={{ display: 'flex', marginLeft: '80px', marginTop: '40px' }}>
         <Typography variant="h3" sx={{ padding: 0, margin: 0 }}>Questions</Typography>
       </div>

@@ -15,20 +15,20 @@ import StarIcon from '@mui/icons-material/Star';
 import CardMedia from '@mui/material/CardMedia';
 import { useNavigate } from 'react-router-dom';
 import { apiCall } from '../Main';
-import MAIN from './img/well-being-clear.png'
+import MAIN from './img/staff_header.png'
 
 const theme = createTheme({
   palette: {
     primary: {
-      light: '#33ab9f',
-      main: '#c1e5e2',
-      dark: '#00695f',
+      light: '#000000',
+      main: '#000000',
+      dark: '#000000',
       contrastText: '#fff',
     },
     secondary: {
-      light: '#ff7961',
-      main: '#ffea00',
-      dark: '#ba000d',
+      light: '#000000',
+      main: '#000000',
+      dark: '#000000',
       contrastText: '#000',
     },
   },
@@ -79,22 +79,14 @@ export default function ExpertHeader() {
   return (
     <ThemeProvider theme={theme}>
       <Box sx={{ flexGrow: 1, marginLeft: 0 }}>
-        <AppBar position="static" color='primary' sx={
-          { position: 'relative', borderBottom: (t) => `1px solid ${t.palette.divider}` }}>
+        <AppBar position="static" sx={
+          { position: 'relative', backgroundColor: '#c01901', borderBottom: (t) => `1px solid ${t.palette.divider}` }}>
           <Toolbar>
             <CardMedia
               component="img"
-              sx={{ width: 130, height: 60, margin: '10px' }}
+              sx={{ width: 270, height: '100%', margin: '10px' }}
               image={MAIN}
             />
-            <Typography
-              variant="h4"
-              noWrap
-              component="div"
-              sx={{ display: { xs: 'none', sm: 'block' } }}
-            >
-              UNSW Staff
-            </Typography>
             <Box sx={{ flexGrow: 1 }} />
             <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
               <IconButton

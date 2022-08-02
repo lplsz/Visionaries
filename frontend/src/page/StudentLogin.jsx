@@ -19,8 +19,21 @@ import BottomNavigationAction from '@mui/material/BottomNavigationAction';
 import LoginIcon from '@mui/icons-material/Login';
 import AssignmentIndIcon from '@mui/icons-material/AssignmentInd';
 import CardMedia from '@mui/material/CardMedia';
-import Photo from './img/OIP.jpg'
+import Photo from './img/OIP.jpg';
+import PhotoCamera from '@mui/icons-material/PhotoCamera';
+import Dialog from "@mui/material/Dialog";
+import DialogContent from "@mui/material/DialogContent";
+import DialogActions from "@mui/material/DialogActions";
+import Tooltip from '@mui/material/Tooltip';
+import UPLOAD from '@mui/icons-material/UploadFile';
+import { styled } from '@mui/material/styles';
+import EXAMPLE from './img/card_example.png';
+
 const theme = createTheme();
+const Input = styled('input')({
+    display: 'none',
+  });
+  
 
 const StudentLogin = () => {
 
@@ -53,7 +66,7 @@ const StudentLogin = () => {
                 setOpen(true);
             } else {
                 localStorage.setItem('token', data.access_token);
-				localStorage.setItem('id', data.user.id)
+				localStorage.setItem('id', data.user.id);
 				if (data.user.account_type === 'student') {
 					navigate('/student_main');
 				} else {
@@ -61,6 +74,96 @@ const StudentLogin = () => {
                 }
             }
         }
+    }
+
+    const [dialogOpen, setDiaOpen] = React.useState(false);
+    const [submit, setSubmit] = React.useState(false);
+
+    const handleDialogClose = () => {
+        setDiaOpen(false);
+    };
+    const handleClickOpen = () => {
+        setDiaOpen(true);
+    };
+
+    const [imgSrc, setImgSrc] = React.useState("");
+    const handleImage = (target) => {
+        if (target.value) {
+          const file = target.files[0];
+          const size = file.size;
+          if (size >= 1 * 1024 * 1024) {
+            alert('image over limit');
+            return;
+          }
+          if (!['image/jpeg', 'image/png', 'image/gif'].includes(file.type)) {
+            alert('Not an image');
+          } else {
+            const reader = new FileReader();
+            reader.readAsDataURL(file);
+            reader.onload = function (e) {
+              const dataimg = e.target.result;
+              setImgSrc(dataimg);
+            }
+          }
+        }
+    }
+
+    const CardBox = () => {
+        if (submit === false) {
+            return (
+                <div>
+                <Typography variant="h5" gutterBottom sx={{ textAlign: 'center', marginBottom: '10px', fontWeight:'bold' }}>
+                    Choose Your ID Card Image Here
+                </Typography>
+                <Box sx={{height: '310px', borderStyle: 'dashed'}}>
+                    { imgSrc !== ""
+                        ? <img height="300px"
+                            src={imgSrc}
+                            alt={"card_image"}></img>
+                        
+                        : <span style={{display: 'flex'}}>
+                            <img height="300px"
+                            src={EXAMPLE}
+                            alt={"card_example"}></img>
+                            <h7 style={{fontWeight:'bold', alignSelf: 'center', marginLeft: '10px'}}>
+                                Please following this template
+                            </h7>
+                            </span> 
+                    }
+                    
+                </Box>
+                <Button variant="contained" style={{marginTop: '20px'}}>
+                    <label htmlFor="icon-button-file">
+                        From Device
+                        <Input accept="image/*" id="icon-button-file" type="file" onChange={(e) => {handleImage(e.target)} }/>
+                        <Tooltip
+                            title={'Upload your image'}
+                            placement="top"
+                        >
+                            <IconButton color="default" aria-label="upload picture" component="span">
+                                <UPLOAD />
+                            </IconButton>
+                        </Tooltip>
+                    </label>
+                </Button>
+                </div>
+            );
+        }
+        else {
+                return (
+                    <div>
+                    <Typography variant="h5" gutterBottom sx={{ textAlign: 'center', marginBottom: '10px', fontWeight:'bold' }}>
+                        Welcom To Wellbeing Webstite!
+                    </Typography>
+                    <Typography variant="h5" gutterBottom sx={{ textAlign: 'center', marginBottom: '10px', fontWeight:'bold' }}>
+                        Hi, Student z5555555 -- Jasper SAMOYED!
+                    </Typography>
+                    <Typography variant="h6" gutterBottom sx={{ textAlign: 'center', marginBottom: '10px', fontWeight:'bold' }}>
+                        Log in as this account?
+                    </Typography>
+                    </div>
+                )
+            }
     }
 
     return (
@@ -150,11 +253,29 @@ const StudentLogin = () => {
                     onChange={(event, newValue) => {
                         if (newValue === 1) {
                             navigate('/student_register');
+                        } 
+                        else if (newValue === 2) {
+                            handleClickOpen();
                         }
                     }}
                 >
                     <BottomNavigationAction label="Login" icon={<LoginIcon />} />
                     <BottomNavigationAction label="Register" icon={<AssignmentIndIcon />} />
+                    <BottomNavigationAction label="Upload" icon={<PhotoCamera />} />
+                    <Dialog
+                        fullWidth={true}
+                        maxWidth={"sm"}
+                        open={dialogOpen}
+                        onClose={handleDialogClose}
+                    >
+                        <DialogContent sx={{ marginLeft: '5%', marginRight: '5%', marginTop: '10px', textAlign: 'center' }}>
+                        <CardBox />
+                        </DialogContent>
+                        <DialogActions>
+                            <Button onClick={() => { handleDialogClose()}}>CANCLE</Button>
+                            <Button onClick={() => { setSubmit(true)}}>SUMBIT</Button>
+                        </DialogActions>
+                    </Dialog>     
                 </BottomNavigation>
             </Container>
         </ThemeProvider>

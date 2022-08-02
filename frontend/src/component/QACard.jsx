@@ -30,28 +30,17 @@ const QACard = (props) => {
 
     return (
         <Grid item className="GC" key={props.category.key} xs={12} sm={6} md={4}>
-            <Card sx={{ height: '100%', display: 'flex', flexDirection: 'column' }} onClick={()=> navigate('/QACategory', {state: {id: id}})}>
-                { props.category.category_image_url === null
-                ? <CardMedia
+            <Card sx={{ height: '100%', display: 'flex', flexDirection: 'column' }} onClick={() => navigate('/QACategory', { state: { id: id } })}>
+                {<CardMedia
                     componnet="img"
                     sx={{
                         // 16:9
                         pt: '55%',
                     }}
                     alt="Image of the Game"
-                    image= {defaultJpg}
+                    image={props.image}
                     title="Image title"
-                    />
-                : <CardMedia
-                    componnet="img"
-                    sx={{
-                        // 16:9
-                        pt: '55%',
-                    }}
-                    alt="Image of the Game"
-                    image= {props.category.category_image_url}
-                    title="Image title"
-                    />
+                />
                 }
                 <CardContent>
                     <Typography gutterBottom variant="h5" component="h2">

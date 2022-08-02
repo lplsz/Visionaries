@@ -51,34 +51,105 @@ function QAadd() {
     {
       id: 0,
       category_name: 'Career Advice',
-      category_description: 'Career Advice',
     },
     {
       id: 1,
       category_name: 'Covid-19',
-      category_description: 'Covid-19',
     },
     {
       id: 2,
       category_name: 'Mental Health Amid',
-      category_description: 'Mental Health Amid',
     },
     {
       id: 3,
       category_name: 'Study From Home',
-      category_description: 'Study From Home',
     },
     {
       id: 4,
       category_name: 'Vaccinations',
-      category_description: 'Vaccinations',
     },
     {
       id: 5,
       category_name: 'Others',
-      category_description: 'Others',
     },
   ];
+  const subCategories = {
+    'Career Advice': [
+      {
+        "id": 7,
+        "tag_name": "Seeking for job"
+      },
+      {
+        "id": 8,
+        "tag_name": "Job planning"
+      },
+      {
+        "id": 9,
+        "tag_name": "CV writing"
+      },
+    ],
+    'Covid-19': [
+      {
+        "id": 7,
+        "tag_name": "Help stop the spread of COVID-19"
+      },
+      {
+        "id": 8,
+        "tag_name": "Spread"
+      },
+      {
+        "id": 9,
+        "tag_name": "If You Have COVID-19"
+      },
+      {
+        "id": 10,
+        "tag_name": "If You Come into Close Contact with Someone with COVID-19"
+      },
+    ],
+    'Mental Health Amid': [
+      {
+        "id": 11,
+        "tag_name": "Children"
+      },
+      {
+        "id": 12,
+        "tag_name": "Contact Tracing"
+      }
+    ],
+    'Study From Home': [
+      {
+        "id": 11,
+        "tag_name": "Children"
+      },
+      {
+        "id": 12,
+        "tag_name": "Contact Tracing"
+      }
+    ],
+    'Vaccinations': [
+      {
+        "id": 1,
+        "tag_name": "Boosters"
+      },
+      {
+        "id": 2,
+        "tag_name": "Getting Your Vaccine"
+      },
+      {
+        "id": 3,
+        "tag_name": "Safety"
+      },
+      {
+        "id": 4,
+        "tag_name": "Preparing for Your Vaccine"
+      },
+      {
+        "id": 5,
+        "tag_name": "After Your Vaccine"
+      },
+    ],
+    'Others': []
+  };
   const handleEditorChange = (state) => {
     setEditorState(state);
     convertContentToHTML();
@@ -126,8 +197,8 @@ function QAadd() {
       <FormControl>
         <FormLabel id="demo-controlled-radio-buttons-group">Category</FormLabel>
 
-        {categories.map((cate, i) => {
-          return <FormControlLabel value={cate.category_name} control={<Checkbox />} label={cate.category_name} />
+        {subCategories[value].map((cate, i) => {
+          return <FormControlLabel value={cate.tag_name} control={<Checkbox />} label={cate.tag_name} />
         })}
       </FormControl>
     );

@@ -10,9 +10,26 @@ import D2 from './img/online-doctor-appointment.png'
 import StudentBookingTime from '../component/StudentBookingTime';
 
 const StudentFindExpert = () => {
-  const experts = [{ img: D1, name: 'Dr Susan Hodgens', description: "General Practitioner, Female, MBChB, MRCGP, DRCOG, FRACGP \n MBChB, DRCOG, FRACGP, MRCGP \nDr Susan Hodgens qualified in Great Britain in 1990. After general training in medicine, surgery, obstetrics and gynaecology, casualty and paediatrics, she qualified as a GP in 1995. \nDr Hodgens works in all areas of family medicine and has special interests in Women's Health, Sexual Health, Skin Cancer Diagnosis and Surgery with Post Graduate Certificates in both. Dr Sue also performs mirena insertions." },
+  const experts = [{ img: D1, name: 'Dr Susan Hodgens', description: "General Practitioner, Male, MBChB, MRCGP, DRCOG, FRACGP \n MBChB, DRCOG, FRACGP, MRCGP \nDr Susan Hodgens qualified in Great Britain in 1990. After general training in medicine, surgery, obstetrics and gynaecology, casualty and paediatrics, she qualified as a GP in 1995. \nDr Hodgens works in all areas of family medicine and has special interests in Women's Health, Sexual Health, Skin Cancer Diagnosis and Surgery with Post Graduate Certificates in both. Dr Sue also performs mirena insertions." },
   { img: D2, name: 'Dr Htin Kyaw', description: 'General Practitioner, Male, DCH, MBBS, FRACGP \n MBBS, DCH, FRACGP \n Dr Htin Kyaw has been working as a Medical Practitioner since 2000. He has had clinical experiences in Myanmar (Burma), UK and Australia. Htin and his wife, Dr Khin migrated to Australia in 2006. Before joining the General Practice industry, he worked in various tertiary hospitals in the UK and in Australia in a range of specialities.' },
   { img: D1, name: 'Dr Hemangkumar Mahendra Mayatra', description: 'General Practitioner, Male, AMC \n MD Dr Hemang was born in India and studied his MD in Medicine in Russia. He has attained an AMC Certificate and is fluent in multiple languages including Hindi, Gujarati and Russian.' }]
+  const timeTable = [
+    [[true, false, true, false, false, false, false, true, true, true, false, false, false],
+    [true, true, true, true, false, true, false, false, false, false, false, false, false],
+    [true, false, false, false, true, true, true, false, false, false, true, false, false],
+    [true, false, false, false, true, true, true, false, false, true, false, false, false],
+    [true, false, false, false, false, true, false, false, true, false, false, false, false],],
+    [[true, false, true, false, false, false, false, true, true, true, false, false, false],
+    [false, true, true, true, false, false, false, false, false, false, false, false, false],
+    [false, true, false, false, false, true, false, false, false, false, true, false, false],
+    [true, false, false, false, true, true, true, false, false, false, false, false, false],
+    [true, false, false, false, false, false, false, false, true, true, false, false, false],],
+    [[true, false, false, false, false, false, false, true, true, false, false, false, false],
+    [false, false, false, true, false, true, false, false, false, false, false, false, false],
+    [true, false, false, false, false, true, true, false, false, false, true, false, false],
+    [true, false, false, false, true, false, true, false, false, false, false, false, false],
+    [true, false, false, false, false, true, false, false, true, true, false, false, false],],
+  ]
   const category = 'Vaccinations'
   const FilterCategory = () => {
     return (
@@ -65,7 +82,7 @@ const StudentFindExpert = () => {
                   <div>{e.description}</div>
                 </Grid>
                 <Grid item xs={5} >
-                  <StudentBookingTime />
+                  <StudentBookingTime timeTable={timeTable[i]} name={e.name} />
                 </Grid>
               </Grid>
             </div>

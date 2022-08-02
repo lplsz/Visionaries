@@ -31,33 +31,35 @@ const PotentialQA = (props) => {
         <div>
             {props.qaList.map((data, i) => {
                 return (
-                <div key={i} style={{ marginTop: '5px', width: '100%', marginBottom: '5px' }}>
-                    <Accordion fullWidth expanded={expanded === `panel${i}`} onChange={handleChange(`panel${i}`)}>
-                    <AccordionSummary
-    
-                        expandIcon={<ExpandMoreIcon />}
-                        aria-controls={`panel${i}bh-content`}
-                        id={`panel${i}bh-header`}
-                    >
-                        <Typography sx={{ flexShrink: 0, width: '95%'}}>
-                        Question {i}: {data.title}
-                        </Typography>
-                    </AccordionSummary>
-                    <AccordionDetails>
-                    <div>
-                        {data.video === undefined
-                            ? <></>
-                            : <ReactPlayer
-                            url={data.video}
-                            className='react-player'
-                            width='80%'
-                            height='300px'/>}
-                        <Typography >{data.body} </Typography>
-                        
+                    <div key={i} style={{ marginTop: '5px', width: '100%', marginBottom: '5px' }}>
+                        <Accordion fullWidth expanded={expanded === `panel${i}`} onChange={handleChange(`panel${i}`)}>
+                            <AccordionSummary
+
+                                expandIcon={<ExpandMoreIcon />}
+                                aria-controls={`panel${i}bh-content`}
+                                id={`panel${i}bh-header`}
+                            >
+                                <Typography sx={{ flexShrink: 0, width: '95%' }}>
+                                    Question {i}: {data.title}
+                                </Typography>
+                            </AccordionSummary>
+                            <AccordionDetails>
+                                <div>
+                                    {//data.video === undefined
+                                        // ? <></>
+                                        //: 
+                                        <ReactPlayer
+                                            //url={data.video}
+                                            url={"https://www.youtube.com/watch?v=qXdjt8ZBQbE"}
+                                            className='react-player'
+                                            width='80%'
+                                            height='300px' />}
+                                    <Typography >{data.body} </Typography>
+
+                                </div>
+                            </AccordionDetails>
+                        </Accordion>
                     </div>
-                    </AccordionDetails>
-                    </Accordion>
-                </div>
                 );
             })}
         </div>

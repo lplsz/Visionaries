@@ -1,5 +1,4 @@
 import { Draggable } from "react-beautiful-dnd";
-import { LoremIpsum } from "lorem-ipsum";
 import { generateFromString } from "generate-avatar";
 import React, { useMemo } from "react";
 import styled, { css } from "styled-components";
@@ -39,7 +38,6 @@ const DragItem = styled.div`
   flex-direction: column;
 `;
 
-const lorem = new LoremIpsum();
 
 const ListItem = (props) => {
   console.log(props);
@@ -58,11 +56,11 @@ const ListItem = (props) => {
             <CardFooter>
               <Author>
                 <Chip label={props.item.category} />
-                {props.item.image === null 
-                ? <Avatar
+                {props.item.image === null
+                  ? <Avatar
                     src={props.item.image}
                   />
-                : <></>
+                  : <></>
                 }
                 <Button>Review</Button>
               </Author>

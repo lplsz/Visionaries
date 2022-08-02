@@ -18,28 +18,76 @@ import QAICON from './img/q&a.png'
 import POSTICON from './img/post.png'
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import BallotIcon from '@mui/icons-material/Ballot';
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import Grid from '@mui/material/Grid';
+import { useNavigate } from 'react-router-dom';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+const theme = createTheme({
+  status: {
+    danger: '#000000',
+  },
+  palette: {
+    primary: {
+      light: '#ffffff',
+      main: '#ffffff',
+      dark: '#ffffff',
+      contrastText: '#fff',
+    },
+    secondary: {
+      light: '#000000',
+      main: '#000000',
+      dark: '#000000',
+      contrastText: '#000',
+    },
+  },
+
+});
 
 const ExpertMain = () => {
 
   const [expanded, setExpanded] = React.useState(false);
-
+  const navigate = useNavigate();
+  const [open, setOpen] = React.useState(false);
   const handleChange = (panel) => (event, isExpanded) => {
     setExpanded(isExpanded ? panel : false);
   };
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
 
   const [qaList, setQaList] = React.useState([
-    { name: 'Rhea', time: '04/09/2022', question: 'How much does it cost?', category: 'vacation', description: 'All appointments are completely free of charge for students who are currently enrolled at UNSW.' },
-    { name: 'Echo', time: '10/09/2022', question: 'Worried about sharing your concerns?', category: 'mentor', description: 'All information we gather is completely confidential. Your personal information will not be shared with anyone without your consent, this includes your faculty or lecturers. For further information, see our privacy statement by clicking here. ' },
-    { name: 'Skylar', time: '04/06/2022', question: 'What can I expect if offered an appointment?', category: 'vacation', description: 'Appointments are scheduled to last around 30 minutes. We will ask you some questions to help work out what might help. We always work with you as an individual and will always treat you with respect.', video: 'https://youtu.be/wm5nhB0lYL8' },
-    { name: 'Rhea', time: '04/09/2022', question: 'How much does it cost?', category: 'vacation', description: 'All appointments are completely free of charge for students who are currently enrolled at UNSW.' },
-    { name: 'Echo', time: '10/09/2022', question: 'Worried about sharing your concerns?', category: 'mentor', description: 'All information we gather is completely confidential. Your personal information will not be shared with anyone without your consent, this includes your faculty or lecturers. For further information, see our privacy statement by clicking here. ' },
-    { name: 'Skylar', time: '04/06/2022', question: 'What can I expect if offered an appointment?', category: 'vacation', description: 'Appointments are scheduled to last around 30 minutes. We will ask you some questions to help work out what might help. We always work with you as an individual and will always treat you with respect.', video: 'https://youtu.be/wm5nhB0lYL8' },
-    { name: 'Rhea', time: '04/09/2022', question: 'How much does it cost?', category: 'vacation', description: 'All appointments are completely free of charge for students who are currently enrolled at UNSW.' },
-    { name: 'Echo', time: '10/09/2022', question: 'Worried about sharing your concerns?', category: 'mentor', description: 'All information we gather is completely confidential. Your personal information will not be shared with anyone without your consent, this includes your faculty or lecturers. For further information, see our privacy statement by clicking here. ' },
-    { name: 'Skylar', time: '04/06/2022', question: 'What can I expect if offered an appointment?', category: 'vacation', description: 'Appointments are scheduled to last around 30 minutes. We will ask you some questions to help work out what might help. We always work with you as an individual and will always treat you with respect.', video: 'https://youtu.be/wm5nhB0lYL8' },
-    { name: 'Rhea', time: '04/09/2022', question: 'How much does it cost?', category: 'vacation', description: 'All appointments are completely free of charge for students who are currently enrolled at UNSW.' },
-    { name: 'Echo', time: '10/09/2022', question: 'Worried about sharing your concerns?', category: 'mentor', description: 'All information we gather is completely confidential. Your personal information will not be shared with anyone without your consent, this includes your faculty or lecturers. For further information, see our privacy statement by clicking here. ' },
-    { name: 'Skylar', time: '04/06/2022', question: 'What can I expect if offered an appointment?', category: 'vacation', description: 'Appointments are scheduled to last around 30 minutes. We will ask you some questions to help work out what might help. We always work with you as an individual and will always treat you with respect.', video: 'https://youtu.be/wm5nhB0lYL8' },
+    {
+      name: 'Rhea', time: '19/07/2022',
+      question: 'Why do I need two vaccines?', category: 'vaccine',
+      description: 'According to the current recommendation, why do I need two caccines? Does two vaccines can protect me from attacking by COVID-19.'
+    },
+    {
+      name: 'Echo', time: '18/07/2022',
+      question: 'What is the recommended interval between dose 1 and dose 2?', category: 'vaccine',
+      description: 'Do different brands of vaccine have different recommended interval? Do I need to strictly follow this interval?'
+    },
+    {
+      name: 'Skylar', time: '18/07/2022',
+      question: 'What about the Pfizer vaccine, does that have any side effects?', category: 'vaccine',
+      description: 'All vaccines can have side effects and the most common ones, like those associated with Pfizer are pain or swelling at the injection site, tiredness, headache, muscle pain, fever and chills. What should I do?',
+    },
+    {
+      name: 'Cassie', time: '17/07/2022',
+      question: 'I am an international student, can I have the vaccine', category: 'vaccine',
+      description: 'Is COVID-19 vaccines to everyone currently in Australia? And do I need a Medicare card.'
+    },
+    {
+      name: 'Jane', time: '17/07/2022',
+      question: 'what is the current vaccine advice for adults?', category: 'vaccine',
+      description: 'It is hard to keep track of the changes in recommendations, what is the current vaccine advice for young adults?'
+    },
+
   ])
 
 
@@ -58,7 +106,7 @@ const ExpertMain = () => {
               size="middle"
               aria-label="show 4 new mails"
               color="inherit"
-              onClick={() => { }}
+              onClick={() => { handleClickOpen() }}
             >
               <EditIcon fontSize="middle" />
             </IconButton>
@@ -75,7 +123,7 @@ const ExpertMain = () => {
       <div>
         {qaList.map((data, i) => {
           return (
-            <div key={i} style={{ marginTop: '5px', width: '100%', marginBottom: '5px' }}>
+            <div key={i} style={{ marginTop: '5px', width: '98%', marginBottom: '5px' }}>
               <Accordion fullWidth expanded={expanded === `panel${i}`} onChange={handleChange(`panel${i}`)}>
                 <AccordionSummary
 
@@ -107,12 +155,12 @@ const ExpertMain = () => {
     );
   }
   return (
-    <div>
+    <ThemeProvider theme={theme}>
       <ExpertHeader />
       <div style={{ display: 'flex', marginLeft: '200px', marginTop: '40px' }}>
 
       </div>
-      <Container disableGutters maxWidth="lg" component="main" sx={{ pt: 8, pb: 6, paddingTop: 0, paddingLeft: 0, paddingRight: 0, paddingBottom: 0 }}>
+      <Container disableGutters maxWidth="lg" component="main" sx={{ pt: 8, pb: 6, paddingTop: 0, paddingLeft: 0, paddingRight: 0, paddingBottom: 0, marginBottom: '30px' }}>
         <div style={{ display: 'flex', width: '100%', backgroundColor: '#ffffff', borderRadius: '10px', marginBottom: '10px' }}>
           <Box
             sx={{
@@ -125,28 +173,28 @@ const ExpertMain = () => {
               borderRight: '2.0px solid rgb(230, 230, 230)',
               paddingLeft: '40px',
               paddingRight: '40px',
-              height: '530px'
+              height: '560px'
             }}
           >
-            <Typography variant='h5'>Students' Question</Typography>
-            <div style={{ width: '100%', height: '350px', overflow: 'hidden', overflowY: 'scroll' }}>
-              <div style={{ paddingRight: '10px' }}>
+            <Typography variant='h3' sx={{ color: '#454545', fontWeight: 'bold', marginBottom: '10px' }}>Students' Question</Typography>
+            <div style={{ paddingRight: '10px', background: '#a9a9a9', borderRadius: '15px', padding: '30px' }}>
+              <div style={{ overflow: 'hidden', height: '270px', overflowY: 'scroll' }}>
                 <PotantialQA />
               </div>
             </div>
             <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyItems: 'center', marginTop: '20px' }}>
-              <div style={{ borderRadius: '10px', flex: 2, height: '155px', background: '#f48fb1', padding: '5px', margin: '5px', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyItems: 'center' }}>
+              <div style={{ borderRadius: '10px', flex: 2, height: '155px', background: '#c01901', padding: '5px', margin: '5px', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyItems: 'center' }}>
                 <div>
                   <img style={{ width: '65px', height: '65px' }} src={QAICON} alt={'image'} />
                 </div>
-                <Button sx={{ marginTop: '5px', borderColor: 'white', height: '80px', color: '#b25977', background: 'white' }} fullWidth variant="outlined">Follow my Answered Questions</Button>
+                <Button sx={{ marginTop: '5px', borderColor: 'white', height: '80px', color: 'black', background: 'white' }} fullWidth variant="outlined" onClick={() => { navigate('/question_thread'); }}>Follow my Answered Questions</Button>
               </div>
-              <div style={{ borderRadius: '10px', height: '155px', flex: 3, background: '#74b2a4', padding: '5px', margin: '5px', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyItems: 'center' }}>
+              <div style={{ borderRadius: '10px', border: '1px solid black', height: '155px', flex: 3, background: '#454545', padding: '5px', margin: '5px', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyItems: 'center' }}>
                 <div>
                   <img style={{ width: '65px', height: '65px' }} src={POSTICON} alt={'image'} />
                 </div>
-                <Button sx={{ marginTop: '5px', flex: 1, borderColor: 'white', color: '#b25977', background: 'white' }} fullWidth variant="outlined">{"Add a New Q&A task"} </Button>
-                <Button sx={{ marginTop: '5px', flex: 1, borderColor: 'white', color: '#b25977', background: 'white' }} fullWidth variant="outlined">Manage My Posts</Button>
+                <Button sx={{ marginTop: '5px', flex: 1, color: '#b25977', background: 'white' }} fullWidth variant="outlined" onClick={() => { navigate('/qaAdd'); }}>{"Add a New Q&A task"} </Button>
+                <Button color='primary' sx={{ marginTop: '5px', flex: 1, color: '#b25977', background: 'white' }} fullWidth variant="outlined" onClick={() => { navigate('/review_post'); }}>Manage My Posts</Button>
 
 
               </div>
@@ -155,7 +203,7 @@ const ExpertMain = () => {
           </Box>
           <Box
             sx={{
-              paddingTop: '100px',
+              paddingTop: '150px',
               paddingLeft: '60px',
               display: 'flex',
               flexDirection: 'column',
@@ -167,17 +215,48 @@ const ExpertMain = () => {
             }}
           >
             <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%', justifyItems: 'center' }}>
-              <div><CalendarMonthIcon sx={{ margin: 'auto', fontSize: 60, color: '#f48fb1' }} /> </div>
-              <Button sx={{ marginTop: '5px', borderColor: 'gray', height: '55px', color: '#b25977' }} fullWidth variant="outlined">AVAILABILITY</Button>
+              <div><CalendarMonthIcon sx={{ margin: 'auto', fontSize: 60, color: '#454545' }} /> </div>
+              <Button sx={{ marginTop: '5px', borderColor: 'gray', height: '55px', color: '#c01901' }} fullWidth variant="outlined" onClick={() => { navigate('/expert_ava'); }}>AVAILABILITY</Button>
             </div>
             <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%', justifyItems: 'center', marginTop: '85px' }}>
-              <div><BallotIcon sx={{ margin: 'auto', fontSize: 60, color: '#74b2a4' }} /> </div>
-              <Button sx={{ marginTop: '5px', borderColor: 'gray', height: '55px', color: '#74b2a4' }} fullWidth variant="outlined">VIEW SCHEDULE</Button>
+              <div><BallotIcon sx={{ margin: 'auto', fontSize: 60, color: '#c01901' }} /> </div>
+              <Button sx={{ marginTop: '5px', borderColor: 'gray', height: '55px', color: '#454545' }} fullWidth variant="outlined">VIEW SCHEDULE</Button>
             </div>
           </Box>
         </div>
+        <Dialog
+          fullWidth={true}
+          maxWidth={"lg"}
+          open={open}
+          onClose={handleClose}
+        >
+          <DialogContent sx={{ marginLeft: '5%', marginRight: '5%', marginTop: '10px' }}>
+            <div>
+              <Grid container spacing={3}>
+                <Grid item xs={8}>
+                  <Typography variant="h6" gutterBottom>
+                    Return your answer:
+                  </Typography>
+                  <TextField
+                    required
+                    id="recipeName"
+                    name="recipeName"
+                    label="Answer"
+                    fullWidth={true}
+                    variant="standard"
+                    onChange={e => { }}
+                  />
+                </Grid>
+              </Grid>
+            </div>
+          </DialogContent>
+          <DialogActions>
+            <button onClick={handleClose} >CANCLE</button>
+            <button onClick={() => { handleClose() }}>SUMBIT</button>
+          </DialogActions>
+        </Dialog>
       </Container>
-    </div>
+    </ThemeProvider>
   );
 
 }
