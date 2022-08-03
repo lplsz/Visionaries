@@ -4,11 +4,7 @@
 from apiflask import APIFlask  # step one
 from flask_cors import *
 
-<<<<<<< HEAD
-from wellbeing import commands, auth, user, QA, chatbot
-=======
-from wellbeing import commands, auth, user, QA, thread
->>>>>>> 86603a9d348fab41e4a658528e42fcd7a7bd1286
+from wellbeing import commands, auth, user, QA, chatbot, thread
 from wellbeing.extensions import (
     jwt,
     db,
