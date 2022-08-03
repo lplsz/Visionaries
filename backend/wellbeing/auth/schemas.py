@@ -33,9 +33,5 @@ class RegisterExpertAccountInSchema(Schema):
     username = String(required=True, example='Taylor Swift')
     email = String(required=True, example='ts@gmail.com')
     password = String(required=True, example='password')
-    biograph = String(example='Hello, I am Taylor Swift')
-    profile_image_src = String()
 
-    language_ids = List(Integer())
     interested_category_ids = List(Integer())
-    qualifications = List(Nested(QualificationSchema))
