@@ -35,7 +35,7 @@ def get_qas_by_time():
 
 def get_qas_not_reviewed():
     three_months_ago = datetime.datetime.today() - datetime.timedelta(weeks=12)
-    #print(QA.query.filter(QA.review_at > three_months_ago).all())
+    # print(QA.query.filter(QA.review_at > three_months_ago).all())
     return {'qas': QA.query.filter(QA.review_at < three_months_ago).all()}
 
 
