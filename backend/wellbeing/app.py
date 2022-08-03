@@ -2,9 +2,13 @@
 """The wellbeing module, containing the app factory function."""
 
 from apiflask import APIFlask  # step one
-from flask_cors import*
+from flask_cors import *
 
+<<<<<<< HEAD
 from wellbeing import commands, auth, user, QA, chatbot
+=======
+from wellbeing import commands, auth, user, QA, thread
+>>>>>>> 86603a9d348fab41e4a658528e42fcd7a7bd1286
 from wellbeing.extensions import (
     jwt,
     db,
@@ -41,6 +45,7 @@ def register_blueprints(app):
     app.register_blueprint(QA.views.qa_blueprint)
     app.register_blueprint(QA.views.tag_blueprint)
     app.register_blueprint(QA.views.category_blueprint)
+    app.register_blueprint(thread.views.thread_blueprint)
 
     app.register_blueprint(chatbot.views.blueprint)
 

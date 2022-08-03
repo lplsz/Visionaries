@@ -3,6 +3,7 @@ from flask.views import MethodView
 from flask_jwt_extended import jwt_required
 
 import wellbeing.auth.controllers as controllers
+from wellbeing.auth.controllers import admin_required
 from wellbeing.auth.schemas import (
     RegisterInSchema,
     RegisterOutSchema,
@@ -66,11 +67,13 @@ class Logout(MethodView):
 class RegisterExpertAccount(MethodView):
     @blueprint.input(RegisterExpertAccountInSchema)
     @blueprint.doc(
+        security='JWT Bearer Token',
         summary='Register a new expert account',
         description='Register a new expert account',
         responses={
             201: "User created",
             409: "User with the same email already exists",
         })
+    @admin_required()
     def post(self, data):
-        pass
+        return controllers.register_expert_account(data)
