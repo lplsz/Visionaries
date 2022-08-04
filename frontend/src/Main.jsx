@@ -20,10 +20,10 @@ export const apiCall = async (path, method, body) => {
   console.log(init)
   try {
     const response = await fetch(url, init);
-    if (response.status === 400) {
+    if (response.status !== 200 && response.status !== 201) {
       const data = await response.json()
       console.log(data);
-      return '400' + data.message;
+      return `${response.status}` + data.message;
     }
     const data = await response.json();
     console.log(data);
