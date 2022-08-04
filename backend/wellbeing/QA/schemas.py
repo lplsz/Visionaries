@@ -21,6 +21,7 @@ class QASchema(Schema):
     reviewed_at = DateTime(required=True, example='2020-01-01T00:00:00Z')
     author = Nested(UserSchema, required=True, partial=True)
     category = Nested(CategorySchema, required=True)
+    tags = List(Nested(TagSchema, required=True), required=True)
 
 
 '''

@@ -25,6 +25,28 @@ class QA(db.Model):
     author = db.relationship('User', lazy=False, uselist=False, back_populates='qas')
     tags = db.relationship('Tag', lazy=False, uselist=True, back_populates='qas', secondary="qa_tag")
 
+    @property
+    def serialized(self):
+        return {
+            'id': self.id,
+            'title': self.title,
+            'body': self.body,
+            'created_at': self.created_at,
+            'review_at': self.review_at,
+            'author': {
+                'id': self.author.id,
+                'username': self.author.username,
+                'email': self.author.email,
+                'account_type': self.author.account_type,
+                'profile_image_src': self.author.profile_image_src,
+            },
+            'category': {
+                'id': self.category.id,
+                'category_name': self.category.category_name,
+            },
+            'tags': [tag.serialized for tag in self.tags],
+        }
+
 
 class Tag(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -32,6 +54,13 @@ class Tag(db.Model):
 
     # Relationships
     qas = db.relationship('QA', lazy=False, uselist=True, back_populates='tags', secondary="qa_tag")
+
+    @property
+    def serialized(self):
+        return {
+            'id': self.id,
+            'tag_name': self.tag_name,
+        }
 
 
 class Category(db.Model):

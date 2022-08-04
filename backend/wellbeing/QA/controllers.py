@@ -25,18 +25,18 @@ def post_qa(data):
 
 
 def get_qa_by_id(qa_id):
-    return {'qa': QA.query.filter_by(id=qa_id).first_or_404()}
+    return {'qa': QA.query.filter_by(id=qa_id).first_or_404().serialized}
 
 
 def get_qas_by_time():
     three_months_ago = datetime.datetime.today() - datetime.timedelta(weeks=12)
-    return {'qas': QA.query.filter(QA.review_at > three_months_ago).all()}
+    return {'qas': [qa.serialized for qa in QA.query.filter(QA.review_at > three_months_ago).all()]}
 
 
 def get_qas_not_reviewed():
     three_months_ago = datetime.datetime.today() - datetime.timedelta(weeks=12)
     # print(QA.query.filter(QA.review_at > three_months_ago).all())
-    return {'qas': QA.query.filter(QA.review_at < three_months_ago).all()}
+    return {'qas': [qa.serialized for qa in QA.query.filter(QA.review_at < three_months_ago).all()]}
 
 
 def delete_qa_by_id(qa_id):
@@ -68,7 +68,7 @@ def get_qas(data):
         conditions.append(QA.title.like('%' + data['keyword'] + '%'))
 
     qas = QA.query.filter(or_(*conditions)).all()
-    return {'qas': qas}
+    return {'qas': [qa.serialized for qa in qas]}
 
 
 '''
@@ -77,7 +77,7 @@ Tag Controllers
 
 
 def get_tags():
-    return {'tags': Tag.query.all()}
+    return {'tags': [tag.serialized for tag in Tag.query.all()]}
 
 
 def post_tag(data):
@@ -110,7 +110,7 @@ Category Controllers
 
 
 def get_categories():
-    return {'categories': Category.query.all()}
+    return {'categories': [category.serialized for category in Category.query.all()]}
 
 
 def post_category(data):
