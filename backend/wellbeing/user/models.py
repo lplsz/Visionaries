@@ -96,6 +96,13 @@ class Language(db.Model):
     def __repr__(self):
         return f'<Language {self.language_name}>'
 
+    @property
+    def serialized(self):
+        return {
+            'id': self.id,
+            'language_name': self.language_name,
+        }
+
 
 class Qualification(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -105,3 +112,12 @@ class Qualification(db.Model):
 
     # Relationships
     user = db.relationship('User', lazy=False, back_populates='qualifications')
+
+    @property
+    def serialized(self):
+        return {
+            'id': self.id,
+            'user_id': self.user_id,
+            'acquired_at': self.acquired_at,
+            'description': self.description,
+        }

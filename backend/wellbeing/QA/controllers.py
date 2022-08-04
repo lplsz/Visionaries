@@ -1,5 +1,5 @@
 from flask_jwt_extended import current_user
-from sqlalchemy.sql import and_
+from sqlalchemy.sql import or_
 import datetime
 from wellbeing.QA.models import QA, Tag, Category
 from wellbeing.extensions import db
@@ -67,7 +67,7 @@ def get_qas(data):
     if 'keyword' in data:
         conditions.append(QA.title.like('%' + data['keyword'] + '%'))
 
-    qas = QA.query.filter(and_(*conditions)).all()
+    qas = QA.query.filter(or_(*conditions)).all()
     return {'qas': qas}
 
 

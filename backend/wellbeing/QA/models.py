@@ -1,4 +1,5 @@
 from sqlalchemy.sql import func
+from datetime import datetime
 
 from wellbeing.extensions import db
 
@@ -14,8 +15,8 @@ class QA(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.Text, nullable=False)
     body = db.Column(db.Text, nullable=False)
-    created_at = db.Column(db.DateTime, nullable=False, server_default=func.now())
-    review_at = db.Column(db.DateTime, nullable=False, server_default=func.now(), onupdate=func.now())
+    created_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+    review_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow, onupdate=datetime.utcnow)
     author_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     category_id = db.Column(db.Integer, db.ForeignKey('category.id'), nullable=False)
 
@@ -45,7 +46,15 @@ class Category(db.Model):
     qas = db.relationship('QA', lazy=False, uselist=True, back_populates='category')
 
     # interested_users = db.relationship('User', lazy=False, uselist=True, back_populates='interested_categories',
-    # 
 
     def __repr__(self):
         return f'<Category {self.category_name}>'
+
+    @property
+    def serialized(self):
+        return {
+            'id': self.id,
+            'category_name': self.category_name,
+            'category_image_src': self.category_image_src,
+            'category_description': self.category_description,
+        }

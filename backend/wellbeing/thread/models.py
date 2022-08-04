@@ -1,5 +1,4 @@
 from wellbeing.extensions import db
-from sqlalchemy.sql import func
 from datetime import datetime
 
 
@@ -8,14 +7,35 @@ class Thread(db.Model):
     title = db.Column(db.Text, nullable=False)
     body = db.Column(db.Text, nullable=False)
     created_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+    updated_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow, onupdate=datetime.utcnow)
+
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     category_id = db.Column(db.Integer, db.ForeignKey('category.id'), nullable=False)
     resolved = db.Column(db.Boolean, default=False, nullable=False)
 
     # Relationships
     category = db.relationship('Category', lazy=False, uselist=False, back_populates='threads')
-    replies = db.relationship('Reply', lazy=False, uselist=True, back_populates='thread')
+    replies = db.relationship('Reply', lazy=True, uselist=True, back_populates='thread')
     user = db.relationship('User', lazy=False, uselist=False, back_populates='threads')
+
+    @property
+    def serialized(self):
+        return {
+            'id': self.id,
+            'title': self.title,
+            'body': self.body,
+            'created_at': self.created_at,
+            'updated_at': self.updated_at,
+            'resolved': self.resolved,
+            'user': {
+                'id': self.user.id,
+                'username': self.user.username,
+                'email': self.user.email,
+                'account_type': self.user.account_type,
+                'profile_image_src': self.user.profile_image_src,
+            },
+            'category': self.category.serialized,
+        }
 
 
 class Reply(db.Model):
@@ -24,7 +44,24 @@ class Reply(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     body = db.Column(db.Text, nullable=False)
     created_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+    updated_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow, onupdate=datetime.utcnow)
 
     # Relationships
     thread = db.relationship('Thread', lazy=False, uselist=False, back_populates='replies')
     user = db.relationship('User', lazy=False, uselist=False, back_populates='replies')
+
+    @property
+    def serialized(self):
+        return {
+            'id': self.id,
+            'body': self.body,
+            'created_at': self.created_at,
+            'updated_at': self.updated_at,
+            'user': {
+                'id': self.user.id,
+                'username': self.user.username,
+                'email': self.user.email,
+                'account_type': self.user.account_type,
+                'profile_image_src': self.user.profile_image_src,
+            },
+        }

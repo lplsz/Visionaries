@@ -5,7 +5,13 @@ from wellbeing.extensions import db
 
 
 def get_threads():
-    return {'threads': Thread.query.all()}
+    return {'threads': [thread.serialized for thread in Thread.query.all()]}
+
+
+def get_threads_by_user(user_id):
+    return {'threads': [thread.serialized for thread in
+                        Thread.query.filter(Thread.replies.any(Reply.user_id == user_id)).order_by(
+                            Thread.updated_at.desc()).all()]}
 
 
 def post_thread(data):
@@ -17,7 +23,7 @@ def post_thread(data):
     new_thread.category = Category.query.filter_by(id=data['category_id']).first_or_404('Category Not Found')
     db.session.add(new_thread)
     db.session.commit()
-    return {'thread': new_thread}
+    return {'thread': new_thread.serialized}
 
 
 def put_thread(data):
@@ -27,7 +33,7 @@ def put_thread(data):
     thread.category = Category.query.filter_by(id=data['category_id']).first_or_404('Category Not Found')
     thread.resolved = data['resolved']
     db.session.commit()
-    return {'thread': thread}
+    return {'thread': thread.serialized}
 
 
 '''
@@ -39,15 +45,15 @@ def post_reply(data):
     new_reply = Reply(
         body=data['body'],
         user_id=current_user.id,
+        thread_id=Thread.query.filter_by(id=data['thread_id']).first_or_404('Thread Not Found').id
     )
-    new_reply.thread = Thread.query.filter_by(id=data['thread_id']).first_or_404('Thread Not Found')
     db.session.add(new_reply)
     db.session.commit()
-    return {'reply': new_reply}
+    return {'reply': new_reply.serialized}
 
 
 def put_reply(data):
     reply = Reply.query.filter_by(id=data['reply_id']).first_or_404('Reply Not Found')
     reply.body = data['body']
     db.session.commit()
-    return {'reply': reply}
+    return {'reply': reply.serialized}
