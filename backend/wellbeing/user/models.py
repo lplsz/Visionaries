@@ -4,6 +4,7 @@ from wellbeing.QA.models import QA, Category
 from wellbeing.extensions import db
 from wellbeing.meeting.models import Availability
 from wellbeing.thread.models import Thread
+from wellbeing.chatbot.models import UserQuestion
 
 
 ####################
@@ -58,6 +59,8 @@ class User(db.Model):
                                              uselist=True, back_populates='expert')
 
 
+    # # chatbot
+    user_questions = db.relationship('UserQuestion', lazy=True, uselist=True, back_populates='user')
 
     def __repr__(self):
         return f'<User {self.username} {self.email} {self.account_type}>'

@@ -3,8 +3,6 @@ from flask.views import MethodView
 from flask_jwt_extended import jwt_required, current_user
 
 from wellbeing.chatbot.schemas import (
-    ChatbotSchema_2,
-    ChatbotSchema_3,
     ChatbotSchema
 )
 

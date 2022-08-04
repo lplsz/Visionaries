@@ -8,6 +8,7 @@ import pandas as pd
 
 from wellbeing.extensions import db
 from wellbeing.QA.models import QA
+from wellbeing.chatbot.models import UserQuestion
 
 '''
 Chatbot Controllers
@@ -49,7 +50,7 @@ def rank_matching_qa(id_list, title_list, q):
 
 def state2_response(type, question):
     response_list_video = ["Sure, here are some video links related to your questions: "]
-    response_list_guide = ["To answer your question: " + data['question_description'] + ", here are some helpful guide that we found for you: "]
+    response_list_guide = ["To answer your question: " + question + ", here are some helpful guide that we found for you: "]
     
     if type == "video":
         serch_func(response_list_video, question, "youtube", 5)
@@ -59,7 +60,7 @@ def state2_response(type, question):
         # QA from db
         qa_list = QA.query.all()
         response_list_guide.append(['These are some frequently asked questions and answers from our website: '])
-        response_list_guide.append(rank_matching_qa([qa.id for qa in qa_list], [qa.title for qa in qa_list], data['question_description']))
+        response_list_guide.append(rank_matching_qa([qa.id for qa in qa_list], [qa.title for qa in qa_list], question))
 
         # gov
         serch_func(response_list_guide, question, "gov au", 3)
@@ -93,19 +94,20 @@ def state3_response(question):
     # return response_list_related
 
 def post_user_question(id, question):
-    new_user_question = User_Question(
+    new_user_question = UserQuestion(
         question_description=question,
         user_id=id
     )
-    db.session.add(new_thread)
+    db.session.add(new_user_question)
     db.session.commit()
     return {'message': 'User Question Stored'}
+
 
 def state_response(data):
     if data['state'] == 1:
         return post_user_question(current_user.id, data['input_text'])
 
-    question = User_Question.query.filter_by(user_id=current_user.id).first_or_404().question_description
+    question = UserQuestion.query.filter_by(user_id=current_user.id).first_or_404().question_description
 
     if data['state'] == 2:
         return state2_response(data['input_text'], question)
