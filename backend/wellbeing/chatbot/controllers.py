@@ -5,20 +5,15 @@ from fuzzywuzzy import fuzz
 from fuzzywuzzy import process
 import pandas as pd
 
-
 from wellbeing.extensions import db
 from wellbeing.QA.models import QA
 from wellbeing.chatbot.models import UserQuestion
 
 '''
-Chatbot Controllers
+Chatbot Helper Functions
 '''
 
-# step 1: 判断video or guide
-# if "video": return youtube video link
-# if "guide": return 1-3 QA from db
-#             return 1-3 external link from gov unsw org
-# in the format of ["", "", ""]
+
 def serch_func(response, q, prefix, num):
     q_prefix = q + prefix
     params = {
@@ -93,7 +88,9 @@ def state3_response(question):
     #     response_list_related.append(results["related_questions"][msg]["question"]+ ": " + results["related_questions"][msg]["link"])
     # return response_list_related
 
-def post_user_question(id, question):
+
+# state 1 inserting into db
+def state1_response(id, question):
     new_user_question = UserQuestion(
         question_description=question,
         user_id=id
@@ -103,11 +100,20 @@ def post_user_question(id, question):
     return {'message': 'User Question Stored'}
 
 
+'''
+Chatbot Controllers
+'''
+
+# step 1: video or guide
+# if "video": return youtube video link
+# if "guide": return 1-3 QA from db
+#             return 1-3 external link from gov unsw org
+# in the format of ["", "", ""]
 def state_response(data):
     if data['state'] == 1:
-        return post_user_question(current_user.id, data['input_text'])
+        return state1_response(current_user.id, data['input_text'])
 
-    question = UserQuestion.query.filter_by(user_id=current_user.id).first_or_404().question_description
+    question = UserQuestion.query.filter_by(user_id=current_user.id).order_by(UserQuestion.created_at.desc()).first_or_404().question_description
 
     if data['state'] == 2:
         return state2_response(data['input_text'], question)
