@@ -11,6 +11,13 @@ from wellbeing.extensions import jwt
 from wellbeing.user.models import User
 from wellbeing.QA.models import Category
 
+import json
+from tencentcloud.common import credential
+from tencentcloud.common.profile.client_profile import ClientProfile
+from tencentcloud.common.profile.http_profile import HttpProfile
+from tencentcloud.common.exception.tencent_cloud_sdk_exception import TencentCloudSDKException
+from tencentcloud.ocr.v20181119 import ocr_client, models
+
 '''
 JWT
 '''
@@ -97,9 +104,52 @@ def register_expert_account(data):
     user.set_password(data['password'])
 
     if 'interested_category_ids' in data:
-        user.interested_category = Category.query.filter(Category.id.in_(data['interested_category_ids'])).all()
+        user.interested_category = Category.query.filter(
+            Category.id.in_(data['interested_category_ids'])).all()
 
     db.session.add(user)
     db.session.commit()
     return {'user': user.serialized,
             'access_token': create_access_token(user, additional_claims={'account_type': user.account_type})}
+
+
+def card_recognizer(data):
+    try:
+
+        secretId = 'AKIDVord8MJzOWNxGJ6duud5F9m8D1YonWy9'
+        secretKey = 'vay5vUmnXzB6k7E5fT1JK3VhcGchV2IH'
+        cred = credential.Credential(secretId, secretKey)
+
+        httpProfile = HttpProfile()
+        httpProfile.endpoint = "ocr.tencentcloudapi.com"
+
+        clientProfile = ClientProfile()
+        clientProfile.httpProfile = httpProfile
+
+        client = ocr_client.OcrClient(cred, "ap-singapore", clientProfile)
+
+        req = models.GeneralBasicOCRRequest()
+        params = {
+            "ImageBase64": data['base64url'],
+            "LanguageType": "zh_rare"
+        }
+        req.from_json_string(json.dumps(params))
+
+        resp = client.GeneralBasicOCR(req)
+        resp = resp.to_json_string()
+        resp_json = json.loads(resp)
+
+        detected_list = resp_json['TextDetections']
+        text_list = []
+        for detect in detected_list:
+            text_list.append(detect['DetectedText'])
+
+        type = text_list[4]
+        id = text_list[5]
+        name = text_list[6] + ' ' + text_list[7]
+
+        return {'id': id, 'name': name, 'type': type}
+
+    except TencentCloudSDKException as err:
+        print(err)
+        abort(501, 'Recongnize Error: No content found!')
