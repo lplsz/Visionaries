@@ -32,8 +32,8 @@ import EXAMPLE from './img/card_example.png';
 const theme = createTheme();
 const Input = styled('input')({
     display: 'none',
-  });
-  
+});
+
 
 const StudentLogin = () => {
 
@@ -49,10 +49,10 @@ const StudentLogin = () => {
         if (email === '') {
             setErrorMessage('Email should not be none');
             setOpen(true);
-        } else if (password === '') {
-            setErrorMessage('Password should not be none');
-            setOpen(true);
-        } else if (!(reg.test(email))) {
+        } else if (email === '') {
+            // setErrorMessage('Password should not be none');
+            // setOpen(true);
+        } else if (email === '') {
             setErrorMessage('Not a vaild email');
             setOpen(true);
         } else {
@@ -66,10 +66,12 @@ const StudentLogin = () => {
                 setOpen(true);
             } else {
                 localStorage.setItem('token', data.access_token);
-				localStorage.setItem('id', data.user.id);
-				if (data.user.account_type === 'student') {
-					navigate('/student_main');
-				} else {
+                localStorage.setItem('id', data.user.id);
+                if (data.user.account_type === 'student') {
+                    navigate('/student_main');
+                } else if (data.user.account_type === 'admin') {
+                    navigate('/addExpert');
+                } else {
                     navigate('/expert_main');
                 }
             }
@@ -89,22 +91,22 @@ const StudentLogin = () => {
     const [imgSrc, setImgSrc] = React.useState("");
     const handleImage = (target) => {
         if (target.value) {
-          const file = target.files[0];
-          const size = file.size;
-          if (size >= 1 * 1024 * 1024) {
-            alert('image over limit');
-            return;
-          }
-          if (!['image/jpeg', 'image/png', 'image/gif'].includes(file.type)) {
-            alert('Not an image');
-          } else {
-            const reader = new FileReader();
-            reader.readAsDataURL(file);
-            reader.onload = function (e) {
-              const dataimg = e.target.result;
-              setImgSrc(dataimg);
+            const file = target.files[0];
+            const size = file.size;
+            if (size >= 1 * 1024 * 1024) {
+                alert('image over limit');
+                return;
             }
-          }
+            if (!['image/jpeg', 'image/png', 'image/gif'].includes(file.type)) {
+                alert('Not an image');
+            } else {
+                const reader = new FileReader();
+                reader.readAsDataURL(file);
+                reader.onload = function (e) {
+                    const dataimg = e.target.result;
+                    setImgSrc(dataimg);
+                }
+            }
         }
     }
 
@@ -112,58 +114,58 @@ const StudentLogin = () => {
         if (submit === false) {
             return (
                 <div>
-                <Typography variant="h5" gutterBottom sx={{ textAlign: 'center', marginBottom: '10px', fontWeight:'bold' }}>
-                    Choose Your ID Card Image Here
-                </Typography>
-                <Box sx={{height: '310px', borderStyle: 'dashed'}}>
-                    { imgSrc !== ""
-                        ? <img height="300px"
-                            src={imgSrc}
-                            alt={"card_image"}></img>
-                        
-                        : <span style={{display: 'flex'}}>
-                            <img height="300px"
-                            src={EXAMPLE}
-                            alt={"card_example"}></img>
-                            <h7 style={{fontWeight:'bold', alignSelf: 'center', marginLeft: '10px'}}>
-                                Please following this template
-                            </h7>
-                            </span> 
-                    }
-                    
-                </Box>
-                <Button variant="contained" style={{marginTop: '20px'}}>
-                    <label htmlFor="icon-button-file">
-                        From Device
-                        <Input accept="image/*" id="icon-button-file" type="file" onChange={(e) => {handleImage(e.target)} }/>
-                        <Tooltip
-                            title={'Upload your image'}
-                            placement="top"
-                        >
-                            <IconButton color="default" aria-label="upload picture" component="span">
-                                <UPLOAD />
-                            </IconButton>
-                        </Tooltip>
-                    </label>
-                </Button>
+                    <Typography variant="h5" gutterBottom sx={{ textAlign: 'center', marginBottom: '10px', fontWeight: 'bold' }}>
+                        Choose Your ID Card Image Here
+                    </Typography>
+                    <Box sx={{ height: '310px', borderStyle: 'dashed' }}>
+                        {imgSrc !== ""
+                            ? <img height="300px"
+                                src={imgSrc}
+                                alt={"card_image"}></img>
+
+                            : <span style={{ display: 'flex' }}>
+                                <img height="300px"
+                                    src={EXAMPLE}
+                                    alt={"card_example"}></img>
+                                <h7 style={{ fontWeight: 'bold', alignSelf: 'center', marginLeft: '10px' }}>
+                                    Please following this template
+                                </h7>
+                            </span>
+                        }
+
+                    </Box>
+                    <Button variant="contained" style={{ marginTop: '20px' }}>
+                        <label htmlFor="icon-button-file">
+                            From Device
+                            <Input accept="image/*" id="icon-button-file" type="file" onChange={(e) => { handleImage(e.target) }} />
+                            <Tooltip
+                                title={'Upload your image'}
+                                placement="top"
+                            >
+                                <IconButton color="default" aria-label="upload picture" component="span">
+                                    <UPLOAD />
+                                </IconButton>
+                            </Tooltip>
+                        </label>
+                    </Button>
                 </div>
             );
         }
         else {
-                return (
-                    <div>
-                    <Typography variant="h5" gutterBottom sx={{ textAlign: 'center', marginBottom: '10px', fontWeight:'bold' }}>
+            return (
+                <div>
+                    <Typography variant="h5" gutterBottom sx={{ textAlign: 'center', marginBottom: '10px', fontWeight: 'bold' }}>
                         Welcom To Wellbeing Webstite!
                     </Typography>
-                    <Typography variant="h5" gutterBottom sx={{ textAlign: 'center', marginBottom: '10px', fontWeight:'bold' }}>
+                    <Typography variant="h5" gutterBottom sx={{ textAlign: 'center', marginBottom: '10px', fontWeight: 'bold' }}>
                         Hi, Student z5555555 -- Jasper SAMOYED!
                     </Typography>
-                    <Typography variant="h6" gutterBottom sx={{ textAlign: 'center', marginBottom: '10px', fontWeight:'bold' }}>
+                    <Typography variant="h6" gutterBottom sx={{ textAlign: 'center', marginBottom: '10px', fontWeight: 'bold' }}>
                         Log in as this account?
                     </Typography>
-                    </div>
-                )
-            }
+                </div>
+            )
+        }
     }
 
     return (
@@ -253,7 +255,7 @@ const StudentLogin = () => {
                     onChange={(event, newValue) => {
                         if (newValue === 1) {
                             navigate('/student_register');
-                        } 
+                        }
                         else if (newValue === 2) {
                             handleClickOpen();
                         }
@@ -269,13 +271,13 @@ const StudentLogin = () => {
                         onClose={handleDialogClose}
                     >
                         <DialogContent sx={{ marginLeft: '5%', marginRight: '5%', marginTop: '10px', textAlign: 'center' }}>
-                        <CardBox />
+                            <CardBox />
                         </DialogContent>
                         <DialogActions>
-                            <Button onClick={() => { handleDialogClose()}}>CANCLE</Button>
-                            <Button onClick={() => { setSubmit(true)}}>SUMBIT</Button>
+                            <Button onClick={() => { handleDialogClose() }}>CANCLE</Button>
+                            <Button onClick={() => { setSubmit(true) }}>SUMBIT</Button>
                         </DialogActions>
-                    </Dialog>     
+                    </Dialog>
                 </BottomNavigation>
             </Container>
         </ThemeProvider>

@@ -59,7 +59,7 @@ const StudentMain = () => {
 		<div style={{ backgroundSize: '100% 100%' }}>
 			<GlobalStyles styles={{ ul: { margin: 0, padding: 0, listStyle: 'none' } }} />
 			<CssBaseline />
-			<StudentHeader toggleBot={toggleBot} />
+			<StudentHeader toggleBot={toggleBot} type={'bot'} />
 			<Container disableGutters maxWidth="sm" component="main" sx={{ textAlign: 'center', display: 'flex', marginTop: '15px' }}>
 				<img width="80%"
 					height="30%"
