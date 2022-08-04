@@ -18,6 +18,8 @@ from tencentcloud.common.profile.http_profile import HttpProfile
 from tencentcloud.common.exception.tencent_cloud_sdk_exception import TencentCloudSDKException
 from tencentcloud.ocr.v20181119 import ocr_client, models
 
+import re
+
 '''
 JWT
 '''
@@ -139,16 +141,23 @@ def card_recognizer(data):
         resp = resp.to_json_string()
         resp_json = json.loads(resp)
 
+        type = ''
+        id = ''
+        first_name = ''
+        last_name = ''
         detected_list = resp_json['TextDetections']
-        text_list = []
+
         for detect in detected_list:
-            text_list.append(detect['DetectedText'])
+            if (detect['AdvancedInfo'] == "{\"Parag\":{\"ParagNo\":5}}"):
+                type = detect['DetectedText']
+            elif (detect['AdvancedInfo'] == "{\"Parag\":{\"ParagNo\":6}}"):
+                id = detect['DetectedText']
+            elif (detect['AdvancedInfo'] == "{\"Parag\":{\"ParagNo\":8}}"):
+                first_name = detect['DetectedText']
+            elif (detect['AdvancedInfo'] == "{\"Parag\":{\"ParagNo\":9}}"):
+                last_name = detect['DetectedText']
 
-        type = text_list[4]
-        id = text_list[5]
-        name = text_list[6] + ' ' + text_list[7]
-
-        return {'id': id, 'name': name, 'type': type}
+        return {'id': id, 'name': f'{first_name} {last_name}', 'type': type}
 
     except TencentCloudSDKException as err:
         print(err)
