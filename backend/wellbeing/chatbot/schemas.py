@@ -11,3 +11,7 @@ class ChatbotSchema_2(Schema):
 
 class ChatbotSchema_3(Schema):
     question_description = String(required=True, example='Where can I get covid vaccine?')
+
+class ChatbotSchema(Schema):
+    state = Integer(required=True, example=1)
+    input_text = String(required=True, example='Where can I get covid vaccine?')

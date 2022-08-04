@@ -47,35 +47,35 @@ def rank_matching_qa(id_list, title_list, q):
     return top3_id_list
 
 
-
-def state2_response(data):
+def state2_response(type, question):
     response_list_video = ["Sure, here are some video links related to your questions: "]
     response_list_guide = ["To answer your question: " + data['question_description'] + ", here are some helpful guide that we found for you: "]
-    if data['response_type'] == "video":
-        serch_func(response_list_video, data['question_description'], "youtube", 5)
+    
+    if type == "video":
+        serch_func(response_list_video, question, "youtube", 5)
         return response_list_video
 
-    elif data['response_type'] == "guide":
+    elif type == "guide":
         # QA from db
         qa_list = QA.query.all()
         response_list_guide.append(['These are some frequently asked questions and answers from our website: '])
         response_list_guide.append(rank_matching_qa([qa.id for qa in qa_list], [qa.title for qa in qa_list], data['question_description']))
 
         # gov
-        serch_func(response_list_guide, data['question_description'], "gov au", 3)
+        serch_func(response_list_guide, question, "gov au", 3)
         # unsw
-        serch_func(response_list_guide, data['question_description'], "unsw au", 3)
+        serch_func(response_list_guide, question, "unsw au", 3)
         # org
-        serch_func(response_list_guide, data['question_description'], "org au", 3)     
+        serch_func(response_list_guide, question, "org au", 3)     
         return response_list_guide
 
 
-def state3_response(data):
+def state3_response(question):
     response_list_related = ["If your concerns are not addressed, here are some more related questions for you to click on."]
     params = {
         "api_key": "10f8b30bda3da92367f393ba85209c5de69a9eb33cb75a9396a47d0a35a81cf6",
         "engine": "google",
-        "q": data['question_description'],
+        "q": question,
         "google_domain": "google.com",
         "hl": "en",
         "num":10
@@ -91,6 +91,31 @@ def state3_response(data):
     # for msg in range(3):
     #     response_list_related.append(results["related_questions"][msg]["question"]+ ": " + results["related_questions"][msg]["link"])
     # return response_list_related
+
+def post_user_question(id, question):
+    new_user_question = User_Question(
+        question_description=question,
+        user_id=id
+    )
+    db.session.add(new_thread)
+    db.session.commit()
+    return {'message': 'User Question Stored'}
+
+def state_response(data):
+    if data['state'] == 1:
+        return post_user_question(current_user.id, data['input_text'])
+
+    question = User_Question.query.filter_by(user_id=current_user.id).first_or_404().question_description
+
+    if data['state'] == 2:
+        return state2_response(data['input_text'], question)
+    elif data['state'] == 3:
+        return state3_response(question)
+
+    
+
+
+
 
 
 
