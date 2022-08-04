@@ -4,7 +4,6 @@ from wellbeing.QA.models import QA, Category
 from wellbeing.extensions import db
 from wellbeing.meeting.models import Availability
 from wellbeing.thread.models import Thread
-from wellbeing.chatbot.models import User_Question
 
 
 ####################
@@ -58,8 +57,6 @@ class User(db.Model):
     availability_as_expert = db.relationship('Availability', foreign_keys='Availability.expert_id', lazy=True,
                                              uselist=True, back_populates='expert')
 
-    # # chatbot
-    user_questions = db.relationship('User_Question', lazy=True, uselist=True, back_populates='user')
 
 
     def __repr__(self):
@@ -86,7 +83,9 @@ class User(db.Model):
             'profile_image_src': self.profile_image_src,
             'languages': self.languages,
             'qualifications': self.qualifications,
-            'interested_categories': self.interested_categories,
+            'interested_categories': [
+                category.serialized_brief for category in self.interested_categories
+            ],
         }
 
 

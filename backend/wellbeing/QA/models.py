@@ -87,3 +87,10 @@ class Category(db.Model):
             'category_image_src': self.category_image_src,
             'category_description': self.category_description,
         }
+
+    @property
+    def serialized_brief(self):
+        return {
+            'id': self.id,
+            'category_name': self.category_name,
+        }
