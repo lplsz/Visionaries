@@ -34,7 +34,10 @@ class Thread(db.Model):
                 'account_type': self.user.account_type,
                 'profile_image_src': self.user.profile_image_src,
             },
-            'category': self.category.serialized,
+            'category': {
+                'id': self.category.id,
+                'category_name': self.category.category_name,
+            },
         }
 
 
