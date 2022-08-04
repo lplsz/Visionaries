@@ -1,11 +1,3 @@
-/*
- * @Author: Echooooo-zhn haonanZHONG17@outlook.com
- * @Date: 2022-06-24 11:37:55
- * @LastEditors: Echooooo-zhn haonanZHONG17@outlook.com
- * @LastEditTime: 2022-06-24 11:38:37
- * @FilePath: \Visionaries\frontend\src\Main.jsx
- * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
- */
 /* eslint-disable quote-props */
 /* eslint-disable eol-last */
 /* eslint-disable indent */
@@ -28,10 +20,10 @@ export const apiCall = async (path, method, body) => {
   console.log(init)
   try {
     const response = await fetch(url, init);
-    if (response.status === 400) {
+    if (response.status !== 200 && response.status !== 201) {
       const data = await response.json()
       console.log(data);
-      return '400' + data.message;
+      return `${response.status}` + data.message;
     }
     const data = await response.json();
     console.log(data);
