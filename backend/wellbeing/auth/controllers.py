@@ -89,7 +89,7 @@ def register_expert_account(data):
     if User.query.filter_by(email=data['email']).first():
         abort(409, 'User with the same email already exists.')
 
-    user = User(
+    user: User = User(
         username=data['username'],
         email=data['email'],
         account_type='expert',
@@ -97,7 +97,8 @@ def register_expert_account(data):
     user.set_password(data['password'])
 
     if 'interested_category_ids' in data:
-        user.interested_category = Category.query.filter(Category.id.in_(data['interested_category_ids'])).all()
+        print(data['interested_category_ids'])
+        user.interested_categories = Category.query.filter(Category.id.in_(data['interested_category_ids'])).all()
 
     db.session.add(user)
     db.session.commit()
