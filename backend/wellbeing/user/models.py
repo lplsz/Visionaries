@@ -81,7 +81,9 @@ class User(db.Model):
             'profile_image_src': self.profile_image_src,
             'languages': self.languages,
             'qualifications': self.qualifications,
-            'interested_categories': self.interested_categories,
+            'interested_categories': [
+                category.serialized_brief for category in self.interested_categories
+            ],
         }
 
 

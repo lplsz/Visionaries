@@ -6,7 +6,6 @@ from wellbeing.user.schemas import (
     GetUserOutSchema,
     PutUserInSchema,
     GetLanguagesOutSchema,
-    ExperienceSchema
 )
 
 import wellbeing.user.controllers as controllers

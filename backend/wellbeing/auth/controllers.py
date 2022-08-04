@@ -63,7 +63,7 @@ def register(data):
     user.set_password(data['password'])
     db.session.add(user)
     db.session.commit()
-    return {'user': user,
+    return {'user': user.serialized,
             'access_token': create_access_token(user, additional_claims={'account_type': user.account_type})}
 
 
@@ -71,8 +71,9 @@ def login(data):
     """Login a user."""
     user = User.query.filter_by(email=data['email']).first()
     if user and user.check_password(data['password']):
-        return {'user': user,
-                'access_token': create_access_token(user, additional_claims={'account_type': user.account_type})}
+        return {'user': user.serialized,
+                'access_token': create_access_token(user,
+                                                    additional_claims={'account_type': user.account_type})}
     abort(401, 'Invalid email or password')
 
 
