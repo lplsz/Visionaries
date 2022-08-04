@@ -20,8 +20,8 @@ import LoginIcon from '@mui/icons-material/Login';
 import AssignmentIndIcon from '@mui/icons-material/AssignmentInd';
 import CardMedia from '@mui/material/CardMedia';
 import Photo from './img/OIP.jpg';
-import PhotoCamera from '@mui/icons-material/PhotoCamera';
-import CVDialog from '../component/CVDialog';
+
+// import CVDialog from '../component/CVDialog';
 
 const theme = createTheme();
 
@@ -68,7 +68,7 @@ const Login = () => {
     }
   }
 
-  const [dialogOpen, setDiaOpen] = React.useState(false);
+  // const [dialogOpen, setDiaOpen] = React.useState(false);
   
 
   return (
@@ -170,15 +170,15 @@ const Login = () => {
             if (newValue === 1) {
               navigate('/student_register');
             } 
-            else if (newValue === 2) {
-              setDiaOpen(true);
-            }
+            // else if (newValue === 2) {
+            //   setDiaOpen(true);
+            // }
           }}
         >
           <BottomNavigationAction label="Login" icon={<LoginIcon />} />
           <BottomNavigationAction label="Register" icon={<AssignmentIndIcon />} />
-          <BottomNavigationAction label="Upload" icon={<PhotoCamera />} />
-          <CVDialog dialogOpen={dialogOpen} setDiaOpen={setDiaOpen}/>
+          
+          {/* <CVDialog dialogOpen={dialogOpen} setDiaOpen={setDiaOpen}/> */}
         </BottomNavigation>
       </Container>
     </ThemeProvider>

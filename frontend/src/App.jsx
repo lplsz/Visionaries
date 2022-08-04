@@ -4,15 +4,12 @@ import {
   Routes,
   Route
 } from 'react-router-dom';
-
-import HomePage from './page/HomePage.jsx';
 import StudentMain from './page/StudentMain';
 import ExpertMain from './page/ExpertMain';
 import StudentProfile from './page/StudentProfile';
 import ExpertProfile from './page/ExpertProfile';
 import Login from './page/Login';
 import StudentRegister from './page/StudentRegister.jsx';
-import ExpertRegister from './page/ExpertRegister.jsx';
 import StudentQAList from './page/StudentQAList.jsx';
 import QACategory from './page/QACategory'
 import ExpertAva from './page/ExpertAva.jsx';
@@ -31,7 +28,6 @@ function App() {
         <Route path="/" element={<Login />} />
         <Route path="/login" element={<Login />} />
         <Route path="/student_register" element={<StudentRegister />} />
-        <Route path="/expert_register" element={<ExpertRegister />} />
         <Route path="/student_main" element={<StudentMain />} />
         <Route path="/expert_main" element={<ExpertMain />} />
         <Route path="/student_profile" element={<StudentProfile />} />

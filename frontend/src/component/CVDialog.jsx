@@ -19,26 +19,27 @@ const Input = styled('input')({
 
 const CVDialog = (props) => {
   
-  const [submit, setSubmit] = React.useState(false);
-  const [zid, setZid] = React.useState("");
-  const [name, setName] = React.useState("");
-  const [accountType, setAccountType] = React.useState("student");
   const [imgSrc, setImgSrc] = React.useState("");
-  const [errorMessage, setErrorMessage] = React.useState('');
 
+  const handleDialogClose = () => {
+    setImgSrc("");
+    props.setDiaOpen(false);
+  };
+  
   const getCardContext = async () => {
     const info = {
       base64url: imgSrc
     }
     const data = await apiCall('/card_recognition', 'POST', info);
     if (typeof (data) === 'string' && data.startsWith('501')) {
-      setErrorMessage('No content found, try it again!');
+      props.setErrorMessage(data.slice(3, ));
+      handleDialogClose();
+      props.setOpen(true);
     } else {
-      setZid(data["id"]);
-      setName(data["name"]);
-      setAccountType(data["type"]);
+      props.setEmail("z" + data["id"] + "@ad.unsw.edu.au");
+      props.setName(data["name"]);
+      handleDialogClose();
     }
-    setSubmit(true);
   }
 
   const handleImage = (target) => {
@@ -62,66 +63,44 @@ const CVDialog = (props) => {
     }
   }
   
-  const handleDialogClose = () => {
-    props.setDiaOpen(false);
-  };
-
   const CardTextDetectBox = () => {
-
-    if (submit === false) {
-      return (
-        <div>
-          <Typography variant="h5" gutterBottom sx={{ textAlign: 'center', marginBottom: '10px', fontWeight:'bold' }}>
-            Choose Your ID Card Image Here
-          </Typography>
-          <Box sx={{height: '310px', borderStyle: 'dashed'}}>
-            { imgSrc !== ""
-              ? <img height="300px"
-                src={imgSrc}
-                alt={"card_image"} />
-              
-              : <span style={{display: 'flex'}}>
-                  <img height="300px"
-                    src={EXAMPLE}
-                    alt={"card_example"} />
-                  <h5 style={{fontWeight:'bold', alignSelf: 'center', marginLeft: '10px'}}>
-                    Please following this template
-                  </h5>
-                </span> 
-            }
-          </Box>
-          <Button variant="contained" style={{marginTop: '20px'}}>
-            <label htmlFor="icon-button-file">
-              From Device
-              <Input accept="image/*" id="icon-button-file" type="file" onChange={(e) => {handleImage(e.target);} }/>
-              <Tooltip
-                title={'Upload your image'}
-                placement="top"
-              >
-                <IconButton color="default" aria-label="upload picture" component="span">
-                  <UPLOAD />
-                </IconButton>
-              </Tooltip>
-            </label>
-          </Button>
-        </div>
-      );
-    }
-    else {
-      return (
-        <div>
-          <Typography variant="h5" gutterBottom sx={{ textAlign: 'center', marginBottom: '10px', fontWeight:'bold' }}>
-            Welcom To Wellbeing Webstite!
-          </Typography>
-          <Typography variant="h5" gutterBottom sx={{ textAlign: 'center', marginBottom: '10px', fontWeight:'bold' }}>
-            Hi, {accountType} {zid} -- {name}!
-          </Typography>
-          <Typography variant="h6" gutterBottom sx={{ textAlign: 'center', marginBottom: '10px', fontWeight:'bold' }}>
-            Log in as this account?
-          </Typography>
-        </div>
-      )
-    }
+    return (
+      <div>
+        <Typography variant="h5" gutterBottom sx={{ textAlign: 'center', marginBottom: '10px', fontWeight:'bold' }}>
+          Choose Your ID Card Image Here
+        </Typography>
+        <Box sx={{height: '310px', borderStyle: 'dashed'}}>
+          { imgSrc !== ""
+            ? <img height="300px"
+              src={imgSrc}
+              alt={"card_image"} />
+            
+            : <span style={{display: 'flex'}}>
+                <img height="300px"
+                  src={EXAMPLE}
+                  alt={"card_example"} />
+                <h5 style={{fontWeight:'bold', alignSelf: 'center', marginLeft: '10px'}}>
+                  Please following this template
+                </h5>
+              </span> 
+          }
+        </Box>
+        <Button variant="contained" style={{marginTop: '20px'}}>
+          <label htmlFor="icon-button-file">
+            From Device
+            <Input accept="image/*" id="icon-button-file" type="file" onChange={(e) => {handleImage(e.target);} }/>
+            <Tooltip
+              title={'Upload your image'}
+              placement="top"
+            >
+              <IconButton color="default" aria-label="upload picture" component="span">
+                <UPLOAD />
+              </IconButton>
+            </Tooltip>
+          </label>
+        </Button>
+      </div>
+    );
   }
   
   
@@ -136,7 +115,7 @@ const CVDialog = (props) => {
       <CardTextDetectBox />
       </DialogContent>
       <DialogActions>
-        <Button onClick={() => { handleDialogClose()}}>CANCLE</Button>
+        <Button onClick={() => { handleDialogClose() }}>CANCLE</Button>
         <Button onClick={() => { getCardContext() }}>SUMBIT</Button>
       </DialogActions>
     </Dialog>  
