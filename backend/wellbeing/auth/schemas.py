@@ -35,3 +35,13 @@ class RegisterExpertAccountInSchema(Schema):
     password = String(required=True, example='password')
 
     interested_category_ids = List(Integer())
+
+
+class CardRecognitionInSchema(Schema):
+    base64url = String(required=True)
+
+
+class CardRecognitionOutSchema(Schema):
+    id = String(required=True, example='5xxxxxx')
+    name = String(required=True, example='Jasper SIMOND')
+    type = String(required=True, example='STUDENT')

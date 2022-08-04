@@ -10,6 +10,8 @@ from wellbeing.auth.schemas import (
     LoginInSchema,
     LoginOutSchema,
     RegisterExpertAccountInSchema,
+    CardRecognitionInSchema,
+    CardRecognitionOutSchema
 )
 
 blueprint = APIBlueprint('auth', __name__)
@@ -77,3 +79,19 @@ class RegisterExpertAccount(MethodView):
     @admin_required()
     def post(self, data):
         return controllers.register_expert_account(data)
+
+
+@blueprint.route('/card_recognition')
+class CardRecognition(MethodView):
+
+    @blueprint.input(CardRecognitionInSchema)
+    @blueprint.output(CardRecognitionOutSchema, 200)
+    @blueprint.doc(
+        summary='Card content Recognition',
+        description='Recognize zID, name, type in the card',
+        responses={
+            200: "Content recognized",
+            501: "Recongnize Error: No content found!",
+        })
+    def post(self, data):
+        return controllers.card_recognizer(data)
