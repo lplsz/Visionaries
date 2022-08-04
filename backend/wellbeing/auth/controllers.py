@@ -98,7 +98,7 @@ def register_expert_account(data):
     if User.query.filter_by(email=data['email']).first():
         abort(409, 'User with the same email already exists.')
 
-    user: User = User(
+    user = User(
         username=data['username'],
         email=data['email'],
         account_type='expert',
@@ -106,7 +106,8 @@ def register_expert_account(data):
     user.set_password(data['password'])
 
     if 'interested_category_ids' in data:
-        user.interested_categories = Category.query.filter(Category.id.in_(data['interested_category_ids'])).all()
+        user.interested_category = Category.query.filter(
+            Category.id.in_(data['interested_category_ids'])).all()
 
     db.session.add(user)
     db.session.commit()
@@ -146,15 +147,33 @@ def card_recognizer(data):
         last_name = ''
         detected_list = resp_json['TextDetections']
 
+        zid_pattern = r'\d{7}'
+        first_name_pattern = r'[A-Z][a-z]+'
+        last_name_pattern = r'[A-Z]{3,}'
+        first_name_parag = None
+
         for detect in detected_list:
-            if (detect['AdvancedInfo'] == "{\"Parag\":{\"ParagNo\":5}}"):
-                type = detect['DetectedText']
-            elif (detect['AdvancedInfo'] == "{\"Parag\":{\"ParagNo\":6}}"):
-                id = detect['DetectedText']
-            elif (detect['AdvancedInfo'] == "{\"Parag\":{\"ParagNo\":8}}"):
-                first_name = detect['DetectedText']
-            elif (detect['AdvancedInfo'] == "{\"Parag\":{\"ParagNo\":9}}"):
-                last_name = detect['DetectedText']
+            info = detect['AdvancedInfo']
+            text = detect['DetectedText']
+
+            if (text == 'STUDENT'):
+                type = 'student'
+            elif (text == 'STAFF'):
+                type = 'staff'
+            elif (re.match(zid_pattern, text)):
+                id = text
+            elif (re.match(first_name_pattern, text)):
+                first_name = text
+                first_name_parag = int(info[-3])
+
+        if (first_name_parag is not None):
+            last_info = "{\"Parag\":{\"ParagNo\":" + \
+                str(first_name_parag+1) + "}}"
+            for detect in detected_list:
+                info = detect['AdvancedInfo']
+                text = detect['DetectedText']
+                if (re.match(last_name_pattern, text) and info == last_info):
+                    last_name = text
 
         return {'id': id, 'name': f'{first_name} {last_name}', 'type': type}
 
