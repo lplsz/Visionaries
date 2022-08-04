@@ -13,6 +13,10 @@ import TextField from '@mui/material/TextField';
 import Autocomplete from '@mui/material/Autocomplete';
 import { styled, alpha } from '@mui/material/styles';
 import ReactPlayer from 'react-player';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import FormControl from '@mui/material/FormControl';
+import FormLabel from '@mui/material/FormLabel';
+import Checkbox from '@mui/material/Checkbox';
 
 import MAIN from './img/vaccinations.jpg';
 import StudentHeader from '../component/StudentHeader'
@@ -31,7 +35,7 @@ import DialogTitle from "@mui/material/DialogTitle";
 import Grid from '@mui/material/Grid';
 import PotentialQA from '../component/PotentialQA';
 import { apiCall } from '../Main';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 // or for Day.js
 const SearchIconWrapper = styled('div')(({ theme }) => ({
@@ -78,16 +82,50 @@ const Search = styled('div')(({ theme }) => ({
 const QACategory = () => {
   // const [expanded, setExpanded] = React.useState(false);
   const navigate = useNavigate();
+  const categoryid = useParams().categoryid;
   const [value, setValue] = React.useState(new Date());
   const [category, setCategory] = React.useState('');
   const [open, setOpen] = React.useState(false);
-  const categories = ['Career Advice', 'Covid-19', 'Mental Health Amid', 'Study From Home', 'Vaccinations', 'Others'];
   const [questionName, setQuestionName] = React.useState('');
-  const [questionCategory, setQuestionCategory] = React.useState('');
+  const [questionCategory, setQuestionCategory] = React.useState(categoryid);
   const [questionDescription, setQuestionDescription] = React.useState('');
   const [qaList, setQAList] = React.useState([]);
-  const { state } = useLocation();
+  const [categoriesName, setCategoriesName] = React.useState([]);
+  const [categoriesId, setCategoriesId] = React.useState([]);
+  const getCategories = async () => {
+    const data = await apiCall('/categories', 'GET');
+    setCategoriesName(data.categories.map((cate) => { return cate.category_name }));
+    setCategoriesId(data.categories.map((cate) => { return cate.id }));
+    setCategory(data.categories.filter((cate) => { return cate.id.toString() === categoryid.toString() })[0].category_name);
+    const data2 = await apiCall('/tags', 'GET');
+    data2.tags.map((tag, i) => { tag.checked = false; return tag });
+    setSubCategories(data2.tags);
+  };
 
+  const [subCategories, setSubCategories] = React.useState([]);
+  const [i, setI] = React.useState(1);
+  const setChecked = (value, index) => {
+    console.log(subCategories);
+    subCategories[index].checked = value;
+    console.log(subCategories);
+    setI(i + 1);
+
+  }
+  const [openTag, setOpenTag] = React.useState(false);
+
+  const handleSubmitTag = async () => {
+    const tagId = subCategories.filter((cate) => { return cate.checked }).map((cate) => { return `tag_ids=${cate.id}` }).join('&');
+    if (tagId.length > 0) {
+      const data = await apiCall(`qas?category_ids=${categoryid}&${tagId}`, 'GET');
+      setQAList(data.qas);
+    }
+    setOpenTag(false);
+  }
+
+  const handleTagClose = () => {
+    subCategories.map((tag, i) => { tag.checked = false; return tag });
+    setOpenTag(false);
+  }
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -103,24 +141,28 @@ const QACategory = () => {
 
   const getQADetail = async (id) => {
     const data = await apiCall(`qas?category_ids=${id}`, 'GET');
+    subCategories.map((tag, i) => { tag.checked = false; return tag });
     setQAList(data.qas);
-    setCategory(data.qas[0].category.category_name);
   }
 
   React.useEffect(() => {
+    getCategories();
 
-    if (state !== null) {
-      getQADetail(state.id);
-    }
   }, [])
+
+  if (i === 1) {
+    getQADetail(categoryid);
+    setI(i + 1);
+  };
 
   const FilterCategory = () => {
     return (
       <Autocomplete
         disablePortal
         id="combo-box-demo"
-        options={[{ label: 'Breakfast' }, { label: 'Lunch' }, { label: 'dinner' }, { label: 'afternoon tea' }, { label: 'others' }]}
-
+        options={categoriesName}
+        value={category}
+        onChange={(e) => { navigate(`/QACategory/${categoriesId[e.target.getAttribute("data-option-index")]}`); setI(1); }}
         renderInput={(params) => <TextField {...params} label="Category" />}
         size="small"
         fullWidth
@@ -128,29 +170,79 @@ const QACategory = () => {
     );
   }
 
-  const solveSearch = (event) => {
+
+
+  const solveSearch = async (event) => {
     if (event.keyCode === 13) {
       let keyword = document.getElementById('searchInput').value;
 
       console.log(keyword);
+      const tagId = subCategories.filter((cate) => { return cate.checked }).map((cate) => { return `tag_ids=${cate.id}` }).join('&');
+      if (tagId.length > 0) {
+        const data = await apiCall(`qas?category_ids=${categoryid}&${tagId}&keyword=${keyword}`, 'GET');
+        setQAList(data.qas);
+      } else {
+        const data = await apiCall(`qas?category_ids=${categoryid}&keyword=${keyword}`, 'GET');
+        setQAList(data.qas);
+      }
+
 
       document.getElementById('searchInput').value = '';
+
     }
   }
 
   const handleSubmit = () => {
+
     const info = {
-      question_name: questionName,
-      question_category: questionCategory,
-      question_description: questionDescription,
+      title: questionName,
+      category_id: questionCategory,
+      body: questionDescription,
     }
-    console.log(info);
+
+    apiCall('/thread', 'POST', info);
     handleClose();
+  }
+
+  const CheckBoxButtonsGroup = () => {
+    return (
+      <FormControl>
+        <FormLabel id="demo-controlled-radio-buttons-group">Category</FormLabel>
+
+        {subCategories.map((cate, i) => {
+          if (cate.checked) {
+            return <FormControlLabel checked control={<Checkbox />} label={cate.tag_name} onChange={(e) => { setChecked(e.target.checked, i); }} />
+          } else {
+            return <FormControlLabel value={cate.checked} control={<Checkbox />} label={cate.tag_name} onChange={(e) => { setChecked(e.target.checked, i); }} />
+          }
+
+        })}
+      </FormControl>
+    );
   }
 
   return (
     <div>
       <StudentHeader />
+      <Dialog
+        fullWidth={true}
+        maxWidth={"lg"}
+        open={openTag}
+        onClose={handleTagClose}
+      >
+        <DialogTitle> Choose Tags:</DialogTitle>
+        <DialogContent sx={{ marginLeft: '5%', marginRight: '5%', marginTop: '10px' }}>
+
+          <div>
+
+            <CheckBoxButtonsGroup></CheckBoxButtonsGroup>
+          </div>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleTagClose}>CANCLE</Button>
+          <Button onClick={handleSubmitTag}>SUMBIT</Button>
+        </DialogActions>
+      </Dialog>
       <div style={{ display: 'flex', marginLeft: '200px', marginTop: '40px' }}>
         <Typography variant="h2" sx={{ marginTop: '30px' }}>{category}</Typography>
         <img
@@ -161,7 +253,7 @@ const QACategory = () => {
       </div>
 
       <Container disableGutters maxWidth="lg" component="main" sx={{ pt: 8, pb: 6, padding: 0 }}>
-        <div style={{ display: 'flex', width: '100%', backgroundColor: '#ffffff', borderRadius: '10px', marginBottom: '10px' }}>
+        <div style={{ display: 'flex', width: '100%', backgroundColor: '#ffffff', borderRadius: '10px', marginBottom: '10px', paddingBottom: '80px', }}>
           <Box
             sx={{
               alignItems: 'center',
@@ -170,10 +262,10 @@ const QACategory = () => {
               width: '100%',
               paddingTop: '40px',
               paddingBottom: '40px',
-              borderRight: '2.0px solid rgb(230, 230, 230)',
               paddingLeft: '40px',
               paddingRight: '40px',
               height: '400px'
+
             }}
           >
             <div style={{
@@ -184,7 +276,7 @@ const QACategory = () => {
               width: '100%'
             }}>
               <div style={{
-                flex: 2,
+                flex: 3,
                 alignItems: 'center',
                 margin: 'auto',
                 paddingRight: '10px'
@@ -204,13 +296,23 @@ const QACategory = () => {
               </div>
               <div style={{
                 display: 'flex',
+                flex: 2,
+                alignItems: 'center',
+                margin: 'auto',
+                width: '100%',
+                paddingLeft: '10px',
+                paddingRight: '0px'
+              }}>{"Catgory: "}<FilterCategory /></div>
+
+              <div style={{
+                display: 'flex',
                 flex: 1,
                 alignItems: 'center',
                 margin: 'auto',
                 width: '100%',
                 paddingLeft: '10px',
                 paddingRight: '0px'
-              }}>Catgory: <FilterCategory /></div>
+              }}><Button variant="outlined" onClick={() => { setOpenTag(true) }}>Subcategory</Button></div>
             </div>
             <div style={{ width: '100%' }}>
               {/* <PotantialQA /> */}
@@ -268,6 +370,7 @@ const QACategory = () => {
                           label="Enhancement your question name here"
                           fullWidth={true}
                           variant="standard"
+
                           onChange={e => { setQuestionName(e.target.value) }}
                         />
                       </Grid>
@@ -278,10 +381,12 @@ const QACategory = () => {
                         <Autocomplete
                           disablePortal
                           id="combo-box-demo"
-                          options={categories}
-                          sx={{ width: 200, marginLeft: '10px' }}
+                          options={categoriesName}
+                          sx={{ marginLeft: '10px' }}
+                          value={category}
+                          fullWidth
                           renderInput={(params) => <TextField {...params} label="Type" />}
-                          onChange={(e) => setQuestionCategory(categories[e.target.getAttribute("data-option-index")])}
+                          onChange={(e) => setQuestionCategory(categoriesId[e.target.getAttribute("data-option-index")])}
                         />
                       </Grid>
                       <Grid item xs={12}>
@@ -309,8 +414,8 @@ const QACategory = () => {
             </div>
           </Box>
         </div>
-      </Container>
-    </div>
+      </Container >
+    </div >
   );
 }
 export default QACategory;

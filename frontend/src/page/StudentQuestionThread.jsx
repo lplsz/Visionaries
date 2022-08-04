@@ -13,6 +13,7 @@ import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
 import UploadImageChoice from '../component/UploadImageChoice';
 import { IconButton } from '@mui/material';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { apiCall } from '../Main';
 const theme = createTheme({
   components: {
     MuiButton: {
@@ -87,6 +88,16 @@ function stringAvatar(name) {
 }
 export default function StudentQuestionThread() {
   const me = 'Rhea Chang';
+  const getThreads = async () => {
+    //const data = await apiCall(`/threads_by_user/${localStorage.getItem('id')}`, 'GET');
+    const data = await apiCall(`/threads`, 'GET');
+    setQaList(data.threads);
+  }
+  const [i, setI] = React.useState(1);
+  if (i === 1) {
+    getThreads();
+    setI(isNaN + 1);
+  }
   const [value, setValue] = React.useState(0);
   const [qaList, setQaList] = React.useState([
     { name: 'Rhea Chang', time: '04/09/2022', question: 'Why do I need two vaccines?', category: 'vacation', discription: 'According to the current recommendation, why do I need two caccines? Does two vaccines can protect me from attacking by COVID-19.', new: 1, reply: [{ name: 'Jimmy Oliver', time: '2022/7/5 22:30', body: 'Hi I think you should go and get another booster' }, { name: 'Rhea Chang', time: '2022/7/5 22:31', body: 'Thanks a lot, but can I take it in UNSW?' }, { name: 'Rhea Chang', time: '2022/7/5 22:32', body: 'Do I need to book 1?' }, { name: 'Jimmy Oliver', time: '2022/7/5 22:32', body: 'Yes, you should do on hotdoc' }, { name: 'Rhea Chang', time: '2022/7/5 22:30', body: 'Thanks' }, { name: 'Rhea Chang', time: '2022/7/5 22:32', body: 'byebye' }, { name: 'Jimmy Oliver', time: '2022/7/5 22:32', body: 'byebye' }] },
@@ -94,54 +105,64 @@ export default function StudentQuestionThread() {
     { name: 'Skylar', time: '04/06/2022', question: 'What can I expect if offered an appointment?', category: 'vacation', discription: 'Appointments are scheduled to last around 30 minutes. We will ask you some questions to help work', new: 0, reply: [{ name: 'Jimmy Oliver', time: '2022/7/5 22:30', body: 'Hi I think you should go ' }, { name: 'Rhea Chang', time: '2022/7/5 22:31', body: 'Hi I think you should go too' }, { name: 'Rhea Chang', time: '2022/7/5 22:32', body: 'byebye' }, { name: 'Jimmy Oliver', time: '2022/7/5 22:32', body: 'byebye' }] },
 
   ])
+
+
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
+
+  const timeString = (time) => {
+    return time.split('T').join(' ');
+  }
 
   const HandleReply = (props) => {
     return (
       <div style={{ display: 'flex', flexDirection: 'column', marginTop: '20px', height: '350px', width: '850px', overflow: 'hidden', overflowY: 'scroll' }}>
         {
-          props.q.reply.map((r, i) => {
+          props.q.replies != undefined ?
+            props.q.replies.map((r, i) => {
 
-            if (r.name !== me) {
-              return (
-                <div>
-                  <div style={{ display: 'flex', marginBottom: '3px', }}>
-                    <div style={{ display: 'flex', flex: 1, alignContent: 'flex-end', justifyContent: 'flex-end', marginRight: '10px' }}><Avatar {...stringAvatar(r.name)} /></div>
-                    <div style={{ flex: 8 }}>
-                      <div style={{ borderRadius: '15px', background: '#F4F9F9', paddingLeft: '15px', paddingRight: '15px', paddingTop: '8px', paddingBottom: '8px' }}>{r.body}</div>
+              if (r.user.username !== me) {
+                return (
+                  <div>
+                    <div style={{ display: 'flex', marginBottom: '3px', }}>
+                      <div style={{ display: 'flex', flex: 1, alignContent: 'flex-end', justifyContent: 'flex-end', marginRight: '10px' }}><Avatar {...stringAvatar(r.user.username)} /></div>
+                      <div style={{ flex: 8 }}>
+                        <div style={{ borderRadius: '15px', background: '#F4F9F9', paddingLeft: '15px', paddingRight: '15px', paddingTop: '8px', paddingBottom: '8px' }}>{r.body}</div>
+                      </div>
+                      <div style={{ flex: 4, fontSize: '5px', color: 'gray', margin: '5px', marginTop: '0px' }}></div>
                     </div>
-                    <div style={{ flex: 4, fontSize: '5px', color: 'gray', margin: '5px', marginTop: '0px' }}></div>
-                  </div>
-                  <div style={{ display: 'flex', marginBottom: '10px' }}>
-                    <div style={{ flex: 1 }}></div>
-                    <div style={{ marginLeft: '10px', display: 'flex', flex: 8, fontSize: '5px', color: 'gray', marginTop: '0px', alignContent: 'flex-end', justifyContent: 'flex-start' }}>{r.time}</div>
-                    <div style={{ flex: 4 }}></div>
-                  </div>
-                </div>
-              )
-            } else {
-              return (
-                <div>
-                  <div style={{ display: 'flex', marginBottom: '3px' }}>
-                    <div style={{ display: 'flex', flex: 4 }}></div>
-                    <div style={{ display: 'flex', flex: 8, alignContent: 'flex-end', justifyContent: 'flex-end' }}>
-                      <div style={{ borderRadius: '15px', background: '#EFEFEF', paddingLeft: '15px', paddingRight: '15px', paddingTop: '8px', paddingBottom: '8px' }}>{r.body}</div>
+                    <div style={{ display: 'flex', marginBottom: '10px' }}>
+                      <div style={{ flex: 1 }}></div>
+                      <div style={{ marginLeft: '10px', display: 'flex', flex: 8, fontSize: '5px', color: 'gray', marginTop: '0px', alignContent: 'flex-end', justifyContent: 'flex-start' }}>{timeString(r.time)}</div>
+                      <div style={{ flex: 4 }}></div>
                     </div>
-                    <div style={{ display: 'flex', flex: 1, alignContent: 'flex-end', justifyContent: 'flex-start', marginLeft: '10px' }}><Avatar {...stringAvatar(r.name)} /></div>
                   </div>
-                  <div style={{ display: 'flex', marginBottom: '10px' }}>
-                    <div style={{ flex: 4 }}></div>
-                    <div style={{ display: 'flex', flex: 8, fontSize: '5px', color: 'gray', marginRight: '10px', marginTop: '0px', alignContent: 'flex-end', justifyContent: 'flex-end' }}>{r.time}</div>
-                    <div style={{ flex: 1 }}></div>
+                )
+              } else {
+                return (
+                  <div>
+                    <div style={{ display: 'flex', marginBottom: '3px' }}>
+                      <div style={{ display: 'flex', flex: 4 }}></div>
+                      <div style={{ display: 'flex', flex: 8, alignContent: 'flex-end', justifyContent: 'flex-end' }}>
+                        <div style={{ borderRadius: '15px', background: '#EFEFEF', paddingLeft: '15px', paddingRight: '15px', paddingTop: '8px', paddingBottom: '8px' }}>{r.body}</div>
+                      </div>
+                      <div style={{ display: 'flex', flex: 1, alignContent: 'flex-end', justifyContent: 'flex-start', marginLeft: '10px' }}><Avatar {...stringAvatar(r.user.username)} /></div>
+                    </div>
+                    <div style={{ display: 'flex', marginBottom: '10px' }}>
+                      <div style={{ flex: 4 }}></div>
+                      <div style={{ display: 'flex', flex: 8, fontSize: '5px', color: 'gray', marginRight: '10px', marginTop: '0px', alignContent: 'flex-end', justifyContent: 'flex-end' }}>{timeString(r.time)}</div>
+                      <div style={{ flex: 1 }}></div>
+                    </div>
                   </div>
-                </div>
 
-              )
-            }
+                )
+              }
 
-          })
+
+            })
+            :
+            <></>
         }
       </div >
     )
@@ -149,22 +170,27 @@ export default function StudentQuestionThread() {
   }
 
   const HandleThread = (props) => {
+    const [replyText, setReplyText] = React.useState('');
+    const handleReply = async (tid) => {
+      await apiCall('reply', 'POST', { thread_id: tid, body: replyText });
+
+    }
     return (
       <div>
-        <div style={{ display: 'flex' }}><div style={{ fontWeight: 'bold', flex: 1 }}>Category: </div> <div style={{ flex: 6 }}>{props.q.category}</div></div>
-        <div style={{ display: 'flex' }}> <div style={{ fontWeight: 'bold', flex: 1 }}>Discription: </div><div style={{ flex: 6 }}>{props.q.discription}</div></div>
+        <div style={{ display: 'flex' }}><div style={{ fontWeight: 'bold', flex: 1 }}>Category: </div> <div style={{ flex: 6 }}>{props.q.category.category_name}</div></div>
+        <div style={{ display: 'flex' }}> <div style={{ fontWeight: 'bold', flex: 1 }}>Discription: </div><div style={{ flex: 6 }}>{props.q.body}</div></div>
         <div>
           <HandleReply q={props.q} />
         </div>
         <div style={{ display: 'flex', marginTop: '10px', background: '#F7F7F7', padding: '15px', borderRadius: '15px' }}>
           <div style={{ width: '700px', marginRight: '4px' }}>
-            <TextField fullWidth size="small" id="fullWidth" />
+            <TextField fullWidth size="small" id="fullWidth" value={replyText} onChange={(e) => { setReplyText(e.target.value) }} />
           </div>
           <div style={{ width: '40px' }}>
-            <IconButton><ArrowUpwardIcon></ArrowUpwardIcon></IconButton>
+            <IconButton onClick={() => { handleReply(props.q.id) }}><ArrowUpwardIcon></ArrowUpwardIcon></IconButton>
           </div>
           <div style={{ width: '40px' }}>
-            <UploadImageChoice />
+            <UploadImageChoice tid={props.q.id}/>
           </div>
         </div>
       </div>
@@ -193,13 +219,13 @@ export default function StudentQuestionThread() {
             }}
           >
             {qaList.map((q, i) => {
-              if (q.new !== 0) {
+              if (q.new !== undefined) {
                 return (
-                  <Tab classes={{ wrapper: { textAlign: "right" } }} label={<StyledBadge color="secondary" badgeContent={q.new}><div style={{ textAlign: 'left', width: '100%' }}>{q.question}</div></StyledBadge>}{...a11yProps(i)} sx={{ minWidth: '450px', width: '450px', right: '0', alignItems: "flex-start", paddingRight: 5 }} />
+                  <Tab classes={{ wrapper: { textAlign: "right" } }} label={<StyledBadge color="secondary"><div style={{ textAlign: 'left', width: '100%' }}>{q.title}</div></StyledBadge>}{...a11yProps(i)} sx={{ minWidth: '450px', width: '450px', right: '0', alignItems: "flex-start", paddingRight: 5 }} />
                 )
               } else {
                 return (
-                  <Tab classes={{ wrapper: { textAlign: "right" } }} label={<div style={{ textAlign: 'left' }}>{q.question}</div>}{...a11yProps(i)} sx={{ minWidth: '300px', width: '300px', right: '0', alignItems: "flex-start" }} />
+                  <Tab classes={{ wrapper: { textAlign: "right" } }} label={<div style={{ textAlign: 'left' }}>{q.title}</div>}{...a11yProps(i)} sx={{ minWidth: '300px', width: '300px', right: '0', alignItems: "flex-start" }} />
                 )
               }
             })}

@@ -7,13 +7,13 @@ import Link from '@mui/material/Link';
 
 export const apiCall = async (path, method, body) => {
   console.log(body)
-  const token = localStorage.getItem('uid');
+  const token = localStorage.getItem('token');
   const url = 'http://127.0.0.1:5000/' + path;
   const init = {
     method: method,
     headers: {
       'Content-Type': 'application/json',
-      'Authorization': (path === 'admin/auth/register' || path === 'admin/auth/login') ? undefined : `Bearer ${token}`,
+      'Authorization': (path === 'login' || path === 'expert_register' || path === 'student_register') ? undefined : `Bearer ${token}`,
     },
     body: method === 'GET' ? undefined : JSON.stringify(body),
   };

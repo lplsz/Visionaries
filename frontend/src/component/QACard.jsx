@@ -30,7 +30,7 @@ const QACard = (props) => {
 
     return (
         <Grid item className="GC" key={props.category.key} xs={12} sm={6} md={4}>
-            <Card sx={{ height: '100%', display: 'flex', flexDirection: 'column' }} onClick={() => navigate('/QACategory', { state: { id: id } })}>
+            <Card sx={{ height: '100%', display: 'flex', flexDirection: 'column' }} onClick={() => navigate(`/QACategory/${id}`)}>
                 {<CardMedia
                     componnet="img"
                     sx={{

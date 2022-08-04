@@ -13,6 +13,7 @@ import AccordionSummary from '@mui/material/AccordionSummary';
 import Typography from '@mui/material/Typography';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import ReactPlayer from 'react-player';
+import DOMPurify from 'dompurify';
 
 const PotentialQA = (props) => {
     const [expanded, setExpanded] = React.useState(false);
@@ -25,6 +26,11 @@ const PotentialQA = (props) => {
     const handleChange = (panel) => (event, isExpanded) => {
         setExpanded(isExpanded ? panel : false);
     };
+    const createMarkup = (html) => {
+        return {
+            __html: DOMPurify.sanitize(html)
+        }
+    }
 
 
     return (
@@ -54,7 +60,7 @@ const PotentialQA = (props) => {
                                             className='react-player'
                                             width='80%'
                                             height='300px' />}
-                                    <Typography >{data.body} </Typography>
+                                    <Typography ><div className="preview" dangerouslySetInnerHTML={createMarkup(data.body)}></div> </Typography>
 
                                 </div>
                             </AccordionDetails>

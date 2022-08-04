@@ -34,6 +34,7 @@ function App() {
         <Route path="/expert_profile" element={<ExpertProfile />} />
         <Route path="/student_QA_list" element={<StudentQAList />} />
         <Route path="/QACategory" element={<QACategory />} />
+        <Route path="/QACategory/:categoryid" element={<QACategory />} />
         <Route path="/expert_ava" element={<ExpertAva />} />
         <Route path="/student_main/find_expert" element={<StudentFindExpert />} />
         <Route path="/qaAdd" element={<QAadd />}></Route>
