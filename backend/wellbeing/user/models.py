@@ -4,6 +4,7 @@ from wellbeing.QA.models import QA, Category
 from wellbeing.extensions import db
 from wellbeing.meeting.models import Availability
 from wellbeing.thread.models import Thread
+from wellbeing.chatbot.models import UserQuestion
 
 
 ####################
@@ -57,6 +58,10 @@ class User(db.Model):
     availability_as_expert = db.relationship('Availability', foreign_keys='Availability.expert_id', lazy=True,
                                              uselist=True, back_populates='expert')
 
+
+    # # chatbot
+    user_questions = db.relationship('UserQuestion', lazy=True, uselist=True, back_populates='user')
+
     def __repr__(self):
         return f'<User {self.username} {self.email} {self.account_type}>'
 
@@ -81,7 +86,9 @@ class User(db.Model):
             'profile_image_src': self.profile_image_src,
             'languages': self.languages,
             'qualifications': self.qualifications,
-            'interested_categories': self.interested_categories,
+            'interested_categories': [
+                category.serialized_brief for category in self.interested_categories
+            ],
         }
 
 
@@ -96,6 +103,13 @@ class Language(db.Model):
     def __repr__(self):
         return f'<Language {self.language_name}>'
 
+    @property
+    def serialized(self):
+        return {
+            'id': self.id,
+            'language_name': self.language_name,
+        }
+
 
 class Qualification(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -105,3 +119,12 @@ class Qualification(db.Model):
 
     # Relationships
     user = db.relationship('User', lazy=False, back_populates='qualifications')
+
+    @property
+    def serialized(self):
+        return {
+            'id': self.id,
+            'user_id': self.user_id,
+            'acquired_at': self.acquired_at,
+            'description': self.description,
+        }

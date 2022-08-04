@@ -6,7 +6,6 @@ from wellbeing.user.schemas import (
     GetUserOutSchema,
     PutUserInSchema,
     GetLanguagesOutSchema,
-    ExperienceSchema
 )
 
 import wellbeing.user.controllers as controllers
@@ -44,6 +43,7 @@ class UserProfile(MethodView):
         return controllers.get_profile_by_id(current_user.id)
 
     @blueprint.input(PutUserInSchema)
+    @blueprint.output(GetUserOutSchema, 200)
     @blueprint.doc(
         security='JWT Bearer Token',
         summary='Update User profile',

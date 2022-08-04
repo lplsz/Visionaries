@@ -36,7 +36,7 @@ Thread Schema
 '''
 
 
-class GetThreadOutSchema(Schema):
+class GetThreadsOutSchema(Schema):
     threads = List(Nested(ThreadSchema), required=True)
 
 
