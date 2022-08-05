@@ -45,6 +45,13 @@ def put_thread(data):
     return {'thread': thread.serialized}
 
 
+def resolve_thread(thread_id):
+    thread = Thread.query.filter_by(id=thread_id).first_or_404('Thread Not Found')
+    thread.resolved = not thread.resolved
+    db.session.commit()
+    return {'thread': thread.serialized}
+
+
 '''
 Reply Controllers
 '''

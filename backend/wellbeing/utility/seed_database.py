@@ -6,6 +6,7 @@ from wellbeing.user.models import User
 from wellbeing.QA.models import Category, QA, Tag, QATag
 from wellbeing.user.models import User, Language, Qualification
 from wellbeing.user.models import UserLanguage, UserCategory, UserQualification
+from wellbeing.meeting.models import TimeRange
 
 SEEDING_DATA_PATH = Path(__file__).absolute().parents[2] / "seeding_data.json"
 
@@ -14,6 +15,8 @@ def seed_database():
     with open(SEEDING_DATA_PATH, 'r') as f:
         data = json.load(f)
 
+    try:
+        # Single Table
         for user in data['user']:
             db.session.add(User(**user))
 
@@ -32,25 +35,29 @@ def seed_database():
         for qualification in data['qualification']:
             db.session.add(Qualification(**qualification))
 
-        try:
-            db.session.commit()
+        for timerange in data['timerange']:
+            db.session.add(TimeRange(**timerange))
 
-            for qa_tag in data['qa_tag']:
-                db.session.add(QATag(**qa_tag))
+        db.session.commit()
 
-            for user_language in data['user_language']:
-                db.session.add(UserLanguage(**user_language))
+        # Multi Table
+        for qa_tag in data['qa_tag']:
+            db.session.add(QATag(**qa_tag))
 
-            for user_category in data['user_category']:
-                db.session.add(UserCategory(**user_category))
+        for user_language in data['user_language']:
+            db.session.add(UserLanguage(**user_language))
 
-            for user_qualification in data['user_qualification']:
-                db.session.add(UserQualification(**user_qualification))
+        for user_category in data['user_category']:
+            db.session.add(UserCategory(**user_category))
 
-            db.session.commit()
-        except Exception as e:
-            db.session.rollback()
-            raise e
+        for user_qualification in data['user_qualification']:
+            db.session.add(UserQualification(**user_qualification))
+
+        db.session.commit()
+
+    except Exception as e:
+        db.session.rollback()
+        raise e
 
 
 if __name__ == '__main__':
