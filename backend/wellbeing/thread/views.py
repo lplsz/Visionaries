@@ -23,7 +23,7 @@ Thread Endpoints
 class ThreadsByUser(MethodView):
     @thread_blueprint.output(GetThreadsOutSchema, 200)
     @thread_blueprint.doc(
-        summary='Get threads the current user is involved in',
+        summary='Get all the threads the current user has replied to',
         responses={200: 'OK', 404: 'User Not Found'},
     )
     def get(self, user_id):
@@ -35,7 +35,7 @@ class UnreadThreads(MethodView):
     @thread_blueprint.output(GetThreadsOutSchema, 200)
     @thread_blueprint.doc(
         security='JWT Bearer Token',
-        summary='Get unread threads of current user',
+        summary='Get all unanswered threads that the current user is interested in',
         responses={200: 'OK', 404: 'User Not Found'},
     )
     @jwt_required()
@@ -47,8 +47,8 @@ class UnreadThreads(MethodView):
 class Threads(MethodView):
     @thread_blueprint.output(GetThreadsOutSchema, 200)
     @thread_blueprint.doc(
-        summary='Get Threads',
-        description='Get Threads',
+        summary='Get all threads',
+        description='Get all threads',
     )
     def get(self):
         return controllers.get_threads()
