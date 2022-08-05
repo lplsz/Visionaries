@@ -45,8 +45,8 @@ class ChatbotResponse(MethodView):
     @blueprint.input(ChatbotSchema)
     @blueprint.doc(
         security='JWT Bearer Token',
-        summary='Update User profile',
-        description='Update User profile',
+        summary='Chatbot Responses',
+        description='Chatbot Responses',
         responses={
             200: 'User profile Updated',
             404: 'User Not Found',

@@ -82,7 +82,8 @@ def state3_response(question):
     if "related_questions" not in results.keys():
         return []
 
-    return [f"{result['question']}: {result['link']}"  for result in results["related_questions"][:3]]
+    # return [f"{result['question']}: {result['link']}"  for result in results["related_questions"][:3]]
+    return [f"{result['question']}"  for result in results["related_questions"][:3]]
 
     # for msg in range(3):
     #     response_list_related.append(results["related_questions"][msg]["question"]+ ": " + results["related_questions"][msg]["link"])
