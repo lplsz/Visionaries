@@ -11,12 +11,10 @@ class MessageParser {
             this.actionProvider.messageHandler();
         } else if (lowercase.includes("meeting")) {
             this.actionProvider.handleMeeting();
-        } else if (lowercase.includes("what") || lowercase.includes("want")) {
+        } else if (lowercase.includes("what") || lowercase.includes("know") || lowercase.includes("how") || lowercase.includes("why") || lowercase.includes("when")) {
             this.actionProvider.handleQuestion(lowercase);
         } else if (lowercase.includes("sql")) {
             this.actionProvider.handleSqlQuiz();
-        } else if (lowercase.includes("continue")) {
-            this.actionProvider.handleContinue();
         } else if (lowercase.includes("thank")) {
             this.actionProvider.handleGreeting();
         } else if (lowercase.includes("score")) {

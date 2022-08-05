@@ -24,6 +24,7 @@ import DialogContent from "@mui/material/DialogContent";
 import Grid from '@mui/material/Grid';
 import { useNavigate } from 'react-router-dom';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { apiCall } from '../Main';
 const theme = createTheme({
   status: {
     danger: '#000000',
@@ -62,46 +63,31 @@ const ExpertMain = () => {
   };
 
   const [qaList, setQaList] = React.useState([
-    {
-      name: 'Rhea', time: '19/07/2022',
-      question: 'Why do I need two vaccines?', category: 'vaccine',
-      description: 'According to the current recommendation, why do I need two caccines? Does two vaccines can protect me from attacking by COVID-19.'
-    },
-    {
-      name: 'Echo', time: '18/07/2022',
-      question: 'What is the recommended interval between dose 1 and dose 2?', category: 'vaccine',
-      description: 'Do different brands of vaccine have different recommended interval? Do I need to strictly follow this interval?'
-    },
-    {
-      name: 'Skylar', time: '18/07/2022',
-      question: 'What about the Pfizer vaccine, does that have any side effects?', category: 'vaccine',
-      description: 'All vaccines can have side effects and the most common ones, like those associated with Pfizer are pain or swelling at the injection site, tiredness, headache, muscle pain, fever and chills. What should I do?',
-    },
-    {
-      name: 'Cassie', time: '17/07/2022',
-      question: 'I am an international student, can I have the vaccine', category: 'vaccine',
-      description: 'Is COVID-19 vaccines to everyone currently in Australia? And do I need a Medicare card.'
-    },
-    {
-      name: 'Jane', time: '17/07/2022',
-      question: 'what is the current vaccine advice for adults?', category: 'vaccine',
-      description: 'It is hard to keep track of the changes in recommendations, what is the current vaccine advice for young adults?'
-    },
 
   ])
 
-
+  const getQuestions = async () => {
+    const data = await apiCall(`/unread_threads`, 'GET');
+    setQaList(data.threads);
+    console.log(data);
+  }
+  const [i, setI] = React.useState(1);
+  if (i === 1) {
+    getQuestions();
+    
+    setI(i+1);
+  }
   const SingleQA = (props) => {
-
+    console.log(props.data);
     return (
       <div>
-        <div style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'flex-end', marginTop: '0px', marginBottom: '3px', marginRight: '10px' }}> <Typography sx={{ fontSize: '6px' }}>{props.data.time} </Typography></div>
-        <div style={{ display: 'flex' }}>
-          <div> <Typography >{props.data.name}: </Typography></div>
-          <div>
-            <Typography sx={{ marginLeft: '10px' }}>{props.data.description} </Typography>
+        <div style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'flex-end', marginTop: '0px', marginBottom: '3px', marginRight: '10px' }}> <Typography sx={{ fontSize: '6px' }}>{props.data.created_at.split('T')[0]} </Typography></div>
+        <div style={{ display: 'flex',width:'100%' }}>
+          <div style = {{flex: 3}}> <Typography >{props.data.user.username}: </Typography></div>
+          <div style = {{flex: 5}}>
+            <Typography sx={{ marginLeft: '10px' }}>{props.data.body} </Typography>
           </div>
-          <div style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'flex-end' }}>
+          <div style={{ flex:2, display: 'flex', justifyContent: 'flex-end', alignItems: 'flex-end' }}>
             <IconButton
               size="middle"
               aria-label="show 4 new mails"
@@ -132,12 +118,12 @@ const ExpertMain = () => {
                   id={`panel${i}bh-header`}
                 >
                   <Typography sx={{ flexShrink: 0 }}>
-                    {data.question}
+                    {data.title}
                   </Typography>
                   <div style={{ width: '100%', marginRight: '10px', display: 'flex', justifyContent: 'flex-end', alignItems: 'flex-end' }}>
 
                     <Chip
-                      label={data.category}
+                      label={data.category.category_name}
                       size="small"
                     />
                   </div>
