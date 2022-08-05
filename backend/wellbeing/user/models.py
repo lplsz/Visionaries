@@ -81,6 +81,7 @@ class User(db.Model):
             'id': self.id,
             'username': self.username,
             'email': self.email,
+            'password': self.password,
             'account_type': self.account_type,
             'biography': self.biography,
             'profile_image_src': self.profile_image_src,
