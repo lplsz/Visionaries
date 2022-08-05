@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { EditorState } from 'draft-js';
 import { Editor } from 'react-draft-wysiwyg';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
@@ -8,6 +8,7 @@ import Paper from '@mui/material/Paper';
 import { convertToRaw } from 'draft-js';
 import Container from '@mui/material/Container';
 import draftToHtml from 'draftjs-to-html';
+import { apiCall } from '../Main';
 import Typography from '@mui/material/Typography';
 import DOMPurify from 'dompurify';
 import Radio from '@mui/material/Radio';
@@ -19,6 +20,10 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import ExpertHeader from "../component/ExpertHeader";
 import Checkbox from '@mui/material/Checkbox';
 import Grid from '@mui/material/Grid';
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import Button from '@mui/material/Button';
 import { display } from '@mui/system';
 const theme = createTheme({
   components: {
@@ -46,121 +51,31 @@ const theme = createTheme({
 });
 function QAadd() {
 
-  const [editorState, setEditorState] = useState(EditorState.createEmpty()) // ContentState JSON
-  const categories = [
-    {
-      id: 0,
-      category_name: 'Career Advice',
-    },
-    {
-      id: 1,
-      category_name: 'Covid-19',
-    },
-    {
-      id: 2,
-      category_name: 'Mental Health Amid',
-    },
-    {
-      id: 3,
-      category_name: 'Study From Home',
-    },
-    {
-      id: 4,
-      category_name: 'Vaccinations',
-    },
-    {
-      id: 5,
-      category_name: 'Others',
-    },
-  ];
-  const subCategories = {
-    'Career Advice': [
-      {
-        "id": 7,
-        "tag_name": "Seeking for job"
-      },
-      {
-        "id": 8,
-        "tag_name": "Job planning"
-      },
-      {
-        "id": 9,
-        "tag_name": "CV writing"
-      },
-    ],
-    'Covid-19': [
-      {
-        "id": 7,
-        "tag_name": "Help stop the spread of COVID-19"
-      },
-      {
-        "id": 8,
-        "tag_name": "Spread"
-      },
-      {
-        "id": 9,
-        "tag_name": "If You Have COVID-19"
-      },
-      {
-        "id": 10,
-        "tag_name": "If You Come into Close Contact with Someone with COVID-19"
-      },
-    ],
-    'Mental Health Amid': [
-      {
-        "id": 11,
-        "tag_name": "Children"
-      },
-      {
-        "id": 12,
-        "tag_name": "Contact Tracing"
-      }
-    ],
-    'Study From Home': [
-      {
-        "id": 11,
-        "tag_name": "Children"
-      },
-      {
-        "id": 12,
-        "tag_name": "Contact Tracing"
-      }
-    ],
-    'Vaccinations': [
-      {
-        "id": 1,
-        "tag_name": "Boosters"
-      },
-      {
-        "id": 2,
-        "tag_name": "Getting Your Vaccine"
-      },
-      {
-        "id": 3,
-        "tag_name": "Safety"
-      },
-      {
-        "id": 4,
-        "tag_name": "Preparing for Your Vaccine"
-      },
-      {
-        "id": 5,
-        "tag_name": "After Your Vaccine"
-      },
-    ],
-    'Others': []
+  const [editorState, setEditorState] = React.useState(EditorState.createEmpty()) // ContentState JSON
+  const [categories, setCategories] = React.useState([]);
+  const getCategories = async () => {
+    const data = await apiCall('/categories', 'GET');
+    setCategories(data.categories);
+    const data2 = await apiCall('/tags', 'GET');
+    data2.tags.map((tag, i) => { tag.checked = false; return tag });
+    setSubCategories(data2.tags);
   };
+  const [subCategories, setSubCategories] = React.useState([]);
+  React.useEffect(() => {
+    getCategories();
+  }, []);
+
   const handleEditorChange = (state) => {
     setEditorState(state);
     convertContentToHTML();
   }
   const [value, setValue] = React.useState('Covid-19');
-  const [description, setDescription] = React.useState('');
+  const [question, setquestion] = React.useState('');
   const [video, setVideo] = React.useState('');
   const handleChange = (event) => {
     setValue(event.target.value);
   };
-  const [convertedContent, setConvertedContent] = useState(null);
+  const [convertedContent, setConvertedContent] = React.useState(null);
   const convertContentToHTML = () => {
     console.log(editorState);
     let currentContentAsHTML = convertToRaw(editorState.getCurrentContent());
@@ -192,30 +107,107 @@ function QAadd() {
       </FormControl>
     );
   }
+  const [i, setI] = React.useState(0);
+  const setChecked = (value, index) => {
+    console.log(subCategories);
+    subCategories[index].checked = value;
+    console.log(subCategories);
+    setI(i + 1);
+
+  }
+  const handleSubmit = () => {
+    const submitData = {
+      body: convertedContent,
+      title: question,
+      category_id: categories.filter((category) => { return category.category_name === value })[0].id,
+      tag_ids: subCategories.filter((category) => { return category.checked }).map((category) => { return category.id })
+
+    }
+    apiCall('/qa', 'POST', submitData);
+
+  }
+  const handleSubmitTag = async () => {
+    const info = {
+      tag_name: tagName
+    }
+    await apiCall('/tag', 'POST', info);
+    console.log(info);
+    const data2 = await apiCall('/tags', 'GET');
+    data2.tags.map((tag, i) => { tag.checked = false; return tag });
+    setSubCategories(data2.tags);
+    handleClose();
+  }
+
   const CheckBoxButtonsGroup = () => {
     return (
       <FormControl>
         <FormLabel id="demo-controlled-radio-buttons-group">Category</FormLabel>
 
-        {subCategories[value].map((cate, i) => {
-          return <FormControlLabel value={cate.tag_name} control={<Checkbox />} label={cate.tag_name} />
+        {subCategories.map((cate, i) => {
+          if (cate.checked) {
+            return <FormControlLabel checked control={<Checkbox />} label={cate.tag_name} onClick={(e) => { setChecked(e.target.checked, i); }} />
+          } else {
+            return <FormControlLabel value={cate.checked} control={<Checkbox />} label={cate.tag_name} onClick={(e) => { setChecked(e.target.checked, i); }} />
+          }
+
         })}
       </FormControl>
     );
   }
+  const handleClose = () => {
+    setOpen(false);
+  };
+  const [open, setOpen] = React.useState(false);
+  const [tagName, setTageName] = React.useState('');
 
   //<div className="preview" dangerouslySetInnerHTML={createMarkup(convertedContent)}></div>
   return (
     <ThemeProvider theme={theme}>
       <ExpertHeader />
+      <Dialog
+        fullWidth={true}
+        maxWidth={"lg"}
+        open={open}
+        onClose={handleClose}
+      >
+        <DialogContent sx={{ marginLeft: '5%', marginRight: '5%', marginTop: '10px' }}>
+          <Typography variant="h3" gutterBottom sx={{ textAlign: 'center', marginBottom: '50px' }}>
+            Create A New Tag:
+          </Typography>
+          <div>
+            <Grid container spacing={3}>
+              <Grid item xs={12}>
+                <Typography variant="h6" gutterBottom>
+                  Tag Name:
+                </Typography>
+                <TextField
+                  required
+                  id="tagName"
+                  name="tagName"
+                  label="Add a new tag"
+                  fullWidth={true}
+                  variant="standard"
+                  onChange={e => { setTageName(e.target.value) }}
+                />
+              </Grid>
+
+            </Grid>
+          </div>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose}>CANCLE</Button>
+          <Button onClick={handleSubmitTag}>SUMBIT</Button>
+        </DialogActions>
+      </Dialog>
       <div style={{ display: 'flex', marginLeft: '80px', marginTop: '40px' }}>
         <Typography variant="h3" sx={{ padding: 0, margin: 0 }}>Adding Q and A</Typography>
       </div>
+      <div style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'flex-end', marginRight: '80px' }}><button style={{}} onClick={handleSubmit}>Submit</button></div>
       <div style={{ display: 'flex', marginLeft: '80px', marginRight: '80px', marginTop: '20px', marginBottom: '20px' }}>
         <div style={{ border: '1px solid gray', height: '700px', borderRadius: '30px', width: '100%', padding: '30px' }}>
           <div style={{ display: 'flex', width: '100%' }}>
             <div style={{ flex: 1 }}><RadioButtonsGroup /></div>
-            <div style={{ flex: 1 }}><CheckBoxButtonsGroup /></div>
+            <div style={{ flex: 1 }}><CheckBoxButtonsGroup /><button onClick={() => { setOpen(true); }}>Add subcategory</button></div>
             <div style={{ flex: 3, width: '100%' }}>
               <div style={{ marginRight: '15px', color: 'gray' }}>{"Q&A detail:"}</div>
               <div style={{ display: 'flex' }}>
@@ -223,13 +215,13 @@ function QAadd() {
                 <div style={{ width: '100%' }}>
                   <TextField
                     required
-                    id="description"
-                    name="description"
+                    id="question"
+                    name="question"
                     label="Question"
                     fullWidth
                     variant="standard"
-                    value={description}
-                    onChange={(e) => setDescription(e.target.value)}
+                    value={question}
+                    onChange={(e) => setquestion(e.target.value)}
                   />
                 </div>
               </div>
@@ -238,8 +230,8 @@ function QAadd() {
                 <div style={{ width: '100%' }}>
                   <TextField
                     required
-                    id="description"
-                    name="description"
+                    id="question"
+                    name="question"
                     label="Video"
                     fullWidth
                     variant="standard"

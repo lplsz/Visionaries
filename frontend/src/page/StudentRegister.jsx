@@ -21,6 +21,8 @@ import AssignmentIndIcon from '@mui/icons-material/AssignmentInd';
 import CardMedia from '@mui/material/CardMedia';
 import Photo from './img/OIP.jpg'
 import Paper from '@mui/material/Paper';
+import CVDialog from '../component/CVDialog';
+import PhotoCamera from '@mui/icons-material/PhotoCamera';
 
 const theme = createTheme();
 
@@ -54,8 +56,8 @@ const StudentRegister = () => {
 				username: name,
 			}
 			const data = await apiCall('/register', 'POST', student);
-			if (typeof (data) === 'string' && data.startsWith('400')) {
-				setErrorMessage(data.slice(6, data.length - 4));
+			if (typeof (data) === 'string' && (! data.startsWith('200') || ! data.startsWith('201'))) {
+				setErrorMessage(data.slice(3, ));
 				setOpen(true);
 			} else {
 				localStorage.setItem('token', data.access_token);
@@ -63,10 +65,12 @@ const StudentRegister = () => {
 				if (data.user.account_type === 'student') {
 					navigate('/student_main');
 				}
-
 			}
 		}
 	}
+
+  const [dialogOpen, setDiaOpen] = React.useState(false);
+
 	return (
 		<ThemeProvider theme={theme}>
 			<Container component="main" sx={{ width: '50%' }}>
@@ -123,6 +127,7 @@ const StudentRegister = () => {
 										fullWidth
 										id="Name"
 										label="Name"
+                    value={name}
 										autoFocus
 										onChange={e => setName(e.target.value)}
 									/>
@@ -135,6 +140,7 @@ const StudentRegister = () => {
 										label="Email Address"
 										name="email"
 										autoComplete="email"
+                    value={email}
 										onChange={e => setEmail(e.target.value)}
 									/>
 								</Grid>
@@ -168,11 +174,16 @@ const StudentRegister = () => {
 					onChange={(event, newValue) => {
 						if (newValue === 0) {
 							navigate('/login');
-						}
+						} 
+            else if (newValue === 2) {
+              setDiaOpen(true);
+            }
 					}}
 				>
 					<BottomNavigationAction label="Login" icon={<LoginIcon />} />
 					<BottomNavigationAction label="Register" icon={<AssignmentIndIcon />} />
+          <BottomNavigationAction label="Upload" icon={<PhotoCamera />} />
+          <CVDialog dialogOpen={dialogOpen} setDiaOpen={setDiaOpen} setName={setName} setEmail={setEmail} setOpen={setOpen}/>
 				</BottomNavigation>
 			</Container>
 		</ThemeProvider>

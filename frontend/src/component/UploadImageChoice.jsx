@@ -13,7 +13,7 @@ import PhotoCamera from '@mui/icons-material/PhotoCamera';
 import { styled } from '@mui/material/styles';
 import Tooltip from '@mui/material/Tooltip';
 import UPLOAD from '@mui/icons-material/UploadFile';
-
+import { apiCall } from '../Main';
 const Input = styled('input')({
   display: 'none',
 });
@@ -35,8 +35,8 @@ const UploadImageChoice = (props) => {
         reader.readAsDataURL(file);
         reader.onload = function (e) {
           const dataimg = e.target.result;
-          props.setImgSrc(dataimg);
-          props.setImageSrc(dataimg);
+          const text = `<img width='90%' height='90%' src={${dataimg}} alt={'replyimg'}></img>`
+          apiCall('reply', 'POST', { thread_id: props.tid, body: text });
         }
       }
     }
@@ -113,7 +113,7 @@ const UploadImageChoice = (props) => {
             </DialogContent>
             <DialogActions>
               <Button onClick={() => { handleDialogClose(); handleClose(); }}>CANCLE</Button>
-              <Button onClick={() => { props.setImageSrc(imgSrc); handleDialogClose(); handleClose(); }}>SUMBIT</Button>
+              <Button onClick={() => { const text = `<img width='90%' height='90%' src={${imgSrc}} alt={'replyimg'}></img>`; apiCall('reply', 'POST', { thread_id: props.tid, body: text });  handleDialogClose(); handleClose(); }}>SUMBIT</Button>
             </DialogActions>
           </Dialog>
         </MenuItem>

@@ -38,6 +38,7 @@ class Thread(db.Model):
                 'id': self.category.id,
                 'category_name': self.category.category_name,
             },
+            'replies': [reply.serialized for reply in self.replies],
         }
 
 
