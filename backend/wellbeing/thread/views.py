@@ -85,6 +85,22 @@ class Thread(MethodView):
         return controllers.put_thread(data)
 
 
+@thread_blueprint.route('/set_thread_resolved/<int:thread_id>')
+class ResolveThread(MethodView):
+    @thread_blueprint.output(PostThreadOutSchema, 200)
+    @thread_blueprint.doc(
+        security='JWT Bearer Token',
+        summary='Set thread resolved',
+        description='Set thread resolved',
+        responses={
+            404: 'Thread not found'
+        }
+    )
+    @jwt_required()
+    def put(self, thread_id):
+        return controllers.resolve_thread(thread_id)
+
+
 '''
 Reply Endpoints
 '''

@@ -53,11 +53,11 @@ class User(db.Model):
     qas = db.relationship('QA', lazy=True, uselist=True, back_populates='author')
 
     # # meeting
-    availability_as_user = db.relationship('Availability', foreign_keys='Availability.user_id', lazy=True, uselist=True,
-                                           back_populates='user')
+    availability_as_student = db.relationship('Availability', foreign_keys='Availability.student_id', lazy=True,
+                                              uselist=True,
+                                              back_populates='student')
     availability_as_expert = db.relationship('Availability', foreign_keys='Availability.expert_id', lazy=True,
                                              uselist=True, back_populates='expert')
-
 
     # # chatbot
     user_questions = db.relationship('UserQuestion', lazy=True, uselist=True, back_populates='user')
