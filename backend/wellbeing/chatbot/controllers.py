@@ -27,8 +27,11 @@ def serch_func(response, q, prefix, num):
     search = GoogleSearch(params)
     results = search.get_dict()
 
+    res = []
     for msg in range(num):
-        response.append(results["organic_results"][msg]["title"]+ ": " + results["organic_results"][msg]["link"])
+        res.append({"text":results["organic_results"][msg]["title"], "herf":results["organic_results"][msg]["link"]})
+        
+    response['link'] = res
     return response
 
 
@@ -38,32 +41,32 @@ def rank_matching_qa(id_list, title_list, q):
         rates.append(fuzz.ratio(q,title))
     res = list(zip(id_list, title_list, rates))
     df_res = pd.DataFrame(res)
-    top3_id_list = list(df_res.sort_values(by=[2],ascending=False)[:3][0])
+    top3_id_list = df_res.sort_values(by=[2],ascending=False)[:3][0].tolist()
 
     return top3_id_list
 
 
 def state2_response(type, question):
-    response_list_video = ["Sure, here are some video links related to your questions: "]
-    response_list_guide = ["To answer your question: " + question + ", here are some helpful guide that we found for you: "]
-    
+    response_video = {}
+    response_guide = {}
+
     if type == "video":
-        serch_func(response_list_video, question, "youtube", 5)
-        return response_list_video
+        serch_func(response_video, question, "youtube", 5)
+        return response_video
 
     elif type == "guide":
         # QA from db
         qa_list = QA.query.all()
-        response_list_guide.append(['These are some frequently asked questions and answers from our website: '])
-        response_list_guide.append(rank_matching_qa([qa.id for qa in qa_list], [qa.title for qa in qa_list], question))
+        # response_list_guide.append(rank_matching_qa([qa.id for qa in qa_list], [qa.title for qa in qa_list], question))
+        response_guide['ids'] = rank_matching_qa([qa.id for qa in qa_list], [qa.title for qa in qa_list], question)
 
         # gov
-        serch_func(response_list_guide, question, "gov au", 3)
+        serch_func(response_guide, question, "gov au", 3)
         # unsw
-        serch_func(response_list_guide, question, "unsw au", 3)
+        serch_func(response_guide, question, "unsw au", 3)
         # org
-        serch_func(response_list_guide, question, "org au", 3)     
-        return response_list_guide
+        serch_func(response_guide, question, "org au", 3)     
+        return response_guide
 
 
 def state3_response(question):
@@ -85,9 +88,6 @@ def state3_response(question):
     # return [f"{result['question']}: {result['link']}"  for result in results["related_questions"][:3]]
     return [f"{result['question']}"  for result in results["related_questions"][:3]]
 
-    # for msg in range(3):
-    #     response_list_related.append(results["related_questions"][msg]["question"]+ ": " + results["related_questions"][msg]["link"])
-    # return response_list_related
 
 
 # state 1 inserting into db
