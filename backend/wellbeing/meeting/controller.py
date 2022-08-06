@@ -75,7 +75,9 @@ def update_expert_availability(data):
     """
     Updates the availability of a user.
     """
-    return update_availabilities(data['expert_id'], [data])
+    return {
+        "availability": update_expert_availabilities(data['expert_id'], [data]).get('availabilities')[0]
+    }
 
 
 def update_expert_availabilities(expert_id, availabilities):
@@ -96,7 +98,7 @@ def update_expert_availabilities(expert_id, availabilities):
             availability_db.meeting_metadata = availability.get('meeting_metadata', None)
 
     db.session.commit()
-    return get_availabilities(expert_id)
+    return get_expert_availabilities(expert_id)
 
 
 '''

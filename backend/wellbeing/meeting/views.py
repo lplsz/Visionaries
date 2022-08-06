@@ -63,7 +63,7 @@ def get_experts_availabilities_by_week_and_categories(data):
         404: 'User Not Found',
     })
 def update_expert_availability(data):
-    return controller.update_expert_availabilty(data)
+    return controller.update_expert_availability(data)
 
 
 @expert_availability_blueprint.post('/update_expert_availabilities')
