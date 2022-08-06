@@ -14,11 +14,35 @@ import { apiCall } from '../Main';
 import ErrorSnackbar from '../component/ErrorSnackBar';
 import SuccessSnackbar from '../component/SuccessSnackBar';
 import KeyboardReturnOutlinedIcon from '@mui/icons-material/ArrowCircleLeft';
+import { styled } from '@mui/material/styles';
+import Tooltip from '@mui/material/Tooltip';
+import UPLOAD from '@mui/icons-material/UploadFile';
+import IconButton from '@mui/material/IconButton';
+
+function stringAvatar(name) {
+  return {
+    sx: { fontSize: '15px', height: '40px' },
+    children: `${name.split(' ')[0][0]}${name.split(' ')[1][0]}`,
+  };
+}
+
+const Input = styled('input')({
+  display: 'none',
+});
+
+// style for button color
+const ColorButton = styled(Button)(({ theme }) => ({
+  color: theme.palette.getContrastText('#000000'),
+  backgroundColor: '#000000',
+  '&:hover': {
+    backgroundColor: '#000000',
+  },
+}));
 
 export default function StudentProfile () {
   const navigate = useNavigate();
 
-  const [name, setName] = React.useState('');
+  const [name, setName] = React.useState('AA BB');
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
   const [biography, setBiography] = React.useState('');
@@ -40,6 +64,7 @@ export default function StudentProfile () {
     languageIds.map((languageId) => {
       ids.push(languageId.id);
     })
+    return ids;
   }
 
   const getUserInfo = async () => {
@@ -56,13 +81,12 @@ export default function StudentProfile () {
       setBiography(data.user.biography);
       const ids = getLanguageId(data.user.languages)
       setLanguageIds(ids);
-      setInterestCategoryIds(data.user.interestCategoryIds);
+      setInterestCategoryIds(data.user.interested_categories);
       setProfileImageSrc(data.user.profile_image_src);
     }
   }
 
   const changePassword = async () => {
-    const userId = localStorage.getItem('id'); 
     if (newpassword === '' || confirm_password === ' ') {
       setErrorMessage('Password should not be none');
       setOpen(true);
@@ -81,10 +105,11 @@ export default function StudentProfile () {
         interested_category_ids: interestedCategoryIds,
         password: password,
         profile_image_src: profileImageSrc,
-        username: name
+        username: name,
+        language_ids: languageIds
       }
+      console.log('update', user);
       const data = await apiCall('user_profile', 'PUT', user);
-      
       if (typeof (data) === 'string' && (! data.startsWith('200') || ! data.startsWith('201'))) {
         setErrorMessage(data.slice(3, ));
         setOpen(true);
@@ -94,7 +119,7 @@ export default function StudentProfile () {
         setOpen2(true);
         setNewPassword('');
         setConfirmPassword('');
-        navigate('/explorer_profile');
+        navigate('/student_profile');
       }
     }
   }
@@ -122,16 +147,39 @@ export default function StudentProfile () {
         interested_category_ids: interestedCategoryIds,
         password: password,
         profile_image_src: profileImageSrc,
-        username: name
+        username: name,
+        language_ids: languageIds
       }
+      console.log('update', user);
       const data = await apiCall('user_profile', 'PUT', user);
-      if (typeof (data) === 'string' && data.startsWith('400')) {
+      if (typeof (data) === 'string' && (! data.startsWith('200') || ! data.startsWith('201'))) {
         setErrorMessage(data.slice(3, data.length));
         setOpen(true);
       } 
       else {
         setOpen2(true);
-        navigate('/explorer_profile');
+        navigate('/student_profile');
+      }
+    }
+  }
+  
+  const handleImage = (target) => {
+    if (target.value) {
+      const file = target.files[0];
+      const size = file.size;
+      if (size >= 1 * 1024 * 1024) {
+        alert('image over limit');
+        return;
+      }
+      if (!['image/jpeg', 'image/png', 'image/gif', 'image/jpg'].includes(file.type)) {
+        alert('Not an image');
+      } else {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = function (e) {
+          const dataimg = e.target.result;
+          setProfileImageSrc(dataimg);
+        }
       }
     }
   }
@@ -156,11 +204,34 @@ export default function StudentProfile () {
               
             }}
           >
-            <Avatar sx={{ m: 1, bgcolor: 'primary.main', backgroundColor:'#000000',color:'white' }}>
-            </Avatar>
-            <Typography component="h1" variant="h5">
-              My profile
-            </Typography>
+            <span>
+              {profileImageSrc === "" 
+                ? <Avatar
+                    {...stringAvatar(name)} 
+                    sx={{ m: 1, bgcolor: 'primary.main', backgroundColor:'#000000',color:'white', height:'60px', width:'60px', fontSize:'25px' }}
+                  >
+                </Avatar>
+                : <Avatar
+                    src={profileImageSrc}
+                    sx={{ m: 1, bgcolor: 'primary.main', backgroundColor:'#000000',color:'white', height:'60px', width:'60px', fontSize:'25px' }}
+                  >
+                </Avatar>
+              }
+              <div style={{marginTop: '20px', width: '20px', height: '20px', textAlign: 'center'}}>
+                <label htmlFor="icon-button-file">
+                  <Input accept="image/*" id="icon-button-file" type="file" onChange={(e) => {handleImage(e.target);} }/>
+                  <Tooltip
+                    title={'Upload your image'}
+                    placement="top"
+                  >
+                    <IconButton color="default" aria-label="upload picture" component="span">
+                      <UPLOAD />
+                    </IconButton>
+                  </Tooltip>
+                </label>
+              </div>
+            </span>
+            
             <Box component="form" noValidate sx={{ mt: 2, width:'60%' }} style={{}}>
               <div style={{marginRight:'5%', paddingRight: '5%'}}>
                 <Box sx={{ width: '100%',display: 'flex', alignItems: 'flex-end', marginBottom:'15px'}}>
@@ -196,15 +267,15 @@ export default function StudentProfile () {
                   </Grid>
                 </Grid>
                 </Box>
-                <Button
+                <ColorButton
                   fullWidth
                   id="submit_Login"
                   variant="contained"
-                  sx={{ mt: 3, mb: 2, backgroundColor:'#000000',color:'white' }}
+                  sx={{ mt: 3, mb: 2, color: 'white'}}
                   onClick={update}
                 >
                   UPDATE
-                </Button>
+                </ColorButton>
               </div>
             </Box>
           </Box>
@@ -250,15 +321,15 @@ export default function StudentProfile () {
                   value={confirm_password}
                   onChange = {e => setConfirmPassword(e.target.value)}
                 />
-                <Button
+                <ColorButton
                   fullWidth
                   id="submit_Login"
                   variant="contained"
-                  sx={{ mt: 3, mb: 2, backgroundColor:'#000000',color:'white' }}
+                  sx={{ mt: 3, mb: 2, color:'white' }}
                   onClick={changePassword}
                 >
                   CONFIRM
-                </Button>
+                </ColorButton>
               </Box>
             </div>
       </Box>
