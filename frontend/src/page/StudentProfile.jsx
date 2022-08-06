@@ -35,6 +35,13 @@ export default function StudentProfile () {
     getUserInfo();
   },[]);
 
+  function getLanguageId(languageIds) {
+    let ids = []
+    languageIds.map((languageId) => {
+      ids.push(languageId.id);
+    })
+  }
+
   const getUserInfo = async () => {
     const id = localStorage.getItem('id');
     const data = await apiCall(`/user_profile/${id}`, 'GET');
@@ -47,8 +54,9 @@ export default function StudentProfile () {
       setEmail(data.user.email);
       setPassword(data.user.password);
       setBiography(data.user.biography);
+      const ids = getLanguageId(data.user.languages)
+      setLanguageIds(ids);
       setInterestCategoryIds(data.user.interestCategoryIds);
-      setLanguageIds(data.user.languages);
       setProfileImageSrc(data.user.profile_image_src);
     }
   }
@@ -69,13 +77,16 @@ export default function StudentProfile () {
     
     else {
       const user = {
-        id: userId,
-        password: confirm_password,
+        biography: biography,
+        interested_category_ids: interestedCategoryIds,
+        password: password,
+        profile_image_src: profileImageSrc,
+        username: name
       }
-      const data = await apiCall('user_profile', 'POST', user);
+      const data = await apiCall('user_profile', 'PUT', user);
       
-      if (typeof (data) === 'string' && data.startsWith('400')) {
-        setErrorMessage(data.slice(6, data.length - 4));
+      if (typeof (data) === 'string' && (! data.startsWith('200') || ! data.startsWith('201'))) {
+        setErrorMessage(data.slice(3, ));
         setOpen(true);
         setNewPassword('');
         setConfirmPassword('');
@@ -85,14 +96,12 @@ export default function StudentProfile () {
         setConfirmPassword('');
         navigate('/explorer_profile');
       }
-      
     }
   }
 
   const update = async () => {
     // eslint-disable-next-line prefer-regex-literals
     const reg = new RegExp(/^([a-zA-Z0-9._-])+@([a-zA-Z0-9_-])+(\.[a-zA-Z0-9_-])+/);
-    const userId = localStorage.getItem('id');
     if (email === '') {
       setErrorMessage('Email should not be none');
       setOpen(true);
@@ -114,11 +123,10 @@ export default function StudentProfile () {
         password: password,
         profile_image_src: profileImageSrc,
         username: name
-
       }
-      const data = await apiCall('user_profile', 'POST', user);
+      const data = await apiCall('user_profile', 'PUT', user);
       if (typeof (data) === 'string' && data.startsWith('400')) {
-        setErrorMessage(data.slice(3, data.length - 1));
+        setErrorMessage(data.slice(3, data.length));
         setOpen(true);
       } 
       else {

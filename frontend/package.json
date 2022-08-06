@@ -42,6 +42,7 @@
     "reactstrap": "^8.9.0",
     "rrule": "^2.7.0",
     "styled-components": "^5.3.5",
+    "tencentcloud-sdk-nodejs": "^4.0.410",
     "web-vitals": "^2.1.4"
   },
   "scripts": {

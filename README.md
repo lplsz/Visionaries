@@ -1,1 +1,2 @@
 # Visionaries
+.\venv\Scripts\activate
