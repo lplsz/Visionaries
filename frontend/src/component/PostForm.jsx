@@ -6,11 +6,37 @@ import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import Autocomplete from '@mui/material/Autocomplete';
 import Grid from '@mui/material/Grid';
+import { apiCall } from '../Main';
 const PostForm = () => {
-  const categories = ['Career Advice', 'Covid-19', 'Mental Health Amid', 'Study From Home', 'Vaccinations', 'Others'];
+  const [categoriesName, setCategoriesName] = React.useState([]);
+  const [categoriesId, setCategoriesId] = React.useState([]);
+  React.useEffect(() => {
+    getCategories();
+
+  }, [])
+  const getCategories = async () => {
+    const data = await apiCall('/categories', 'GET');
+    setCategoriesName(data.categories.map((cate) => { return cate.category_name }));
+    setCategoriesId(data.categories.map((cate) => { return cate.id }));
+    setCategory(data.categories.map((cate) => { return cate.category_name })[0]);
+    setQuestionCategory(data.categories.map((cate) => { return cate.id })[0])
+  };
+
   const [questionName, setQuestionName] = React.useState('');
-  const [questionCategory, setQuestionCategory] = React.useState('');
+  const [questionCategory, setQuestionCategory] = React.useState(-1);
+  const [category, setCategory] = React.useState('');
   const [questionDescription, setQuestionDescription] = React.useState('');
+  const handleSubmit = () => {
+
+    const info = {
+      title: questionName,
+      category_id: questionCategory,
+      body: questionDescription,
+    }
+
+    apiCall('/thread', 'POST', info); 
+  }
+
   return (
     <div>
       <div style={{ marginRight: '0px', padding: '10px', margin: '10px', width: '350px', color: 'black', border: '1px solid black', borderRadius: '10px' }}>
@@ -35,11 +61,11 @@ const PostForm = () => {
           <Autocomplete
             disablePortal
             id="combo-box-demo"
-            options={categories}
+            options={categoriesName}
             sx={{ width: 150, marginLeft: '10px' }}
-            value={questionCategory}
-            renderInput={(params) => <TextField {...params} label="Type" />}
-            onChange={(e) => setQuestionCategory(categories[e.target.getAttribute("data-option-index")])}
+            value={category}
+            renderInput={(params) => <TextField {...params } label="Type" />}
+            onChange={(e) =>  {setCategory(categoriesName[e.target.getAttribute("data-option-index")]); setQuestionCategory(categoriesId[e.target.getAttribute("data-option-index")]) }}
           />
         </div>
         <div>
@@ -57,7 +83,7 @@ const PostForm = () => {
             onChange={e => { setQuestionDescription(e.target.value) }}
           />
         </div>
-        <button onClick={() => { console.log(questionDescription); setQuestionCategory(''); setQuestionName(''); setQuestionDescription("") }}>Submit</button>
+        <button onClick={() => { handleSubmit(); console.log(questionDescription); setQuestionCategory(''); setQuestionName(''); setQuestionDescription("") }}>Submit</button>
       </div>
 
     </div >

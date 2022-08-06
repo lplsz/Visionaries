@@ -33,16 +33,17 @@ const Login = () => {
   const [errorMessage, setErrorMessage] = React.useState('');
   const value = 0;
   const navigate = useNavigate();
-  
+
   const login = async () => {
     // eslint-disable-next-line prefer-regex-literals
     const reg = new RegExp(/^([a-zA-Z0-9._-])+@([a-zA-Z0-9_-])+(\.[a-zA-Z0-9_-])+/);
     if (email === '') {
       setErrorMessage('Email should not be none');
       setOpen(true);
-    } else if (password === '') {
-      setErrorMessage('Password should not be none');
-      setOpen(true);
+      //} 
+      //else if (password === '') {
+      // setErrorMessage('Password should not be none');
+      //  setOpen(true);
     } else if (!(reg.test(email))) {
       setErrorMessage('Not a vaild email');
       setOpen(true);
@@ -53,14 +54,17 @@ const Login = () => {
       }
       const data = await apiCall('/login', 'POST', info);
       console.log(data);
-      if (typeof (data) === 'string' && (! data.startsWith('200') || ! data.startsWith('201'))) {
-        setErrorMessage(data.slice(3, ));
+      if (typeof (data) === 'string' && (!data.startsWith('200') || !data.startsWith('201'))) {
+        setErrorMessage(data.slice(3,));
         setOpen(true);
       } else {
         localStorage.setItem('token', data.access_token);
         localStorage.setItem('id', data.user.id);
+        localStorage.setItem('name', data.user.username);
         if (data.user.account_type === 'student') {
           navigate('/student_main');
+        } else if (data.user.account_type === 'admin') {
+          navigate('/addExpert');
         } else {
           navigate('/expert_main');
         }
@@ -69,22 +73,23 @@ const Login = () => {
   }
 
   // const [dialogOpen, setDiaOpen] = React.useState(false);
-  
+
 
   return (
     <ThemeProvider theme={theme}>
       <Container component="main" sx={{ width: '50%' }}>
-        <Paper 
-          variant="outlined" 
-          sx={{ my: { xs: 3, md: 6 }, p: { xs: 2, md: 3 }, display: 'flex' }} 
-          style={{ 
-            backgroundColor: '#ffffff', 
-            borderRadius: '10px', 
-            background: 'rgba(255, 255, 255, 0.1)', 
-            borderTop: '1px solid rgba(255, 255, 255, 0.15)', 
-            backdropFilter: 'blur(30px)', 
-            boxShadow: '0 15px 25px rgba(0,0,0,0.1)', 
-            marginBottom: '10px' }}
+        <Paper
+          variant="outlined"
+          sx={{ my: { xs: 3, md: 6 }, p: { xs: 2, md: 3 }, display: 'flex' }}
+          style={{
+            backgroundColor: '#ffffff',
+            borderRadius: '10px',
+            background: 'rgba(255, 255, 255, 0.1)',
+            borderTop: '1px solid rgba(255, 255, 255, 0.15)',
+            backdropFilter: 'blur(30px)',
+            boxShadow: '0 15px 25px rgba(0,0,0,0.1)',
+            marginBottom: '10px'
+          }}
         >
           <CardMedia
             component="img"
@@ -128,39 +133,39 @@ const Login = () => {
             <Typography component="h1" variant="h5">
               Log in
             </Typography>
-              <Box component="form" noValidate sx={{ mt: 1 }}>
-                <TextField
-                  margin="normal"
-                  required
-                  fullWidth
-                  id="email"
-                  label="Email Address"
-                  name="email"
-                  autoComplete="email"
-                  autoFocus
-                  onChange={e => setEmail(e.target.value)}
-                />
-                <TextField
-                  margin="normal"
-                  required
-                  fullWidth
-                  name="password"
-                  label="Password"
-                  type="password"
-                  id="password"
-                  autoComplete="current-password"
-                  onChange={e => setPassword(e.target.value)}
-                />
-                <Button
-                  fullWidth
-                  id="submit_Login"
-                  variant="contained"
-                  sx={{ mt: 3, mb: 2 }}
-                  onClick={login}
-                >
-                  Log In
-                </Button>
-              </Box>
+            <Box component="form" noValidate sx={{ mt: 1 }}>
+              <TextField
+                margin="normal"
+                required
+                fullWidth
+                id="email"
+                label="Email Address"
+                name="email"
+                autoComplete="email"
+                autoFocus
+                onChange={e => setEmail(e.target.value)}
+              />
+              <TextField
+                margin="normal"
+                required
+                fullWidth
+                name="password"
+                label="Password"
+                type="password"
+                id="password"
+                autoComplete="current-password"
+                onChange={e => setPassword(e.target.value)}
+              />
+              <Button
+                fullWidth
+                id="submit_Login"
+                variant="contained"
+                sx={{ mt: 3, mb: 2 }}
+                onClick={login}
+              >
+                Log In
+              </Button>
+            </Box>
           </Box>
         </Paper>
         <BottomNavigation
@@ -169,7 +174,7 @@ const Login = () => {
           onChange={(event, newValue) => {
             if (newValue === 1) {
               navigate('/student_register');
-            } 
+            }
             // else if (newValue === 2) {
             //   setDiaOpen(true);
             // }
@@ -177,7 +182,7 @@ const Login = () => {
         >
           <BottomNavigationAction label="Login" icon={<LoginIcon />} />
           <BottomNavigationAction label="Register" icon={<AssignmentIndIcon />} />
-          
+
           {/* <CVDialog dialogOpen={dialogOpen} setDiaOpen={setDiaOpen}/> */}
         </BottomNavigation>
       </Container>

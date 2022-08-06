@@ -14,6 +14,8 @@ import UploadImageChoice from '../component/UploadImageChoice';
 import { IconButton } from '@mui/material';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { apiCall } from '../Main';
+import DOMPurify from 'dompurify';
+
 const theme = createTheme({
   components: {
     MuiButton: {
@@ -84,19 +86,33 @@ function stringAvatar(name) {
   return {
     sx: { fontSize: '15px', height: '40px' },
     children: `${name.split(' ')[0][0]}${name.split(' ')[1][0]}`,
+    //children: `${name.split(' ')[0][0]}`
   };
 }
 export default function StudentQuestionThread() {
-  const me = 'Rhea Chang';
+  const messagesEndRef = React.useRef(null)
+
+  const scrollToBottom = () => {
+    if (messagesEndRef.current !== null) {
+      console.log('sadsad')
+      messagesEndRef.current.scrollIntoView({});
+    }
+  }
+
+
+
+  const me = localStorage.getItem('name');
   const getThreads = async () => {
     //const data = await apiCall(`/threads_by_user/${localStorage.getItem('id')}`, 'GET');
     const data = await apiCall(`/threads`, 'GET');
     setQaList(data.threads);
+    scrollToBottom();
   }
   const [i, setI] = React.useState(1);
   if (i === 1) {
     getThreads();
     setI(isNaN + 1);
+    scrollToBottom();
   }
   const [value, setValue] = React.useState(0);
   const [qaList, setQaList] = React.useState([
@@ -106,9 +122,14 @@ export default function StudentQuestionThread() {
 
   ])
 
-
-  const handleChange = (event, newValue) => {
-    setValue(newValue);
+  const createMarkup = (html) => {
+    return {
+      __html: DOMPurify.sanitize(html)
+    }
+  }
+  const handleChange = async (event, newValue) => {
+    await setValue(newValue);
+    scrollToBottom();
   };
 
   const timeString = (time) => {
@@ -127,14 +148,16 @@ export default function StudentQuestionThread() {
                   <div>
                     <div style={{ display: 'flex', marginBottom: '3px', }}>
                       <div style={{ display: 'flex', flex: 1, alignContent: 'flex-end', justifyContent: 'flex-end', marginRight: '10px' }}><Avatar {...stringAvatar(r.user.username)} /></div>
-                      <div style={{ flex: 8 }}>
-                        <div style={{ borderRadius: '15px', background: '#F4F9F9', paddingLeft: '15px', paddingRight: '15px', paddingTop: '8px', paddingBottom: '8px' }}>{r.body}</div>
+                      <div style={{ display: 'flex', flex: 8 }}>
+                        <div style={{ borderRadius: '15px', background: '#F4F9F9', paddingLeft: '15px', paddingRight: '15px', paddingTop: '8px', paddingBottom: '8px' }}>
+                          <div className="preview" dangerouslySetInnerHTML={createMarkup(r.body)}></div>
+                        </div>
                       </div>
                       <div style={{ flex: 4, fontSize: '5px', color: 'gray', margin: '5px', marginTop: '0px' }}></div>
                     </div>
                     <div style={{ display: 'flex', marginBottom: '10px' }}>
                       <div style={{ flex: 1 }}></div>
-                      <div style={{ marginLeft: '10px', display: 'flex', flex: 8, fontSize: '5px', color: 'gray', marginTop: '0px', alignContent: 'flex-end', justifyContent: 'flex-start' }}>{timeString(r.time)}</div>
+                      <div style={{ marginLeft: '10px', display: 'flex', flex: 8, fontSize: '5px', color: 'gray', marginTop: '0px', alignContent: 'flex-end', justifyContent: 'flex-start' }}>{timeString(r.created_at)}</div>
                       <div style={{ flex: 4 }}></div>
                     </div>
                   </div>
@@ -145,13 +168,16 @@ export default function StudentQuestionThread() {
                     <div style={{ display: 'flex', marginBottom: '3px' }}>
                       <div style={{ display: 'flex', flex: 4 }}></div>
                       <div style={{ display: 'flex', flex: 8, alignContent: 'flex-end', justifyContent: 'flex-end' }}>
-                        <div style={{ borderRadius: '15px', background: '#EFEFEF', paddingLeft: '15px', paddingRight: '15px', paddingTop: '8px', paddingBottom: '8px' }}>{r.body}</div>
+                        <div style={{ borderRadius: '15px', background: '#EFEFEF', paddingLeft: '15px', paddingRight: '15px', paddingTop: '8px', paddingBottom: '8px' }}>
+                          <div className="preview" dangerouslySetInnerHTML={createMarkup(r.body)}></div>
+                        </div>
                       </div>
+
                       <div style={{ display: 'flex', flex: 1, alignContent: 'flex-end', justifyContent: 'flex-start', marginLeft: '10px' }}><Avatar {...stringAvatar(r.user.username)} /></div>
                     </div>
                     <div style={{ display: 'flex', marginBottom: '10px' }}>
                       <div style={{ flex: 4 }}></div>
-                      <div style={{ display: 'flex', flex: 8, fontSize: '5px', color: 'gray', marginRight: '10px', marginTop: '0px', alignContent: 'flex-end', justifyContent: 'flex-end' }}>{timeString(r.time)}</div>
+                      <div style={{ display: 'flex', flex: 8, fontSize: '5px', color: 'gray', marginRight: '10px', marginTop: '0px', alignContent: 'flex-end', justifyContent: 'flex-end' }}>{timeString(r.created_at)}</div>
                       <div style={{ flex: 1 }}></div>
                     </div>
                   </div>
@@ -164,21 +190,36 @@ export default function StudentQuestionThread() {
             :
             <></>
         }
-      </div >
+        <div ref={messagesEndRef}></div>
+      </div>
     )
 
+  }
+
+  const handleResolve = async (tid) => {
+    await apiCall(`/set_thread_resolved/${tid}`);
+    await getThreads();
+    setValue(0);
   }
 
   const HandleThread = (props) => {
     const [replyText, setReplyText] = React.useState('');
     const handleReply = async (tid) => {
       await apiCall('reply', 'POST', { thread_id: tid, body: replyText });
-
+      getThreads();
     }
     return (
       <div>
-        <div style={{ display: 'flex' }}><div style={{ fontWeight: 'bold', flex: 1 }}>Category: </div> <div style={{ flex: 6 }}>{props.q.category.category_name}</div></div>
-        <div style={{ display: 'flex' }}> <div style={{ fontWeight: 'bold', flex: 1 }}>Discription: </div><div style={{ flex: 6 }}>{props.q.body}</div></div>
+        <div style={{ width: '100%', display: 'flex', flexDirection: 'row' }}>
+          <div style={{ flex: 5 }}>
+            <div style={{ display: 'flex' }}><div style={{ fontWeight: 'bold', flex: 1 }}>Category: </div> <div style={{ flex: 6 }}>{props.q.category.category_name}</div></div>
+            <div style={{ display: 'flex' }}> <div style={{ fontWeight: 'bold', flex: 1 }}>Discription: </div><div style={{ flex: 6 }}>{props.q.body}</div></div>
+          </div>
+          <div style={{ flex: 1, display: 'flex', flex: 8, alignContent: 'flex-end', justifyContent: 'flex-end' }}>
+            <button onClick={() => { handleResolve(props.q.id) }}>RESOLVED</button>
+          </div>
+        </div>
+
         <div>
           <HandleReply q={props.q} />
         </div>
@@ -187,10 +228,12 @@ export default function StudentQuestionThread() {
             <TextField fullWidth size="small" id="fullWidth" value={replyText} onChange={(e) => { setReplyText(e.target.value) }} />
           </div>
           <div style={{ width: '40px' }}>
-            <IconButton onClick={() => { handleReply(props.q.id) }}><ArrowUpwardIcon></ArrowUpwardIcon></IconButton>
+            <IconButton onClick={() => { handleReply(props.q.id) }}>
+              <ArrowUpwardIcon></ArrowUpwardIcon>
+            </IconButton>
           </div>
           <div style={{ width: '40px' }}>
-            <UploadImageChoice tid={props.q.id}/>
+            <UploadImageChoice tid={props.q.id} getThreads={getThreads} />
           </div>
         </div>
       </div>
@@ -240,8 +283,8 @@ export default function StudentQuestionThread() {
               </TabPanel>
             )
           })}
-
         </Box>
+
       </div>
 
     </ThemeProvider>

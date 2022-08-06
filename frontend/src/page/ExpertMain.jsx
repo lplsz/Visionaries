@@ -62,37 +62,39 @@ const ExpertMain = () => {
     setOpen(false);
   };
 
-  const [qaList, setQaList] = React.useState([
+  const [qaList, setQaList] = React.useState([])
+  const [replyText, setReplyText] = React.useState('');
+  const [currentTid, setCurrentTid] = React.useState(0);
+  const handleReply = async (tid) => {
+    await apiCall('reply', 'POST', { thread_id: tid, body: replyText });
+    getQuestions();
 
-  ])
-
+  }
   const getQuestions = async () => {
     const data = await apiCall(`/unread_threads`, 'GET');
     setQaList(data.threads);
-    console.log(data);
   }
   const [i, setI] = React.useState(1);
   if (i === 1) {
     getQuestions();
-    
-    setI(i+1);
+
+    setI(i + 1);
   }
   const SingleQA = (props) => {
-    console.log(props.data);
     return (
       <div>
         <div style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'flex-end', marginTop: '0px', marginBottom: '3px', marginRight: '10px' }}> <Typography sx={{ fontSize: '6px' }}>{props.data.created_at.split('T')[0]} </Typography></div>
-        <div style={{ display: 'flex',width:'100%' }}>
-          <div style = {{flex: 3}}> <Typography >{props.data.user.username}: </Typography></div>
-          <div style = {{flex: 5}}>
+        <div style={{ display: 'flex', width: '100%' }}>
+          <div style={{ flex: 3 }}> <Typography >{props.data.user.username}: </Typography></div>
+          <div style={{ flex: 5 }}>
             <Typography sx={{ marginLeft: '10px' }}>{props.data.body} </Typography>
           </div>
-          <div style={{ flex:2, display: 'flex', justifyContent: 'flex-end', alignItems: 'flex-end' }}>
+          <div style={{ flex: 2, display: 'flex', justifyContent: 'flex-end', alignItems: 'flex-end' }}>
             <IconButton
               size="middle"
               aria-label="show 4 new mails"
               color="inherit"
-              onClick={() => { handleClickOpen() }}
+              onClick={() => { setCurrentTid(props.data.id); handleClickOpen() }}
             >
               <EditIcon fontSize="middle" />
             </IconButton>
@@ -140,6 +142,7 @@ const ExpertMain = () => {
       </div>
     );
   }
+
   return (
     <ThemeProvider theme={theme}>
       <ExpertHeader />
@@ -219,7 +222,7 @@ const ExpertMain = () => {
           <DialogContent sx={{ marginLeft: '5%', marginRight: '5%', marginTop: '10px' }}>
             <div>
               <Grid container spacing={3}>
-                <Grid item xs={8}>
+                <Grid item xs={12}>
                   <Typography variant="h6" gutterBottom>
                     Return your answer:
                   </Typography>
@@ -229,8 +232,9 @@ const ExpertMain = () => {
                     name="recipeName"
                     label="Answer"
                     fullWidth={true}
+                    value={replyText}
                     variant="standard"
-                    onChange={e => { }}
+                    onChange={e => { setReplyText(e.target.value) }}
                   />
                 </Grid>
               </Grid>
@@ -238,7 +242,7 @@ const ExpertMain = () => {
           </DialogContent>
           <DialogActions>
             <button onClick={handleClose} >CANCLE</button>
-            <button onClick={() => { handleClose() }}>SUMBIT</button>
+            <button onClick={async () => { await handleReply(currentTid); handleClose() }}>SUMBIT</button>
           </DialogActions>
         </Dialog>
       </Container>

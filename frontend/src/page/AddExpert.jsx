@@ -31,6 +31,13 @@ export default function AddExpert() {
 
     });
     const data2 = await apiCall('/register_expert_account', 'POST', body);
+    if (typeof (data2) === 'string' && (!data.startsWith('200') || !data.startsWith('201'))) {
+      alert('something wrong')
+    } else {
+      alert('You have successfully add an expert');
+
+
+    }
   };
   const setChecked = (value, index) => {
     categories[index].checked = value;
