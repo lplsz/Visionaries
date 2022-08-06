@@ -3,6 +3,7 @@ from sqlalchemy.sql import and_
 from serpapi import GoogleSearch
 from fuzzywuzzy import fuzz
 from fuzzywuzzy import process
+import yake
 import pandas as pd
 
 from wellbeing.extensions import db
@@ -13,12 +14,12 @@ from wellbeing.chatbot.models import UserQuestion
 Chatbot Helper Functions
 '''
 
-
+api_key = "265f3c070749db61ef93605f55157c265d83b73a31d203ce7c9860575047adef"
 # Google API search
 def serch_func(q, prefix, num):
     q_prefix = q + prefix
     params = {
-        "api_key": "265f3c070749db61ef93605f55157c265d83b73a31d203ce7c9860575047adef",
+        "api_key": api_key,
         "engine": "google",
         "q": q_prefix,
         "google_domain": "google.com",
@@ -53,6 +54,19 @@ def remove_duplication(cur, prev, key):
         if i not in prev[key]:
             differences.append(i)
     return differences
+
+
+def key_word_extraction(text):
+    kw_extractor = yake.KeywordExtractor()
+    language = "en"
+    max_ngram_size = 3
+    deduplication_threshold = 0.9
+    numOfKeywords = 1
+
+    custom_kw_extractor = yake.KeywordExtractor(lan=language, n=max_ngram_size, dedupLim=deduplication_threshold, top=numOfKeywords, features=None)
+    keywords = custom_kw_extractor.extract_keywords(text)
+
+    return keywords[0][0]
 
 
 # step 1: video or guide
@@ -101,7 +115,7 @@ def state3_response(status, question):
 
     response_list_related = {}
     params = {
-        "api_key": "265f3c070749db61ef93605f55157c265d83b73a31d203ce7c9860575047adef",
+        "api_key": api_key,
         "engine": "google",
         "q": question,
         "google_domain": "google.com",
@@ -111,13 +125,24 @@ def state3_response(status, question):
     search = GoogleSearch(params)
     results = search.get_dict()
 
+    # if this question has no related question, extract the key word from this question
+    # search again -- one word search is guaranteed to have related_questions
     if "related_questions" not in results.keys():
-        return []
+        key_word = key_word_extraction(question)
+        params = {
+            "api_key": api_key,
+            "engine": "google",
+            "q": key_word,
+            "google_domain": "google.com",
+            "hl": "en",
+            "num":10
+        }
+        search = GoogleSearch(params)
+        results = search.get_dict()
 
     res = {}
     res['text'] = [f"{result['question']}"  for result in results["related_questions"][:3]]
     return res
-
 
 
 # state 1 inserting into db
