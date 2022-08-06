@@ -197,7 +197,7 @@ export default function StudentQuestionThread() {
   }
 
   const handleResolve = async (tid) => {
-    await apiCall(`/set_thread_resolved/${tid}`);
+    await apiCall(`/set_thread_resolved/${tid}`, 'PUT', { thread_id: tid });
     await getThreads();
     setValue(0);
   }
