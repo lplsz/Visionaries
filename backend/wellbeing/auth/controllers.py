@@ -106,7 +106,7 @@ def register_expert_account(data):
     user.set_password(data['password'])
 
     if 'interested_category_ids' in data:
-        user.interested_category = Category.query.filter(
+        user.interested_categories = Category.query.filter(
             Category.id.in_(data['interested_category_ids'])).all()
 
     db.session.add(user)
@@ -168,7 +168,7 @@ def card_recognizer(data):
 
         if (first_name_parag is not None):
             last_info = "{\"Parag\":{\"ParagNo\":" + \
-                str(first_name_parag+1) + "}}"
+                        str(first_name_parag + 1) + "}}"
             for detect in detected_list:
                 info = detect['AdvancedInfo']
                 text = detect['DetectedText']
