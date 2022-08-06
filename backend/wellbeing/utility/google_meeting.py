@@ -3,6 +3,7 @@ from __future__ import print_function
 import datetime
 from os import environ
 import os.path
+from pathlib import Path
 
 from google.auth.transport.requests import Request
 from google.oauth2.credentials import Credentials
@@ -14,6 +15,8 @@ from datetime import datetime, timedelta
 
 # If modifying these scopes, delete the file token.json.
 SCOPES = ['https://www.googleapis.com/auth/calendar']
+CREDENTIAL_PATH = Path(__file__).parent / "credentials.json"
+TOKEN_PATH = Path(__file__).parent / 'token.json'
 
 
 def create_meeting(expert_email, student_email, start_at, end_at):
@@ -25,14 +28,14 @@ def create_meeting(expert_email, student_email, start_at, end_at):
     # created automatically when the authorization flow completes for the first
     # time.
     if os.path.exists('token.json'):
-        creds = Credentials.from_authorized_user_file('token.json', SCOPES)
+        creds = Credentials.from_authorized_user_file(TOKEN_PATH, SCOPES)
     # If there are no (valid) credentials available, let the user log in.
     if not creds or not creds.valid:
         if creds and creds.expired and creds.refresh_token:
             creds.refresh(Request())
         else:
             flow = InstalledAppFlow.from_client_secrets_file(
-                'credentials.json', SCOPES)
+                CREDENTIAL_PATH, SCOPES)
             creds = flow.run_local_server(port=0)
         # Save the credentials for the next run
         with open('token.json', 'w') as token:

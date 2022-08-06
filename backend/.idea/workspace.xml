@@ -4,18 +4,15 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f3aeeb94-3d47-4a9c-92d7-63e92f4baabb" name="Changes" comment="Fix put user">
-      <change afterPath="$PROJECT_DIR$/wellbeing/utility/credentials.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/wellbeing/utility/google_meeting.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+    <list default="true" id="f3aeeb94-3d47-4a9c-92d7-63e92f4baabb" name="Changes" comment="Put token.json">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/seeding_data.json" beforeDir="false" afterPath="$PROJECT_DIR$/seeding_data.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/wellbeing/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/wellbeing/app.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/wellbeing/meeting/controller.py" beforeDir="false" afterPath="$PROJECT_DIR$/wellbeing/meeting/controller.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/wellbeing/meeting/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/wellbeing/meeting/models.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wellbeing/thread/controllers.py" beforeDir="false" afterPath="$PROJECT_DIR$/wellbeing/thread/controllers.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wellbeing/thread/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/wellbeing/thread/views.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/wellbeing/meeting/schemas.py" beforeDir="false" afterPath="$PROJECT_DIR$/wellbeing/meeting/schemas.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/wellbeing/meeting/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/wellbeing/meeting/views.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/wellbeing/user/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/wellbeing/user/models.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wellbeing/utility/seed_database.py" beforeDir="false" afterPath="$PROJECT_DIR$/wellbeing/utility/seed_database.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/wellbeing/utility/google_meeting.py" beforeDir="false" afterPath="$PROJECT_DIR$/wellbeing/utility/google_meeting.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -46,7 +43,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$/.." value="main" />
+        <entry key="$PROJECT_DIR$/.." value="be_dev_peter" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
@@ -86,7 +83,29 @@
       <recent name="$PROJECT_DIR$/wellbeing/utility" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.google_meeting">
+  <component name="RunManager" selected="Python.controller">
+    <configuration name="controller" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="backend" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/wellbeing/meeting" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/wellbeing/meeting/controller.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <configuration name="google_meeting" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="backend" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -133,9 +152,9 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.controller" />
+        <item itemvalue="Python.seed_database" />
         <item itemvalue="Python.google_meeting" />
-        <item itemvalue="Python.seed_database" />
-        <item itemvalue="Python.seed_database" />
         <item itemvalue="Python.seed_database" />
         <item itemvalue="Python.seed_database" />
       </list>
@@ -300,7 +319,21 @@
       <option name="project" value="LOCAL" />
       <updated>1659697853756</updated>
     </task>
-    <option name="localTasksCounter" value="20" />
+    <task id="LOCAL-00020" summary="Fix put user">
+      <created>1659707491353</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1659707491353</updated>
+    </task>
+    <task id="LOCAL-00021" summary="Put token.json">
+      <created>1659707507976</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1659707507976</updated>
+    </task>
+    <option name="localTasksCounter" value="22" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -342,10 +375,12 @@
     <MESSAGE value="Update Put user return value" />
     <MESSAGE value="Fix register expert account" />
     <MESSAGE value="Fix put user" />
-    <option name="LAST_COMMIT_MESSAGE" value="Fix put user" />
+    <MESSAGE value="Put token.json" />
+    <option name="LAST_COMMIT_MESSAGE" value="Put token.json" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/backend$seed_database.coverage" NAME="seed_database Coverage Results" MODIFIED="1657343638291" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/wellbeing/utility" />
     <SUITE FILE_PATH="coverage/backend$google_meeting.coverage" NAME="google_meeting Coverage Results" MODIFIED="1659705856740" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/wellbeing/utility" />
+    <SUITE FILE_PATH="coverage/backend$controller.coverage" NAME="controller Coverage Results" MODIFIED="1659755037927" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/wellbeing/meeting" />
   </component>
 </project>
