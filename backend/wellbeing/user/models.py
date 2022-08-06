@@ -2,7 +2,6 @@ import bcrypt
 
 from wellbeing.QA.models import QA, Category
 from wellbeing.extensions import db
-from wellbeing.meeting.models import Availability
 from wellbeing.thread.models import Thread
 from wellbeing.chatbot.models import UserQuestion
 
