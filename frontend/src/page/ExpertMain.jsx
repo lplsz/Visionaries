@@ -71,7 +71,7 @@ const ExpertMain = () => {
 
   }
   const getQuestions = async () => {
-    const data = await apiCall(`/unread_threads`, 'GET');
+    const data = await apiCall(`/unanswered_unresolved_threads`, 'GET');
     setQaList(data.threads);
   }
   const [i, setI] = React.useState(1);

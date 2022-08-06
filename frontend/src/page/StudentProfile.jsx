@@ -18,6 +18,7 @@ import { styled } from '@mui/material/styles';
 import Tooltip from '@mui/material/Tooltip';
 import UPLOAD from '@mui/icons-material/UploadFile';
 import IconButton from '@mui/material/IconButton';
+import LanguageChoice from '../component/LanguageChoice';
 
 function stringAvatar(name) {
   return {
@@ -240,7 +241,7 @@ export default function StudentProfile () {
                 </Grid>
               </Grid>
             </Box>
-            <Box component="form" noValidate sx={{ mt: 2, width:'60%' }} style={{}}>
+            <Box component="form" noValidate sx={{ mt: 2, width:'60%' }}>
               <div style={{marginRight:'5%', paddingRight: '5%'}}>
                 
                 <Box sx={{ width: '100%',display: 'flex', alignItems: 'flex-end', marginBottom:'15px'}}>
@@ -276,6 +277,7 @@ export default function StudentProfile () {
                   </Grid>
                 </Grid>
                 </Box>
+                <LanguageChoice languageIds={languageIds} setLanguageIds={setLanguageIds}/>
                 <ColorButton
                   fullWidth
                   id="submit_Login"
