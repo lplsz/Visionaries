@@ -127,17 +127,20 @@ export default function StudentProfile () {
   const update = async () => {
     // eslint-disable-next-line prefer-regex-literals
     const reg = new RegExp(/^([a-zA-Z0-9._-])+@([a-zA-Z0-9_-])+(\.[a-zA-Z0-9_-])+/);
+    const nameReg = new RegExp(/^[0-9A-Za-z]+ [0-9A-Za-z]+/);
     if (email === '') {
       setErrorMessage('Email should not be none');
       setOpen(true);
-    }
-
-    else if (!(reg.test(email))) {
+    } else if (!(reg.test(email))) {
       setErrorMessage('Not a vaild email');
       setOpen(true);
       getUserInfo();
-    } else if (name === '') {
-      setErrorMessage('Name should not be none');
+    } else if (name.length <= 3) {
+      setErrorMessage('Your name should have at least 3 characters');
+      setOpen(true);
+      getUserInfo();
+    } else if (!(nameReg.test(name))) {
+      setErrorMessage('The format of your name should be: "Firstname LastName"');
       setOpen(true);
       getUserInfo();
     }
@@ -204,36 +207,42 @@ export default function StudentProfile () {
               
             }}
           >
-            <span>
-              {profileImageSrc === "" 
-                ? <Avatar
-                    {...stringAvatar(name)} 
-                    sx={{ m: 1, bgcolor: 'primary.main', backgroundColor:'#000000',color:'white', height:'60px', width:'60px', fontSize:'25px' }}
-                  >
-                </Avatar>
-                : <Avatar
-                    src={profileImageSrc}
-                    sx={{ m: 1, bgcolor: 'primary.main', backgroundColor:'#000000',color:'white', height:'60px', width:'60px', fontSize:'25px' }}
-                  >
-                </Avatar>
-              }
-              <div style={{marginTop: '20px', width: '20px', height: '20px', textAlign: 'center'}}>
-                <label htmlFor="icon-button-file">
-                  <Input accept="image/*" id="icon-button-file" type="file" onChange={(e) => {handleImage(e.target);} }/>
-                  <Tooltip
-                    title={'Upload your image'}
-                    placement="top"
-                  >
-                    <IconButton color="default" aria-label="upload picture" component="span">
-                      <UPLOAD />
-                    </IconButton>
-                  </Tooltip>
-                </label>
-              </div>
-            </span>
-            
+            <Box sx={{ width: '35%', marginBottom:'15px', paddingLeft: '30px'}}>
+              <Grid container spacing={0}>
+                <Grid item>
+                  {profileImageSrc === "" 
+                    ? <Avatar
+                        {...stringAvatar(name)} 
+                        sx={{ m: 1, bgcolor: 'primary.main', backgroundColor:'#000000',color:'white', height:'60px', width:'60px', fontSize:'25px' }}
+                      >
+                    </Avatar>
+                    : <Avatar
+                        src={profileImageSrc}
+                        sx={{ m: 1, bgcolor: 'primary.main', backgroundColor:'#000000',color:'white', height:'60px', width:'60px', fontSize:'25px' }}
+                      >
+                    </Avatar>
+                  }
+                </Grid>
+                <Grid item>
+                  <div style={{paddingTop:'20px'}}>
+                    <label htmlFor="icon-button-file">
+                      <Input accept="image/*" id="icon-button-file" type="file" onChange={(e) => {handleImage(e.target);} }/>
+                      <Tooltip
+                        title={'Upload your image'}
+                        placement="top"
+                      >
+                        <IconButton color="default" aria-label="upload picture" component="span">
+                          <UPLOAD />
+                        </IconButton>
+                      </Tooltip>
+                    </label>
+                  </div>
+                </Grid>
+              </Grid>
+            </Box>
             <Box component="form" noValidate sx={{ mt: 2, width:'60%' }} style={{}}>
               <div style={{marginRight:'5%', paddingRight: '5%'}}>
+                
                 <Box sx={{ width: '100%',display: 'flex', alignItems: 'flex-end', marginBottom:'15px'}}>
                   <Grid container spacing={0}>
                     <Grid item xs={3}>
