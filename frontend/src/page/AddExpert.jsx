@@ -15,7 +15,6 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { apiCall } from '../Main';
 
 
-
 const theme = createTheme();
 
 export default function AddExpert() {
@@ -30,14 +29,22 @@ export default function AddExpert() {
       interested_category_ids: interested_category_ids
 
     });
-    const data2 = await apiCall('/register_expert_account', 'POST', body);
-    if (typeof (data2) === 'string' && (!data.startsWith('200') || !data.startsWith('201'))) {
-      alert('something wrong')
+    const nameReg = new RegExp(/^[0-9A-Za-z]+ [0-9A-Za-z]+/);
+    const reg = new RegExp(/^([a-zA-Z0-9._-])+@([a-zA-Z0-9_-])+(\.[a-zA-Z0-9_-])+/);
+    if (data.get('name').length < 3) {
+      alert('The expert name should have at least 3 characters');
+    } else if (!(nameReg.test(data.get('name')))) {
+      alert('The expert name format should be "Firstname Lastname"');
+    } else if (!(reg.test(data.get('email')))) {
+      alert('The expert email format is not valid');
     } else {
-      alert('You have successfully add an expert');
-
-
-    }
+      const data2 = await apiCall('/register_expert_account', 'POST', body);
+      if (typeof (data2) === 'string' && (!data2.startsWith('200') || !data2.startsWith('201'))) {
+        alert('something wrong')
+      } else {
+        alert('You have successfully add an expert');
+      }
+    } 
   };
   const setChecked = (value, index) => {
     categories[index].checked = value;

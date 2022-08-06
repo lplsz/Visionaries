@@ -127,16 +127,8 @@ export default function StudentProfile () {
 
   const update = async () => {
     // eslint-disable-next-line prefer-regex-literals
-    const reg = new RegExp(/^([a-zA-Z0-9._-])+@([a-zA-Z0-9_-])+(\.[a-zA-Z0-9_-])+/);
     const nameReg = new RegExp(/^[0-9A-Za-z]+ [0-9A-Za-z]+/);
-    if (email === '') {
-      setErrorMessage('Email should not be none');
-      setOpen(true);
-    } else if (!(reg.test(email))) {
-      setErrorMessage('Not a vaild email');
-      setOpen(true);
-      getUserInfo();
-    } else if (name.length <= 3) {
+    if (name.length <= 3) {
       setErrorMessage('Your name should have at least 3 characters');
       setOpen(true);
       getUserInfo();
