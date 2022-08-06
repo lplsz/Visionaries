@@ -37,16 +37,20 @@ const StudentRegister = () => {
 	const register = async () => {
 		// eslint-disable-next-line prefer-regex-literals
 		const reg = new RegExp(/^z+([0-9._-])+@+(ad|student)+(.unsw.edu.au)/);
+    const nameReg = new RegExp(/^[0-9A-Za-z]+ [0-9A-Za-z]+/);
 		if (email === '') {
 			setErrorMessage('Email should not be none');
 			setOpen(true);
 		} else if (password === '') {
 			setErrorMessage('Password should not be none');
 			setOpen(true);
-		} else if (name === '') {
-			setErrorMessage('Name should not be none');
+		} else if (name.length < 3) {
+			setErrorMessage('Your name should have at least 3 characters');
 			setOpen(true);
-		} else if (!(reg.test(email))) {
+		} else if (!(nameReg.test(name))) {
+      setErrorMessage('The format of your name should be: "Firstname LastName"');
+      setOpen(true);
+    } else if (!(reg.test(email))) {
 			setErrorMessage('Not a vaild email');
 			setOpen(true);
 		} else {
@@ -56,12 +60,13 @@ const StudentRegister = () => {
 				username: name,
 			}
 			const data = await apiCall('/register', 'POST', student);
-			if (typeof (data) === 'string' && (! data.startsWith('200') || ! data.startsWith('201'))) {
-				setErrorMessage(data.slice(3, ));
+			if (typeof (data) === 'string' && (!data.startsWith('200') || !data.startsWith('201'))) {
+				setErrorMessage(data.slice(3,));
 				setOpen(true);
 			} else {
 				localStorage.setItem('token', data.access_token);
 				localStorage.setItem('id', data.user.id)
+				localStorage.setItem('name', data.user.username)
 				if (data.user.account_type === 'student') {
 					navigate('/student_main');
 				}
@@ -69,7 +74,7 @@ const StudentRegister = () => {
 		}
 	}
 
-  const [dialogOpen, setDiaOpen] = React.useState(false);
+	const [dialogOpen, setDiaOpen] = React.useState(false);
 
 	return (
 		<ThemeProvider theme={theme}>
@@ -127,7 +132,7 @@ const StudentRegister = () => {
 										fullWidth
 										id="Name"
 										label="Name"
-                    value={name}
+										value={name}
 										autoFocus
 										onChange={e => setName(e.target.value)}
 									/>
@@ -140,7 +145,7 @@ const StudentRegister = () => {
 										label="Email Address"
 										name="email"
 										autoComplete="email"
-                    value={email}
+										value={email}
 										onChange={e => setEmail(e.target.value)}
 									/>
 								</Grid>
@@ -174,16 +179,16 @@ const StudentRegister = () => {
 					onChange={(event, newValue) => {
 						if (newValue === 0) {
 							navigate('/login');
-						} 
-            else if (newValue === 2) {
-              setDiaOpen(true);
-            }
+						}
+						else if (newValue === 2) {
+							setDiaOpen(true);
+						}
 					}}
 				>
 					<BottomNavigationAction label="Login" icon={<LoginIcon />} />
 					<BottomNavigationAction label="Register" icon={<AssignmentIndIcon />} />
-          <BottomNavigationAction label="Upload" icon={<PhotoCamera />} />
-          <CVDialog dialogOpen={dialogOpen} setDiaOpen={setDiaOpen} setName={setName} setEmail={setEmail} setOpen={setOpen}/>
+					<BottomNavigationAction label="Upload" icon={<PhotoCamera />} />
+					<CVDialog dialogOpen={dialogOpen} setDiaOpen={setDiaOpen} setName={setName} setEmail={setEmail} setOpen={setOpen} />
 				</BottomNavigation>
 			</Container>
 		</ThemeProvider>
