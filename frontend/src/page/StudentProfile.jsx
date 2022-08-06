@@ -60,7 +60,7 @@ export default function StudentProfile () {
     getUserInfo();
   },[]);
 
-  function getLanguageId(languageIds) {
+  function getId(languageIds) {
     let ids = []
     languageIds.map((languageId) => {
       ids.push(languageId.id);
@@ -80,7 +80,7 @@ export default function StudentProfile () {
       setEmail(data.user.email);
       setPassword(data.user.password);
       setBiography(data.user.biography);
-      const ids = getLanguageId(data.user.languages)
+      const ids = getId(data.user.languages)
       setLanguageIds(ids);
       setInterestCategoryIds(data.user.interested_categories);
       setProfileImageSrc(data.user.profile_image_src);
