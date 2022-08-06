@@ -37,16 +37,20 @@ const StudentRegister = () => {
 	const register = async () => {
 		// eslint-disable-next-line prefer-regex-literals
 		const reg = new RegExp(/^z+([0-9._-])+@+(ad|student)+(.unsw.edu.au)/);
+    const nameReg = new RegExp(/^[0-9A-Za-z]+ [0-9A-Za-z]+/);
 		if (email === '') {
 			setErrorMessage('Email should not be none');
 			setOpen(true);
 		} else if (password === '') {
 			setErrorMessage('Password should not be none');
 			setOpen(true);
-		} else if (name === '') {
-			setErrorMessage('Name should not be none');
+		} else if (name.length < 3) {
+			setErrorMessage('Your name should have at least 3 characters');
 			setOpen(true);
-		} else if (!(reg.test(email))) {
+		} else if (!(nameReg.test(name))) {
+      setErrorMessage('The format of your name should be: "Firstname LastName"');
+      setOpen(true);
+    } else if (!(reg.test(email))) {
 			setErrorMessage('Not a vaild email');
 			setOpen(true);
 		} else {
