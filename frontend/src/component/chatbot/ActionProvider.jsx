@@ -38,15 +38,26 @@ class ActionProvider {
   };
   handleVideos = async () => {
     const send = await apiCall('/chatbot', 'POST', { state: 2, input_text: 'video' })
-    console.log(send);
+
     const message = this.createChatBotMessage(
-      `Ok, heres are some video link you can have a look relate to your question
-             `,
+      `Ok, heres are some video link you can have a look relate to your question`,
     );
     this.setChatbotMessage(message);
-    send.map((s) => {
-      const message2 = this.createChatBotMessage(s)
-      this.setChatbotMessage(message2);
+    send.link.map((s) => {
+      console.log(s)
+      const message2 = this.createChatBotMessage(
+        s.text,
+        {
+          widget: "herfWidget"
+        }
+      );
+      this.setState((state) => ({
+        ...state,
+        src: s.herf,
+        messages: [...state.messages, message2],
+
+      }));
+
     })
 
     const message7 = this.createChatBotMessage(
@@ -170,9 +181,7 @@ class ActionProvider {
   messageHandler = () => {
     const message = this.createChatBotMessage(
       "Hello, ask me anything",
-      {
-        widget: "options"
-      }
+
     );
     this.setChatbotMessage(message);
   };

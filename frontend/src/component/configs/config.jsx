@@ -13,6 +13,13 @@ import OptionsQuestionGuide from "../Options/OptionsQuestionGuide";
 import PostForm from "../PostForm"
 import { padding } from "@mui/system";
 
+const HerfWidget = ({ src }) => {
+  console.log('memem');
+  return <div>
+    <a href={src}>{src}</a>
+  </div>
+}
+
 const config = {
   botName: "Wellbing Bot",
   initialMessages: [
@@ -53,10 +60,9 @@ const config = {
   },
 
   state: {
-    linux: [],
-    sql: [],
-    docker: []
+    src: "",
   },
+
   widgets: [
     {
       widgetName: "options",
@@ -100,7 +106,12 @@ const config = {
     }, {
       widgetName: "postform",
       widgetFunc: (props) => <PostForm {...props} />,
+    }, {
+      widgetName: "herfWidget",
+      widgetFunc: (props) => <HerfWidget {...props} />,
+      mapStateToProps: ["src"]
     }
+
   ]
 };
 
