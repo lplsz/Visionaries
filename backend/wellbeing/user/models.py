@@ -82,8 +82,8 @@ class User(db.Model):
             'email': self.email,
             'password': self.password,
             'account_type': self.account_type,
-            'biography': self.biography,
-            'profile_image_src': self.profile_image_src,
+            'biography': self.biography if self.biography is not None else "",
+            'profile_image_src': self.profile_image_src if self.profile_image_src is not None else "",
             'languages': self.languages,
             'qualifications': self.qualifications,
             'interested_categories': [
