@@ -14,12 +14,42 @@ import { apiCall } from '../Main';
 import ErrorSnackbar from '../component/ErrorSnackBar';
 import SuccessSnackbar from '../component/SuccessSnackBar';
 import KeyboardReturnOutlinedIcon from '@mui/icons-material/ArrowCircleLeft';
+import { styled } from '@mui/material/styles';
+import Tooltip from '@mui/material/Tooltip';
+import UPLOAD from '@mui/icons-material/UploadFile';
+import IconButton from '@mui/material/IconButton';
+import LanguageChoice from '../component/LanguageChoice';
+
+function stringAvatar(name) {
+  return {
+    sx: { fontSize: '15px', height: '40px' },
+    children: `${name.split(' ')[0][0]}${name.split(' ')[1][0]}`,
+  };
+}
+
+const Input = styled('input')({
+  display: 'none',
+});
+
+// style for button color
+const ColorButton = styled(Button)(({ theme }) => ({
+  color: theme.palette.getContrastText('#000000'),
+  backgroundColor: '#000000',
+  '&:hover': {
+    backgroundColor: '#000000',
+  },
+}));
 
 export default function ExpertProfile () {
   const navigate = useNavigate();
-  const [name, setName] = React.useState('');
+
+  const [name, setName] = React.useState('AA BB');
   const [email, setEmail] = React.useState('');
+  const [password, setPassword] = React.useState('');
   const [biography, setBiography] = React.useState('');
+  const [interestedCategoryIds, setInterestCategoryIds] = React.useState([]);
+  const [languageIds, setLanguageIds] = React.useState([]);
+  const [profileImageSrc, setProfileImageSrc] = React.useState('');
   const [newpassword, setNewPassword] = React.useState('');
   const [confirm_password, setConfirmPassword] = React.useState('');
   const [open, setOpen] = React.useState(false);
@@ -29,6 +59,14 @@ export default function ExpertProfile () {
   React.useEffect(() =>{
     getUserInfo();
   },[]);
+
+  function getLanguageId(languageIds) {
+    let ids = []
+    languageIds.map((languageId) => {
+      ids.push(languageId.id);
+    })
+    return ids;
+  }
 
   const getUserInfo = async () => {
     const id = localStorage.getItem('id');
@@ -40,11 +78,16 @@ export default function ExpertProfile () {
     } else {
       setName(data.user.username);
       setEmail(data.user.email);
+      setPassword(data.user.password);
+      setBiography(data.user.biography);
+      const ids = getLanguageId(data.user.languages)
+      setLanguageIds(ids);
+      setInterestCategoryIds(data.user.interested_categories);
+      setProfileImageSrc(data.user.profile_image_src);
     }
   }
 
   const changePassword = async () => {
-    const userId = localStorage.getItem('id'); 
     if (newpassword === '' || confirm_password === ' ') {
       setErrorMessage('Password should not be none');
       setOpen(true);
@@ -59,13 +102,17 @@ export default function ExpertProfile () {
     
     else {
       const user = {
-        id: userId,
-        password: confirm_password,
+        biography: biography,
+        interested_category_ids: interestedCategoryIds,
+        password: password,
+        profile_image_src: profileImageSrc,
+        username: name,
+        language_ids: languageIds
       }
-      const data = await apiCall('user_profile', 'POST', user);
-      
-      if (typeof (data) === 'string' && data.startsWith('400')) {
-        setErrorMessage(data.slice(6, data.length - 4));
+      console.log('update', user);
+      const data = await apiCall('user_profile', 'PUT', user);
+      if (typeof (data) === 'string' && (! data.startsWith('200') || ! data.startsWith('201'))) {
+        setErrorMessage(data.slice(3, ));
         setOpen(true);
         setNewPassword('');
         setConfirmPassword('');
@@ -73,43 +120,70 @@ export default function ExpertProfile () {
         setOpen2(true);
         setNewPassword('');
         setConfirmPassword('');
-        navigate('/explorer_profile');
+        navigate('/student_profile');
       }
-      
     }
   }
 
   const update = async () => {
     // eslint-disable-next-line prefer-regex-literals
     const reg = new RegExp(/^([a-zA-Z0-9._-])+@([a-zA-Z0-9_-])+(\.[a-zA-Z0-9_-])+/);
-    const userId = localStorage.getItem('id');
+    const nameReg = new RegExp(/^[0-9A-Za-z]+ [0-9A-Za-z]+/);
     if (email === '') {
       setErrorMessage('Email should not be none');
       setOpen(true);
-    }
-
-    else if (!(reg.test(email))) {
+    } else if (!(reg.test(email))) {
       setErrorMessage('Not a vaild email');
       setOpen(true);
       getUserInfo();
-    } else if (name === '') {
-      setErrorMessage('Name should not be none');
+    } else if (name.length <= 3) {
+      setErrorMessage('Your name should have at least 3 characters');
+      setOpen(true);
+      getUserInfo();
+    } else if (!(nameReg.test(name))) {
+      setErrorMessage('The format of your name should be: "Firstname LastName"');
       setOpen(true);
       getUserInfo();
     }
     else {
       const user = {
-        name: name,
-        email: email,
+        biography: biography,
+        interested_category_ids: interestedCategoryIds,
+        password: password,
+        profile_image_src: profileImageSrc,
+        username: name,
+        language_ids: languageIds
       }
-      const data = await apiCall('user_profile', 'POST', user);
-      if (typeof (data) === 'string' && data.startsWith('400')) {
-        setErrorMessage(data.slice(3, data.length - 1));
+      console.log('update', user);
+      const data = await apiCall('user_profile', 'PUT', user);
+      if (typeof (data) === 'string' && (! data.startsWith('200') || ! data.startsWith('201'))) {
+        setErrorMessage(data.slice(3, data.length));
         setOpen(true);
       } 
       else {
         setOpen2(true);
-        navigate('/explorer_profile');
+        navigate('/student_profile');
+      }
+    }
+  }
+  
+  const handleImage = (target) => {
+    if (target.value) {
+      const file = target.files[0];
+      const size = file.size;
+      if (size >= 1 * 1024 * 1024) {
+        alert('image over limit');
+        return;
+      }
+      if (!['image/jpeg', 'image/png', 'image/gif', 'image/jpg'].includes(file.type)) {
+        alert('Not an image');
+      } else {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = function (e) {
+          const dataimg = e.target.result;
+          setProfileImageSrc(dataimg);
+        }
       }
     }
   }
@@ -134,13 +208,42 @@ export default function ExpertProfile () {
               
             }}
           >
-            <Avatar sx={{ m: 1, bgcolor: 'primary.main', backgroundColor:'#000000',color:'white' }}>
-            </Avatar>
-            <Typography component="h1" variant="h5">
-              My profile
-            </Typography>
-            <Box component="form" noValidate sx={{ mt: 2, width:'60%' }} style={{}}>
+            <Box sx={{ width: '35%', marginBottom:'15px', paddingLeft: '30px'}}>
+              <Grid container spacing={0}>
+                <Grid item>
+                  {profileImageSrc === "" 
+                    ? <Avatar
+                        {...stringAvatar(name)} 
+                        sx={{ m: 1, bgcolor: 'primary.main', backgroundColor:'#000000',color:'white', height:'60px', width:'60px', fontSize:'25px' }}
+                      >
+                    </Avatar>
+                    : <Avatar
+                        src={profileImageSrc}
+                        sx={{ m: 1, bgcolor: 'primary.main', backgroundColor:'#000000',color:'white', height:'60px', width:'60px', fontSize:'25px' }}
+                      >
+                    </Avatar>
+                  }
+                </Grid>
+                <Grid item>
+                  <div style={{paddingTop:'20px'}}>
+                    <label htmlFor="icon-button-file">
+                      <Input accept="image/*" id="icon-button-file" type="file" onChange={(e) => {handleImage(e.target);} }/>
+                      <Tooltip
+                        title={'Upload your image'}
+                        placement="top"
+                      >
+                        <IconButton color="default" aria-label="upload picture" component="span">
+                          <UPLOAD />
+                        </IconButton>
+                      </Tooltip>
+                    </label>
+                  </div>
+                </Grid>
+              </Grid>
+            </Box>
+            <Box component="form" noValidate sx={{ mt: 2, width:'60%' }}>
               <div style={{marginRight:'5%', paddingRight: '5%'}}>
+                
                 <Box sx={{ width: '100%',display: 'flex', alignItems: 'flex-end', marginBottom:'15px'}}>
                   <Grid container spacing={0}>
                     <Grid item xs={3}>
@@ -167,26 +270,24 @@ export default function ExpertProfile () {
                     </Typography>
                   </Grid>
                   <Grid item xs={9}>
-                    <TextField 
-                      fullWidth 
-                      label="Enter Email Here" 
-                      variant="standard" 
-                      size="medium" 
-                      onChange = {e => setEmail(e.target.value)} 
-                      value={email}/>
+                    <Typography component="h6" variant="h6">
+                      {email}
+                    </Typography>
+
                   </Grid>
                 </Grid>
                 </Box>
+                <LanguageChoice languageIds={languageIds} setLanguageIds={setLanguageIds}/>
                 <Box sx={{ display: 'flex', alignItems: 'flex-end', marginBottom:'5%'}}>
                   <Grid container spacing={0}>
-                    <Grid item xs={4}>
-                      <Typography component="h1" variant="h5">
-                        Biography:
-                      </Typography>
-                    </Grid>
-                    <Grid item xs={8}>
+                  <Grid item xs={4}>
+                    <Typography component="h1" variant="h5">
+                      Biography:
+                    </Typography>
+                  </Grid>
+                  <Grid item xs={8}>
                       <textarea
-                      id="w3review" name="w3review" rows="4" cols="50"
+                        id="w3review" name="w3review" rows="4" cols="50"
                         style={{ width: '100%'}}
                         value={biography}
                         onChange={e => setBiography(e.target.value)}
@@ -194,15 +295,15 @@ export default function ExpertProfile () {
                     </Grid>
                   </Grid>
                 </Box>
-                <Button
+                <ColorButton
                   fullWidth
                   id="submit_Login"
                   variant="contained"
-                  sx={{ mt: 3, mb: 2, backgroundColor:'#000000',color:'white' }}
+                  sx={{ mt: 3, mb: 2, color: 'white'}}
                   onClick={update}
                 >
                   UPDATE
-                </Button>
+                </ColorButton>
               </div>
             </Box>
           </Box>
@@ -248,21 +349,21 @@ export default function ExpertProfile () {
                   value={confirm_password}
                   onChange = {e => setConfirmPassword(e.target.value)}
                 />
-                <Button
+                <ColorButton
                   fullWidth
                   id="submit_Login"
                   variant="contained"
-                  sx={{ mt: 3, mb: 2, backgroundColor:'#000000',color:'white' }}
+                  sx={{ mt: 3, mb: 2, color:'white' }}
                   onClick={changePassword}
                 >
                   CONFIRM
-                </Button>
+                </ColorButton>
               </Box>
             </div>
       </Box>
         </div>
         <div style={{display:'flex', justifyContent: 'flex-end' , alignItems: 'flex-end', marginTop: '40px'}}>
-          <Button size="large" sx={{backgroundColor:'#000000',color:'white'}} onClick={(event) => {navigate('/expert_main') }} endIcon={<KeyboardReturnOutlinedIcon size="large" />} >Return</Button>
+          <Button size="large" sx={{backgroundColor:'#000000',color:'white'}} onClick={(event) => {navigate('/student_main') }} endIcon={<KeyboardReturnOutlinedIcon size="large" />} >Return</Button>
         </div>
       </Container>
     </div>

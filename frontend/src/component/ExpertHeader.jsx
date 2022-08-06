@@ -65,7 +65,7 @@ export default function ExpertHeader() {
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
-      <MenuItem onClick={() => { navigate('/contributor_profile'); handleMenuClose(); }}>My Profile</MenuItem>
+      <MenuItem onClick={() => { navigate('/expert_profile'); handleMenuClose(); }}>My Profile</MenuItem>
       <Divider />
       <MenuItem onClick={() => {
         apiCall('/logout', 'POST', { id: id });
