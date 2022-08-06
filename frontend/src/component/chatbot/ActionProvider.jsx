@@ -39,27 +39,17 @@ class ActionProvider {
   handleVideos = async () => {
     const send = await apiCall('/chatbot', 'POST', { state: 2, input_text: 'video' })
 
+    this.setState((state) => ({
+      ...state,
+      src: send,
+    }));
     const message = this.createChatBotMessage(
       `Ok, heres are some video link you can have a look relate to your question`,
+      {
+        widget: "herfWidget"
+      }
     );
     this.setChatbotMessage(message);
-    send.link.map((s) => {
-      console.log(s)
-      const message2 = this.createChatBotMessage(
-        s.text,
-        {
-          widget: "herfWidget"
-        }
-      );
-      this.setState((state) => ({
-        ...state,
-        src: s.herf,
-        messages: [...state.messages, message2],
-
-      }));
-
-    })
-
     const message7 = this.createChatBotMessage(
       "Do you satisfied with this result or do want want to see some related questions?",
       {
@@ -70,11 +60,20 @@ class ActionProvider {
   };
   handleGuides = async () => {
     const send = await apiCall('/chatbot', 'POST', { state: 2, input_text: 'guide' })
-    console.log(send);
-    send.map((s) => {
-      const message2 = this.createChatBotMessage(s)
-      this.setChatbotMessage(message2);
-    })
+
+    this.setState((state) => ({
+      ...state,
+      src: send,
+
+    }));
+    const message = this.createChatBotMessage(
+      `Ok, heres are some solution to your questions`,
+      {
+        widget: "herfGuideWidget"
+      }
+    );
+    this.setChatbotMessage(message);
+
     const message3 = this.createChatBotMessage(
       "Do you still have some questions relate to this topic? You can post an question on our website or see some related questions.",
       {
@@ -84,16 +83,23 @@ class ActionProvider {
     this.setChatbotMessage(message3);
   };
   handleRelate = async () => {
-    const send = await apiCall('/chatbot', 'POST', { state: 3, input_text: 'relate' })
+    const send = await apiCall('/chatbot', 'POST', { state: 3, input_text: 'related' })
     console.log(send);
-    const message = this.createChatBotMessage(
-      "Here are several related questions, you can ask me by sending me message",
-    );
-    this.setChatbotMessage(message);
-    send.map((s) => {
-      const message2 = this.createChatBotMessage(s)
-      this.setChatbotMessage(message2);
-    })
+    if (send.text.length !== 0) {
+      const message = this.createChatBotMessage(
+        "Here are several related questions, you can ask me by sending me message",
+      );
+      this.setChatbotMessage(message);
+      send.text.map((s) => {
+        const message2 = this.createChatBotMessage(s)
+        this.setChatbotMessage(message2);
+      })
+    } else {
+      const message = this.createChatBotMessage(
+        "Here are no related questions",
+      );
+      this.setChatbotMessage(message);
+    }
 
 
   };

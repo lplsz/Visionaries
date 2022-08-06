@@ -89,6 +89,22 @@ export default function ExpertHeader() {
             />
             <Box sx={{ flexGrow: 1 }} />
             <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
+              {localStorage.getItem('name') === 'Administer' ?
+                <IconButton
+                  size="small"
+                  edge="end"
+                  aria-label="account of current user"
+                  aria-controls={menuId}
+                  aria-haspopup="true"
+                  onClick={() => { navigate('/addExpert') }}
+                  color="inherit"
+                >
+                  <AccountCircle fontSize="large" />
+                </IconButton>
+                :
+                <></>
+              }
+
               <IconButton
                 size="large"
                 edge="end"
