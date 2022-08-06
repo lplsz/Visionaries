@@ -1,6 +1,7 @@
 from apiflask import APIBlueprint
 from flask.views import MethodView
 from flask_jwt_extended import jwt_required
+
 import wellbeing.thread.controllers as controllers
 from wellbeing.thread.schemas import (
     PostThreadInSchema,
@@ -30,17 +31,17 @@ class ThreadsByUser(MethodView):
         return controllers.get_threads_by_user(user_id)
 
 
-@thread_blueprint.route('/unread_threads')
+@thread_blueprint.route('/unanswered_unresolved_threads')
 class UnreadThreads(MethodView):
     @thread_blueprint.output(GetThreadsOutSchema, 200)
     @thread_blueprint.doc(
         security='JWT Bearer Token',
-        summary='Get all unanswered threads that the current user is interested in',
+        summary='Get all unanswered & unresolved threads current user is interested in order by update_at desc',
         responses={200: 'OK', 404: 'User Not Found'},
     )
     @jwt_required()
     def get(self):
-        return controllers.get_unread_threads()
+        return controllers.unanswered_unresolved_threads()
 
 
 @thread_blueprint.route('/threads')

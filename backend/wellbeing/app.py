@@ -42,9 +42,9 @@ def register_blueprints(app):
     app.register_blueprint(QA.views.tag_blueprint)
     app.register_blueprint(QA.views.category_blueprint)
     app.register_blueprint(thread.views.thread_blueprint)
-    app.register_blueprint(meeting.views.availability_blueprint)
+    app.register_blueprint(meeting.views.expert_availability_blueprint)
+    app.register_blueprint(meeting.views.student_availability_blueprint)
     app.register_blueprint(meeting.views.meeting_blueprint)
-
     app.register_blueprint(chatbot.views.blueprint)
 
 

@@ -1,8 +1,9 @@
 from flask_jwt_extended import current_user
+from sqlalchemy.sql import and_, not_
+
 from wellbeing.QA.models import Category
-from wellbeing.thread.models import Thread, Reply
 from wellbeing.extensions import db
-from sqlalchemy.sql import and_
+from wellbeing.thread.models import Thread, Reply
 
 
 def get_threads():
@@ -15,11 +16,12 @@ def get_threads_by_user(user_id):
                             Thread.updated_at.desc()).all()]}
 
 
-def get_unread_threads():
+def unanswered_unresolved_threads():
     # Return all threads without replies that belongs to any of the users' interested categories
     category_ids = [category.id for category in current_user.interested_categories]
     return {'threads': [thread.serialized for thread in Thread.query.filter(
-        and_(Thread.replies == None, Thread.category_id.in_(category_ids))
+        and_(not_(Thread.replies.any(Reply.user_id == current_user.id)), Thread.resolved == False,
+             Thread.category_id.in_(category_ids))
     ).order_by(Thread.updated_at.desc()).all()]}
 
 

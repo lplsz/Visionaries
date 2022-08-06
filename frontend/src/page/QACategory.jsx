@@ -339,6 +339,7 @@ const QACategory = () => {
                 <DesktopDatePicker
                   inputFormat="MM/dd/yyyy"
                   value={value}
+                  disablePast
                   onChange={handleChangeTime}
                   renderInput={(params) => <TextField  {...params} />}
                 />

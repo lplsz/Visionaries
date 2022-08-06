@@ -14,10 +14,11 @@ Chatbot Helper Functions
 '''
 
 
-def serch_func(response, q, prefix, num):
+# Google API search
+def serch_func(q, prefix, num):
     q_prefix = q + prefix
     params = {
-        "api_key": "10f8b30bda3da92367f393ba85209c5de69a9eb33cb75a9396a47d0a35a81cf6",
+        "api_key": "265f3c070749db61ef93605f55157c265d83b73a31d203ce7c9860575047adef",
         "engine": "google",
         "q": q_prefix,
         "google_domain": "google.com",
@@ -31,48 +32,76 @@ def serch_func(response, q, prefix, num):
     for msg in range(num):
         res.append({"text":results["organic_results"][msg]["title"], "herf":results["organic_results"][msg]["link"]})
         
-    response['link'] = res
-    return response
+    return res
 
 
-def rank_matching_qa(id_list, title_list, q):
+# DB return top3 matching qa ids
+def rank_matching_qa(id_list, category_list, title_list, q):
     rates = []
     for title in title_list:
         rates.append(fuzz.ratio(q,title))
-    res = list(zip(id_list, title_list, rates))
+    res = list(zip(id_list, category_list, title_list, rates))
     df_res = pd.DataFrame(res)
-    top3_id_list = df_res.sort_values(by=[2],ascending=False)[:3][0].tolist()
 
-    return top3_id_list
+    return df_res
 
 
+# Remove duplicated results
+def remove_duplication(cur, prev, key):
+    differences = []
+    for i in cur[key]:
+        if i not in prev[key]:
+            differences.append(i)
+    return differences
+
+
+# step 1: video or guide
+# if "video": return youtube video link
+# if "guide": return 1-3 QA from db
+#             return 1-3 external link from gov unsw org
 def state2_response(type, question):
     response_video = {}
     response_guide = {}
 
     if type == "video":
-        serch_func(response_video, question, "youtube", 5)
+        response_video['link'] = serch_func(question, "youtube", 5)
         return response_video
 
     elif type == "guide":
-        # QA from db
+        # QA ids and category_ids from db
         qa_list = QA.query.all()
-        # response_list_guide.append(rank_matching_qa([qa.id for qa in qa_list], [qa.title for qa in qa_list], question))
-        response_guide['ids'] = rank_matching_qa([qa.id for qa in qa_list], [qa.title for qa in qa_list], question)
+        df_res = rank_matching_qa([qa.id for qa in qa_list],[qa.category_id for qa in qa_list], [qa.title for qa in qa_list], question)
+        # only rank >= 50 will be returned
+        df_res = df_res[df_res[3] >= 50]
+        top3_id_list = df_res.sort_values(by=[3],ascending=False)[:3]
+        qa_id_cat = []
+        for idx in range(len(top3_id_list)):
+            qa_id_cat.append({"id":list(top3_id_list[0])[idx], "category_id":list(top3_id_list[1])[idx]})
+        response_guide['QAs'] = qa_id_cat
 
         # gov
-        serch_func(response_guide, question, "gov au", 3)
+        response_guide['link'] = serch_func(question, "gov au", 3)
         # unsw
-        serch_func(response_guide, question, "unsw au", 3)
+        response_guide['link'] = response_guide.get("link", []) + serch_func(question, "unsw au", 3)
         # org
-        serch_func(response_guide, question, "org au", 3)     
+        response_guide['link'] = response_guide.get("link", []) + serch_func(question, "org au", 3) 
         return response_guide
 
 
-def state3_response(question):
-    response_list_related = ["If your concerns are not addressed, here are some more related questions for you to click on."]
+# only return when user puts in "related"
+def state3_response(status, question):
+
+    # status update
+    u_q = UserQuestion.query.filter_by(user_id=current_user.id).order_by(UserQuestion.created_at.desc()).first_or_404()
+    u_q.status = status
+    db.session.commit()
+
+    if status != "related":
+        return ""
+
+    response_list_related = {}
     params = {
-        "api_key": "10f8b30bda3da92367f393ba85209c5de69a9eb33cb75a9396a47d0a35a81cf6",
+        "api_key": "265f3c070749db61ef93605f55157c265d83b73a31d203ce7c9860575047adef",
         "engine": "google",
         "q": question,
         "google_domain": "google.com",
@@ -85,16 +114,17 @@ def state3_response(question):
     if "related_questions" not in results.keys():
         return []
 
-    # return [f"{result['question']}: {result['link']}"  for result in results["related_questions"][:3]]
-    return [f"{result['question']}"  for result in results["related_questions"][:3]]
+    res = {}
+    res['text'] = [f"{result['question']}"  for result in results["related_questions"][:3]]
+    return res
 
 
 
 # state 1 inserting into db
-def state1_response(id, question):
+def state1_response(user_id, question):
     new_user_question = UserQuestion(
         question_description=question,
-        user_id=id
+        user_id=user_id
     )
     db.session.add(new_user_question)
     db.session.commit()
@@ -105,21 +135,34 @@ def state1_response(id, question):
 Chatbot Controllers
 '''
 
-# step 1: video or guide
-# if "video": return youtube video link
-# if "guide": return 1-3 QA from db
-#             return 1-3 external link from gov unsw org
-# in the format of ["", "", ""]
+
 def state_response(data):
     if data['state'] == 1:
         return state1_response(current_user.id, data['input_text'])
 
-    question = UserQuestion.query.filter_by(user_id=current_user.id).order_by(UserQuestion.created_at.desc()).first_or_404().question_description
-
+    u_question = UserQuestion.query.filter_by(user_id=current_user.id).order_by(UserQuestion.created_at.desc()).first_or_404()
+    current_q = u_question.question_description
     if data['state'] == 2:
-        return state2_response(data['input_text'], question)
+        if u_question.id == 1:
+            return state2_response(data['input_text'], current_q)
+        else:
+            # get prev and current dict of responses
+            previous_q = UserQuestion.query.filter_by(id=u_question.id-1).first_or_404()
+            # compare only if status != True
+            if previous_q.status == "True":
+                return state2_response(data['input_text'], current_q) 
+
+            cur_response = state2_response(data['input_text'], current_q)
+            prev_response = state2_response(data['input_text'], previous_q.question_description)
+
+            res = {}
+            if data['input_text'] == "guide":
+                res['QAs'] = remove_duplication(cur_response, prev_response, "QAs")
+            res['link'] = remove_duplication(cur_response, prev_response, "link")
+            return res
+
     elif data['state'] == 3:
-        return state3_response(question)
+        return state3_response(data['input_text'], current_q)
 
     
 
