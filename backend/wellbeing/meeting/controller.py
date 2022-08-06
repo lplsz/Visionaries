@@ -9,6 +9,10 @@ from wellbeing.meeting.models import TimeRange, Availability
 from wellbeing.user.models import User
 from wellbeing.utility.google_meeting import create_meeting
 
+'''
+Expert Availability
+'''
+
 
 def get_expert_availabilities_by_date(expert_id, date):
     """
@@ -62,16 +66,8 @@ def get_expert_availabilities(expert_id):
     """
     Returns a list of availabilities for a user.
     """
-    availabilities = Availability.query.filter_by(expert_id=expert_id).all()
-    return {"availabilities": [availability.serialized for availability in availabilities]}
-
-
-def get_student_availabilities(student_id):
-    """
-    Returns a list of availabilities for a user.
-    """
-    availabilities = Availability.query.filter_by(student_id=student_id).all()
-    print(availabilities)
+    availabilities = Availability.query.filter_by(expert_id=expert_id).order_by(
+        Availability.date, Availability.time_range_id).all()
     return {"availabilities": [availability.serialized for availability in availabilities]}
 
 
@@ -103,6 +99,20 @@ def update_expert_availabilities(expert_id, availabilities):
     return get_availabilities(expert_id)
 
 
+'''
+Student Availability
+'''
+
+
+def get_student_availabilities(student_id):
+    """
+    Returns a list of availabilities for a user.
+    """
+    availabilities = Availability.query.filter_by(student_id=student_id).order_by(
+        Availability.date, Availability.time_range_id).all()
+    return {"availabilities": [availability.serialized for availability in availabilities]}
+
+
 def update_student_availability(data):
     """
     Updates the availability of a user.
@@ -124,6 +134,11 @@ def update_student_availabilities(student_id, availabilities):
 
     db.session.commit()
     return get_student_availabilities(student_id)
+
+
+'''
+Booking
+'''
 
 
 def make_booking(expert_id, student_id, date, time_range_id):
