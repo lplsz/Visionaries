@@ -8,7 +8,6 @@ from wellbeing.meeting.schemas import (
     PostExpertAvailabilitiesInSchema,
     PostAvailabilityInSchema,
     PostAvailabilityOutSchema,
-    PostStudentAvailabilitiesInSchema,
     GetExpertAvailabilityByDateInSchema,
     GetExpertAvailabilityByDateAndCategoryInSchema,
     GetExpertAvailabilityByDateAndCategoryOutSchema,
@@ -64,7 +63,7 @@ def get_experts_availabilities_by_week_and_categories(data):
         404: 'User Not Found',
     })
 def update_expert_availability(data):
-    return controller.update_expert_availabilty(data)
+    return controller.update_expert_availability(data)
 
 
 @expert_availability_blueprint.post('/update_expert_availabilities')
@@ -89,7 +88,7 @@ student_availability_blueprint = APIBlueprint('student_availability', __name__)
 @student_availability_blueprint.get('/get_student_availabilities/<int:student_id>')
 @student_availability_blueprint.output(GetAvailabilitiesOutSchema, 200)
 @student_availability_blueprint.doc(
-    summary='Get availabilities of expert',
+    summary='Get availabilities of a student, ordered by date, time asc',
     responses={
         404: 'User Not Found',
     })
@@ -97,28 +96,28 @@ def get_user_availability(student_id):
     return controller.get_student_availabilities(student_id)
 
 
-@student_availability_blueprint.post('/update_student_availability')
-@student_availability_blueprint.input(PostAvailabilityInSchema)
-@student_availability_blueprint.output(PostAvailabilityOutSchema, 200)
-@student_availability_blueprint.doc(
-    summary='Update availability of student',
-    responses={
-        404: 'User Not Found',
-    })
-def update_student_availability(data):
-    return controller.update_student_availability(data)
-
-
-@student_availability_blueprint.post('/update_student_availabilities')
-@student_availability_blueprint.input(PostStudentAvailabilitiesInSchema)
-@student_availability_blueprint.output(GetAvailabilitiesOutSchema, 200)
-@student_availability_blueprint.doc(
-    summary='Update availabilities of student',
-    responses={
-        404: 'User Not Found',
-    })
-def update_student_availabilities(data):
-    return controller.update_student_availabilities(data['student_id'], data['availabilities'])
+# @student_availability_blueprint.post('/update_student_availability')
+# @student_availability_blueprint.input(PostAvailabilityInSchema)
+# @student_availability_blueprint.output(PostAvailabilityOutSchema, 200)
+# @student_availability_blueprint.doc(
+#     summary='Update availability of student',
+#     responses={
+#         404: 'User Not Found',
+#     })
+# def update_student_availability(data):
+#     return controller.update_student_availability(data)
+#
+#
+# @student_availability_blueprint.post('/update_student_availabilities')
+# @student_availability_blueprint.input(PostStudentAvailabilitiesInSchema)
+# @student_availability_blueprint.output(GetAvailabilitiesOutSchema, 200)
+# @student_availability_blueprint.doc(
+#     summary='Update availabilities of student',
+#     responses={
+#         404: 'User Not Found',
+#     })
+# def update_student_availabilities(data):
+#     return controller.update_student_availabilities(data['student_id'], data['availabilities'])
 
 
 '''

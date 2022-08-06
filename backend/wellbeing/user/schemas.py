@@ -27,7 +27,8 @@ class UserSchema(Schema):
     id = Integer(required=True, example=1)
     username = String(required=True, example='Taylor Swift')
     email = Email(required=True, example='ts@gmail.com')
-    account_type = String(required=True, validate=OneOf(['student', 'expert']), example='student')
+    password = String(required=True, example='password')
+    account_type = String(required=True, validate=OneOf(['student', 'expert', 'admin']), example='student')
     biography = String(example='Hello, I am Taylor Swift')
     profile_image_src = String()
 
