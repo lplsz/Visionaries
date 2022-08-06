@@ -68,6 +68,7 @@ def get_expert_availabilities(expert_id):
     """
     availabilities = Availability.query.filter_by(expert_id=expert_id).order_by(
         Availability.date, Availability.time_range_id).all()
+    print([availability.serialized for availability in availabilities])
     return {"availabilities": [availability.serialized for availability in availabilities]}
 
 
