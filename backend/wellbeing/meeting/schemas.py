@@ -20,11 +20,11 @@ class AvailabilitySchema(Schema):
 
 
 '''
-    Put straight into DB
+Availability Schema
 '''
 
 
-class PostAvailabilitySchema(Schema):
+class PostAvailabilityInSchema(Schema):
     expert_id = Integer()
     date = Date()
     time_range_id = Integer()
@@ -33,9 +33,13 @@ class PostAvailabilitySchema(Schema):
     student_id = Integer()
 
 
+class PostAvailabilityOutSchema(Schema):
+    availability = Nested(PostAvailabilityInSchema)
+
+
 class PostAvailabilitiesInSchema(Schema):
     expert_id = Integer(required=True)
-    availabilities = List(Nested(PostAvailabilitySchema))
+    availabilities = List(Nested(PostAvailabilityInSchema))
 
 
 '''

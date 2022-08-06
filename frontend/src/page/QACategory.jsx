@@ -88,6 +88,7 @@ const QACategory = () => {
   const [open, setOpen] = React.useState(false);
   const [questionName, setQuestionName] = React.useState('');
   const [questionCategory, setQuestionCategory] = React.useState(categoryid);
+  const [questionCategoryName, setQuestionCategoryName] = React.useState(categoryid);
   const [questionDescription, setQuestionDescription] = React.useState('');
   const [qaList, setQAList] = React.useState([]);
   const [categoriesName, setCategoriesName] = React.useState([]);
@@ -96,7 +97,9 @@ const QACategory = () => {
     const data = await apiCall('/categories', 'GET');
     setCategoriesName(data.categories.map((cate) => { return cate.category_name }));
     setCategoriesId(data.categories.map((cate) => { return cate.id }));
-    setCategory(data.categories.filter((cate) => { return cate.id.toString() === categoryid.toString() })[0].category_name);
+    const cateName = data.categories.filter((cate) => { return cate.id.toString() === categoryid.toString() })[0].category_name
+    setCategory(cateName);
+    setQuestionCategoryName(cateName);
     const data2 = await apiCall('/tags', 'GET');
     data2.tags.map((tag, i) => { tag.checked = false; return tag });
     setSubCategories(data2.tags);
@@ -145,12 +148,10 @@ const QACategory = () => {
     setQAList(data.qas);
   }
 
-  React.useEffect(() => {
-    getCategories();
 
-  }, [])
 
   if (i === 1) {
+    getCategories();
     getQADetail(categoryid);
     setI(i + 1);
   };
@@ -383,10 +384,10 @@ const QACategory = () => {
                           id="combo-box-demo"
                           options={categoriesName}
                           sx={{ marginLeft: '10px' }}
-                          value={category}
+                          value={questionCategoryName}
                           fullWidth
                           renderInput={(params) => <TextField {...params} label="Type" />}
-                          onChange={(e) => setQuestionCategory(categoriesId[e.target.getAttribute("data-option-index")])}
+                          onChange={(e) => { setQuestionCategoryName(categoriesName[e.target.getAttribute("data-option-index")]); setQuestionCategory(categoriesId[e.target.getAttribute("data-option-index")]) }}
                         />
                       </Grid>
                       <Grid item xs={12}>

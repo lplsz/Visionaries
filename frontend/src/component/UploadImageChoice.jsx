@@ -20,7 +20,7 @@ const Input = styled('input')({
 
 const UploadImageChoice = (props) => {
   const [imgSrc, setImgSrc] = React.useState("");
-  const handleImage = (target) => {
+  const handleImage = async (target) => {
     if (target.value) {
       const file = target.files[0];
       const size = file.size;
@@ -33,11 +33,13 @@ const UploadImageChoice = (props) => {
       } else {
         const reader = new FileReader();
         reader.readAsDataURL(file);
-        reader.onload = function (e) {
+        reader.onload = async function (e) {
           const dataimg = e.target.result;
-          const text = `<img width='90%' height='90%' src={${dataimg}} alt={'replyimg'}></img>`
-          apiCall('reply', 'POST', { thread_id: props.tid, body: text });
+          const text = `<img height='80px' src="${dataimg}" alt={'replyimg'}></img>`
+          await apiCall('reply', 'POST', { thread_id: props.tid, body: text });
+          props.getThreads();
         }
+
       }
     }
   }
@@ -113,7 +115,7 @@ const UploadImageChoice = (props) => {
             </DialogContent>
             <DialogActions>
               <Button onClick={() => { handleDialogClose(); handleClose(); }}>CANCLE</Button>
-              <Button onClick={() => { const text = `<img width='90%' height='90%' src={${imgSrc}} alt={'replyimg'}></img>`; apiCall('reply', 'POST', { thread_id: props.tid, body: text });  handleDialogClose(); handleClose(); }}>SUMBIT</Button>
+              <Button onClick={async () => { const text = `<img height='80px' src="${imgSrc}" alt={'replyimg'}></img>`; await apiCall('reply', 'POST', { thread_id: props.tid, body: text }); props.getThreads(); handleDialogClose(); handleClose(); }}>SUMBIT</Button>
             </DialogActions>
           </Dialog>
         </MenuItem>

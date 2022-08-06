@@ -83,13 +83,6 @@ const config = {
       widgetFunc: (props) => <OptionsQuestionGuide {...props} />,
     },
     {
-      widgetName: "sql",
-      widgetFunc: (props) => <div {...props} >sql</div>,
-      props: {
-        course: "Sql"
-      }
-    },
-    {
       widgetName: "optionsmeeting",
       widgetFunc: (props) => <OptionsMeeting {...props} />,
 
