@@ -60,7 +60,7 @@ export default function ExpertProfile () {
     getUserInfo();
   },[]);
 
-  function getLanguageId(languageIds) {
+  function getId(languageIds) {
     let ids = []
     languageIds.map((languageId) => {
       ids.push(languageId.id);
@@ -80,9 +80,10 @@ export default function ExpertProfile () {
       setEmail(data.user.email);
       setPassword(data.user.password);
       setBiography(data.user.biography);
-      const ids = getLanguageId(data.user.languages)
+      const ids = getId(data.user.languages)
       setLanguageIds(ids);
-      setInterestCategoryIds(data.user.interested_categories);
+      const interIds = getId(data.user.interested_categories)
+      setInterestCategoryIds(interIds);
       setProfileImageSrc(data.user.profile_image_src);
     }
   }
@@ -120,7 +121,7 @@ export default function ExpertProfile () {
         setOpen2(true);
         setNewPassword('');
         setConfirmPassword('');
-        navigate('/student_profile');
+        navigate('/expert_profile');
       }
     }
   }
@@ -162,7 +163,7 @@ export default function ExpertProfile () {
       } 
       else {
         setOpen2(true);
-        navigate('/student_profile');
+        navigate('/expert_profile');
       }
     }
   }
