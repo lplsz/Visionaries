@@ -6,7 +6,7 @@ from datetime import datetime
 from apiflask import abort
 
 
-def get_availabilities(expert_id):
+def get_expert_availabilities(expert_id):
     """
     Returns a list of availabilities for a user.
     """
@@ -14,7 +14,22 @@ def get_availabilities(expert_id):
     return {"availabilities": [availability.serialized for availability in availabilities]}
 
 
-def update_availabilities(expert_id, availabilities):
+def get_student_availabilities(student_id):
+    """
+    Returns a list of availabilities for a user.
+    """
+    availabilities = Availability.query.filter_by(student_id=student_id).all()
+    return {"availabilities": [availability.serialized for availability in availabilities]}
+
+
+def update_expert_availability(data):
+    """
+    Updates the availability of a user.
+    """
+    return update_availabilities(data['expert_id'], [data])
+
+
+def update_expert_availabilities(expert_id, availabilities):
     """
     Sets the availability for a user. availabilities is a list of dictionaries
     with the keys 'date', 'time_range_id', 'status' and optional keys 'student_id' and 'meeting_metadata'.
