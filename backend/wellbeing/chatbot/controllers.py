@@ -36,15 +36,14 @@ def serch_func(q, prefix, num):
 
 
 # DB return top3 matching qa ids
-def rank_matching_qa(id_list, title_list, q):
+def rank_matching_qa(id_list, category_list, title_list, q):
     rates = []
     for title in title_list:
         rates.append(fuzz.ratio(q,title))
-    res = list(zip(id_list, title_list, rates))
+    res = list(zip(id_list, category_list, title_list, rates))
     df_res = pd.DataFrame(res)
-    top3_id_list = df_res.sort_values(by=[2],ascending=False)[:3][0].tolist()
 
-    return top3_id_list
+    return df_res
 
 
 # Remove duplicated results
@@ -69,9 +68,16 @@ def state2_response(type, question):
         return response_video
 
     elif type == "guide":
-        # QA from db
+        # QA ids and category_ids from db
         qa_list = QA.query.all()
-        response_guide['ids'] = rank_matching_qa([qa.id for qa in qa_list], [qa.title for qa in qa_list], question)
+        df_res = rank_matching_qa([qa.id for qa in qa_list],[qa.category_id for qa in qa_list], [qa.title for qa in qa_list], question)
+        # only rank >= 50 will be returned
+        df_res = df_res[df_res[3] >= 50]
+        top3_id_list = df_res.sort_values(by=[3],ascending=False)[:3]
+        qa_id_cat = []
+        for idx in range(len(top3_id_list)):
+            qa_id_cat.append({"id":list(top3_id_list[0])[idx], "category_id":list(top3_id_list[1])[idx]})
+        response_guide['QAs'] = qa_id_cat
 
         # gov
         response_guide['link'] = serch_func(question, "gov au", 3)
@@ -151,7 +157,7 @@ def state_response(data):
 
             res = {}
             if data['input_text'] == "guide":
-                res['ids'] = remove_duplication(cur_response, prev_response, "ids")
+                res['QAs'] = remove_duplication(cur_response, prev_response, "QAs")
             res['link'] = remove_duplication(cur_response, prev_response, "link")
             return res
 
