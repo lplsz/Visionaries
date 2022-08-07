@@ -5,9 +5,9 @@ class Availability(db.Model):
     """
     expert_id, time_range_id, date forms the Primary Key
     """
-    expert_id = db.Column(db.Integer, db.ForeignKey('user.id'), primary_key=True)
-    time_range_id = db.Column(db.Integer, db.ForeignKey('time_range.id'), primary_key=True)
-    date = db.Column(db.Date, primary_key=True)
+    expert_id = db.Column(db.Integer, db.ForeignKey('user.id'), primary_key=True, index=True)
+    time_range_id = db.Column(db.Integer, db.ForeignKey('time_range.id'), primary_key=True, index=True)
+    date = db.Column(db.Date, primary_key=True, index=True)
 
     status = db.Column(db.Enum('available', 'unavailable', 'booked'), nullable=False)
 

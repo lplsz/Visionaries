@@ -1,7 +1,6 @@
 from datetime import datetime, timedelta
 
 from apiflask import abort
-from sqlalchemy.sql import and_
 
 from wellbeing.QA.models import Category
 from wellbeing.extensions import db
@@ -18,9 +17,21 @@ def get_expert_availabilities_by_date(expert_id, date):
     """
     Return the expert's availabilities on 'date' ordered by time_range_id.
     """
+
+    time_range_ids = [t[0] for t in db.session.query(TimeRange.id).all()]
+    result = [{
+        'date': date,
+        'time_range_id': time_range_id,
+        'status': 'available',
+        'expert_id': expert_id,
+    } for time_range_id in time_range_ids]
+
     availabilities = Availability.query.filter_by(expert_id=expert_id, date=date).order_by(
         Availability.time_range_id).all()
-    return availabilities
+    for availability in availabilities:
+        result[availability.time_range_id - 1] = availability.serialized
+
+    return result
 
 
 def get_expert_availabilities_by_week(expert_id, date):
@@ -30,19 +41,23 @@ def get_expert_availabilities_by_week(expert_id, date):
 
     # Get the start and end of the week containing date
     start_date = date - timedelta(days=date.weekday())
-    end_date = start_date + timedelta(days=4)
 
     # Return the expert's availabilities with date between start_date and end_date ordered by time_range_id
-    availabilities = Availability.query.filter(and_(Availability.expert_id == expert_id,
-                                                    Availability.date >= start_date,
-                                                    Availability.date <= end_date)).order_by(
-        Availability.date, Availability.time_range_id).all()
+    # availabilities = Availability.query.filter(and_(Availability.expert_id == expert_id,
+    #                                                 Availability.date >= start_date,
+    #                                                 Availability.date <= end_date)).order_by(
+    #     Availability.date, Availability.time_range_id).all()
+    #
+    # # Return the expert's availabilities as a list of availabilities list for each day of the week
+    # result = []
+    # for day in range(5):
+    #     result.append([availability.serialized for availability in availabilities if
+    #                    availability.date == start_date + timedelta(days=day)])
 
-    # Return the expert's availabilities as a list of availabilities list for each day of the week
     result = []
     for day in range(5):
-        result.append([availability.serialized for availability in availabilities if
-                       availability.date == start_date + timedelta(days=day)])
+        result.append(get_expert_availabilities_by_date(expert_id, start_date + timedelta(days=day)))
+
     return result
 
 
@@ -54,8 +69,8 @@ def get_experts_availabilities_by_week_and_categories(date, category_ids):
     # Get the experts who are interested in the given categories
     experts = User.query.filter(User.interested_categories.any(Category.id.in_(category_ids))).all()
 
-    result = []
     # Get the availabilities of the experts on the given date
+    result = []
     for expert in experts:
         result.append({
             'expert': expert.serialized,
