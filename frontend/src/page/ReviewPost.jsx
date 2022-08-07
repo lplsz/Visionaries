@@ -2,12 +2,10 @@ import React, { useEffect } from "react";
 import styled from "styled-components";
 import { DragDropContext } from "react-beautiful-dnd";
 import DraggableElement from "../component/DraggableElement";
-import Grid from '@mui/material/Grid';
-import Container from '@mui/material/Container';
 import ExpertHeader from '../component/ExpertHeader';
 import CssBaseline from '@mui/material/CssBaseline';
 import GlobalStyles from '@mui/material/GlobalStyles';
-
+import { apiCall } from '../Main';
 
 const ListGrid = styled.div`
   display: grid;
@@ -27,23 +25,38 @@ const addToList = (list, index, element) => {
   return result;
 };
 
+// generate string id for recipes
+const makeid = (list) => {
+  let i = 0;
+  for (const key of Object.keys(list)) {
+    for (const e of list[key]) {
+      e.rid = e.id
+      e.id = (i).toString()
+      i += 1
+    }
+  }
+  return list;
+}
+
 
 function ReviewPost() {
 
-  const pending = [
-    { id: '0', name: 'Rhea', time: '04/09/2022', question: 'How much does it cost?', category: 'vacation', description: 'All appointments are completely free of charge for students who are currently enrolled at UNSW.' },
-    { id: '1', name: 'Skylar', time: '04/06/2022', question: 'What can I expect if offered an appointment?', category: 'vacation', description: 'Appointments are scheduled to last around 30 minutes. We will ask you some questions to help work out what might help. We always work with you as an individual and will always treat you with respect.', video: 'https://youtu.be/wm5nhB0lYL8' },
-  ]
-  const reviewed = [
-    { id: '3', name: 'Sk', time: '04/06/2022', question: 'What can I expect if offered an appointment?', category: 'vacation', description: 'Appointments are scheduled to last around 30 minutes. We will ask you some questions to help work out what might help. We always work with you as an individual and will always treat you with respect.', video: 'https://youtu.be/wm5nhB0lYL8' },
-  ];
+  const [elements, setElements] = React.useState({ "Pending Review": [], "All My Post": [] });
 
-  const [elements, setElements] = React.useState({ "Pending Review": pending, "All My Post": reviewed });
+  const getInfo = async () => {
+    const data1 = await apiCall('qa_not_reviewed', 'GET');
+    const data2 = await apiCall('qa_reviewed', 'GET');
 
-  // useEffect(() => {
-  //   setElements(generateLists());
-  // }, []);
-  console.log(elements);
+    Promise.all([data1, data2]).then(
+      function(results) {
+        const newElements = { "Pending Review": results[0].qas, "All My Post": results[1].qas };
+        setElements(makeid(newElements));
+    })
+  }
+
+  useEffect(() =>{
+    getInfo();
+  },[]);
 
   const onDragEnd = (result) => {
     if (!result.destination) {
@@ -63,7 +76,9 @@ function ReviewPost() {
       result.destination.index,
       removedElement
     );
+
     setElements(listCopy);
+
   };
 
   return (

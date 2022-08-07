@@ -19,6 +19,7 @@ import Tooltip from '@mui/material/Tooltip';
 import UPLOAD from '@mui/icons-material/UploadFile';
 import IconButton from '@mui/material/IconButton';
 import LanguageChoice from '../component/LanguageChoice';
+import ImageButton from '../component/ImageButton';
 
 function stringAvatar(name) {
   return {
@@ -200,38 +201,8 @@ export default function StudentProfile () {
               
             }}
           >
-            <Box sx={{ width: '35%', marginBottom:'15px', paddingLeft: '30px'}}>
-              <Grid container spacing={0}>
-                <Grid item>
-                  {profileImageSrc === "" 
-                    ? <Avatar
-                        {...stringAvatar(name)} 
-                        sx={{ m: 1, bgcolor: 'primary.main', backgroundColor:'#000000',color:'white', height:'60px', width:'60px', fontSize:'25px' }}
-                      >
-                    </Avatar>
-                    : <Avatar
-                        src={profileImageSrc}
-                        sx={{ m: 1, bgcolor: 'primary.main', backgroundColor:'#000000',color:'white', height:'60px', width:'60px', fontSize:'25px' }}
-                      >
-                    </Avatar>
-                  }
-                </Grid>
-                <Grid item>
-                  <div style={{paddingTop:'20px'}}>
-                    <label htmlFor="icon-button-file">
-                      <Input accept="image/*" id="icon-button-file" type="file" onChange={(e) => {handleImage(e.target);} }/>
-                      <Tooltip
-                        title={'Upload your image'}
-                        placement="top"
-                      >
-                        <IconButton color="default" aria-label="upload picture" component="span">
-                          <UPLOAD />
-                        </IconButton>
-                      </Tooltip>
-                    </label>
-                  </div>
-                </Grid>
-              </Grid>
+            <Box sx={{ width: '35%', marginBottom:'15px'}}>
+              <ImageButton profileImageSrc={profileImageSrc} setProfileImageSrc={setProfileImageSrc} name={name}/>
             </Box>
             <Box component="form" noValidate sx={{ mt: 2, width:'60%' }}>
               <div style={{marginRight:'5%', paddingRight: '5%'}}>

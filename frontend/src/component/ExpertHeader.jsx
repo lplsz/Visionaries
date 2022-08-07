@@ -15,7 +15,8 @@ import StarIcon from '@mui/icons-material/Star';
 import CardMedia from '@mui/material/CardMedia';
 import { useNavigate } from 'react-router-dom';
 import { apiCall } from '../Main';
-import MAIN from './img/staff_header.png'
+import MAIN from './img/staff_header.png';
+import SupervisorAccountIcon from '@mui/icons-material/SupervisorAccount';
 
 const theme = createTheme({
   palette: {
@@ -99,7 +100,7 @@ export default function ExpertHeader() {
                   onClick={() => { navigate('/addExpert') }}
                   color="inherit"
                 >
-                  <AccountCircle fontSize="large" />
+                  <SupervisorAccountIcon fontSize="large" />
                 </IconButton>
                 :
                 <></>
