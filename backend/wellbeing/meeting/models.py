@@ -1,5 +1,4 @@
 from wellbeing.extensions import db
-from wellbeing.user.models import User
 
 
 class Availability(db.Model):

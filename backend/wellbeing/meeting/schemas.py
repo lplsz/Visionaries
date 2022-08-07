@@ -37,7 +37,7 @@ class GetExpertAvailabilityByDateAndCategoryInSchema(Schema):
 
 class ExpertAvailabilityByDateAndCategorySchema(Schema):
     expert = Nested(UserSchema, partial=True)
-    availabilities = List(Nested(AvailabilitySchema))
+    availabilities = List(List(Nested(AvailabilitySchema)))
 
 
 class GetExpertAvailabilityByDateAndCategoryOutSchema(Schema):
@@ -72,8 +72,12 @@ class PostStudentAvailabilitiesInSchema(Schema):
 '''
 
 
-class GetAvailabilitiesOutSchema(Schema):
+class GetAvailabilitiesByDateOutSchema(Schema):
     availabilities = List(Nested(AvailabilitySchema))
+
+
+class GetAvailabilitiesOutSchema(Schema):
+    availabilities = List(List(Nested(AvailabilitySchema)))
 
 
 '''

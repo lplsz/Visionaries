@@ -6,11 +6,10 @@ from wellbeing.meeting.schemas import (
     BookMeetingOutSchema,
     GetAvailabilitiesOutSchema,
     PostExpertAvailabilitiesInSchema,
-    PostAvailabilityInSchema,
-    PostAvailabilityOutSchema,
     GetExpertAvailabilityByDateInSchema,
     GetExpertAvailabilityByDateAndCategoryInSchema,
     GetExpertAvailabilityByDateAndCategoryOutSchema,
+    GetAvailabilitiesByDateOutSchema,
 )
 
 expert_availability_blueprint = APIBlueprint('expert_availability', __name__)
@@ -22,26 +21,27 @@ Expert availabilities
 
 @expert_availability_blueprint.get('/get_expert_availabilities_by_date')
 @expert_availability_blueprint.input(GetExpertAvailabilityByDateInSchema, location='query')
-@expert_availability_blueprint.output(GetAvailabilitiesOutSchema, 200)
+@expert_availability_blueprint.output(GetAvailabilitiesByDateOutSchema, 200)
 @expert_availability_blueprint.doc(
     summary="Get a day's availabilities of an expert order by time asc",
     responses={
         404: 'User Not Found',
     })
 def get_expert_availabilities_by_date(data):
-    return controller.get_expert_availabilities_by_date(data['expert_id'], data['date'])
+    return {'availabilities': controller.get_expert_availabilities_by_date(data['expert_id'], data['date'])}
 
 
 @expert_availability_blueprint.get('/get_expert_availabilities_by_week')
 @expert_availability_blueprint.input(GetExpertAvailabilityByDateInSchema, location='query')
 @expert_availability_blueprint.output(GetAvailabilitiesOutSchema, 200)
 @expert_availability_blueprint.doc(
-    summary="Get a week's availabilities of an expert order by date, time asc",
+    summary="Get a week's (Mon - Fri) availability matrix of an expert",
+    description="Availabilities are grouped by date and ordered by time_range_id",
     responses={
         404: 'User Not Found',
     })
 def get_expert_availabilities_by_week(data):
-    return controller.get_expert_availabilities_by_week(data['expert_id'], data['date'])
+    return {'availabilities': controller.get_expert_availabilities_by_week(data['expert_id'], data['date'])}
 
 
 @expert_availability_blueprint.get('/get_experts_availabilities_by_week_and_categories')
@@ -51,24 +51,24 @@ def get_expert_availabilities_by_week(data):
     summary="Get a week's availabilities of all experts into the category_ids order by date, time asc",
 )
 def get_experts_availabilities_by_week_and_categories(data):
-    return controller.get_experts_availabilities_by_week_and_categories(data['date'], data['category_ids'])
+    return {'result': controller.get_experts_availabilities_by_week_and_categories(data['date'], data['category_ids'])}
 
 
-@expert_availability_blueprint.post('/update_expert_availability')
-@expert_availability_blueprint.input(PostAvailabilityInSchema)
-@expert_availability_blueprint.output(PostAvailabilityOutSchema, 200)
-@expert_availability_blueprint.doc(
-    summary='Update availability of expert',
-    responses={
-        404: 'User Not Found',
-    })
-def update_expert_availability(data):
-    return controller.update_expert_availability(data)
+# @expert_availability_blueprint.post('/update_expert_availability')
+# @expert_availability_blueprint.input(PostAvailabilityInSchema)
+# @expert_availability_blueprint.output(PostAvailabilityOutSchema, 200)
+# @expert_availability_blueprint.doc(
+#     summary='Update availability of expert',
+#     responses={
+#         404: 'User Not Found',
+#     })
+# def update_expert_availability(data):
+#     return controller.update_expert_availability(data)
 
 
 @expert_availability_blueprint.post('/update_expert_availabilities')
 @expert_availability_blueprint.input(PostExpertAvailabilitiesInSchema)
-@expert_availability_blueprint.output(GetAvailabilitiesOutSchema, 200)
+# @expert_availability_blueprint.output(GetAvailabilitiesOutSchema, 200)
 @expert_availability_blueprint.doc(
     summary='Update availabilities of expert',
     responses={
