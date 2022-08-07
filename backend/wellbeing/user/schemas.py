@@ -27,7 +27,6 @@ class UserSchema(Schema):
     id = Integer(required=True, example=1)
     username = String(required=True, example='Taylor Swift')
     email = Email(required=True, example='ts@gmail.com')
-    password = String(required=True, example='password')
     account_type = String(required=True, validate=OneOf(['student', 'expert', 'admin']), example='student')
     biography = String(example='Hello, I am Taylor Swift')
     profile_image_src = String()
@@ -43,13 +42,17 @@ class GetUserOutSchema(Schema):
 
 class PutUserInSchema(Schema):
     username = String(required=True, example='Taylor Swift')
-    password = String(required=True, example='new_password')
     biography = String(example='Hello, I am Taylor Swift')
     profile_image_src = String()
 
     language_ids = List(Integer())
     interested_category_ids = List(Integer())
     # qualifications = List(Nested(QualificationSchema))       // can't be changed by user
+
+
+class UpdatePasswordInSchema(Schema):
+    user_id = Integer(required=True, example=1)
+    new_password = String(required=True, example='TaylorSwift')
 
 
 '''

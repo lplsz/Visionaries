@@ -2,13 +2,13 @@ from apiflask import APIBlueprint
 from flask.views import MethodView
 from flask_jwt_extended import jwt_required, current_user
 
+import wellbeing.user.controllers as controllers
 from wellbeing.user.schemas import (
     GetUserOutSchema,
     PutUserInSchema,
     GetLanguagesOutSchema,
+    UpdatePasswordInSchema,
 )
-
-import wellbeing.user.controllers as controllers
 
 blueprint = APIBlueprint('user', __name__)
 
@@ -55,6 +55,12 @@ class UserProfile(MethodView):
     @jwt_required()
     def put(self, data):
         return controllers.put_current_user_profile(data)
+
+
+@blueprint.put('/update_password')
+@blueprint.input(UpdatePasswordInSchema)
+def update_password(data):
+    return controllers.update_user_password(data['user_id'], data['new_password'])
 
 
 @blueprint.route('/languages')
