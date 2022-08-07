@@ -92,12 +92,11 @@ class PostQAInSchema(Schema):
     title = String(required=True, example='Blank Space')
     body = String(required=True, example='Cherry lips, crystal skies')
     video_url = String(example='https://www.youtube.com/watch?v=dQw4w9WgXcQ')
-    # author_id = Integer(required=True, example=0)
 
 
 class PutQAInSchema(Schema):
     title = String(required=True, example='Blank Space')
     body = String(required=True, example='Cherry lips, crystal skies')
-    author_id = Integer(required=True, example=0)
     category_id = Integer(required=True, example=0)
     tag_ids = List(Integer, example=[2, 3])
+    video_url = String(example='https://www.youtube.com/watch?v=dQw4w9WgXcQ')

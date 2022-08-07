@@ -1,9 +1,20 @@
 from apiflask import APIBlueprint
 from flask.views import MethodView
 from flask_jwt_extended import jwt_required
+
 import wellbeing.QA.controllers as controllers
-from wellbeing.QA.schemas import (GetTagsOutSchema, GetCategoriesOutSchema, GetQAsInSchema, GetQAsOutSchema,
-                                  GetQAOutSchema, PostQAInSchema, PostTagInSchema, PutTagInSchema, PutCategoryInSchema)
+from wellbeing.QA.schemas import (
+    GetTagsOutSchema,
+    GetCategoriesOutSchema,
+    GetQAsInSchema,
+    GetQAsOutSchema,
+    GetQAOutSchema,
+    PostQAInSchema,
+    PutQAInSchema,
+    PostTagInSchema,
+    PutTagInSchema,
+    PutCategoryInSchema,
+)
 
 qa_blueprint = APIBlueprint('QA', __name__)
 
@@ -51,9 +62,9 @@ class QAByID(MethodView):
     def delete(self, qa_id, data):
         return controllers.delete_qa_by_id(qa_id)
 
-    @qa_blueprint.input(PostQAInSchema)
+    @qa_blueprint.input(PutQAInSchema)
     @qa_blueprint.doc(
-        security='JWT Bearer Token',
+        # security='JWT Bearer Token',
         summary='Update QA',
         description='Update QA',
         responses={
@@ -61,7 +72,7 @@ class QAByID(MethodView):
             404: 'QA Not Found',
         }
     )
-    @jwt_required()
+    # @jwt_required()
     def put(self, qa_id, data):
         return controllers.put_qa_by_id(qa_id, data)
 

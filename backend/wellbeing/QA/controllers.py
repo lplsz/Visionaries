@@ -52,7 +52,6 @@ def put_qa_by_id(qa_id, data):
     qa = QA.query.filter_by(id=qa_id).first_or_404()
     qa.title = data['title']
     qa.body = data['body']
-    qa.author_id = data['author_id']
     qa.category = Category.query.filter_by(
         id=data['category_id']).first_or_404()
     qa.video_url = data.get('video_url', None)
