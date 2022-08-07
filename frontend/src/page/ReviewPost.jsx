@@ -8,6 +8,11 @@ import GlobalStyles from '@mui/material/GlobalStyles';
 import { apiCall } from '../Main';
 import ErrorSnackbar from '../component/ErrorSnackBar';
 import SuccessSnackbar from '../component/SuccessSnackBar';
+import Dialog from "@mui/material/Dialog";
+import DialogContent from "@mui/material/DialogContent";
+import DialogActions from "@mui/material/DialogActions";
+import Button from '@mui/material/Button';
+import ReviewQADialog from '../component/ReviewQADialog';
 
 const ListGrid = styled.div`
   display: grid;
@@ -46,6 +51,11 @@ const ReviewPost = () => {
   const [open, setOpen] = React.useState(false);
   const [errorMessage, setErrorMessage] = React.useState('');
   const [open2,setOpen2] = React.useState(false);
+  const [dialogOpen, setDialogOpen] = React.useState(false);
+  
+  const handleDialogClose = () => {
+    setDialogOpen(false);
+  };
 
   const getInfo = async () => {
     const data1 = await apiCall('qa_not_reviewed', 'GET');
@@ -145,16 +155,31 @@ const ReviewPost = () => {
               key={"Pending Review"}
               prefix={"Pending Review"}
               handleDelete={handleDelete}
+              setDialogOpen={setDialogOpen}
             />
             <DraggableElement
               elements={elements["All My Post"]}
               key={"All My Post"}
               prefix={"All My Post"}
               handleDelete={handleDelete}
+              setDialogOpen={setDialogOpen}
             />
           </ListGrid>
         </DragDropContext>
       </div>
+      <Dialog
+				fullWidth={true}
+				maxWidth={"xl"}
+				open={dialogOpen}
+				onClose={handleDialogClose}
+			>
+				<DialogContent sx={{ marginLeft: '5%', marginRight: '5%', marginTop: '10px', textAlign: 'center' }}>
+					<ReviewQADialog></ReviewQADialog>
+				</DialogContent>
+				<DialogActions>
+					<Button onClick={() => { handleDialogClose() }}>CANCLE</Button>
+				</DialogActions>
+			</Dialog>  
     </div>
   );
 }
