@@ -19,7 +19,8 @@ import ExpertPostRecord from './page/ExpertPostRecord.jsx';
 import ReviewPost from './page/ReviewPost.jsx';
 import StudentQuestionThread from './page/StudentQuestionThread.jsx';
 import AddExpert from './page/AddExpert.jsx';
-
+import StudentBookedMeeting from './page/StudentBookedMeeting.jsx'
+import ExpertBookedMeeting from './page/ExpertBookedMeeting';
 function App() {
   return (
     <BrowserRouter>
@@ -41,6 +42,8 @@ function App() {
         <Route path="/expert_post_record" element={<ExpertPostRecord />}> </Route>
         <Route path="/review_post" element={<ReviewPost />}> </Route>
         <Route path="/addExpert" element={<AddExpert />}> </Route>
+        <Route path="/student_booked_meeting" element={<StudentBookedMeeting />}></Route>
+        <Route path="/expert_booked_meeting" element={<ExpertBookedMeeting />}></Route>
       </Routes>
     </BrowserRouter>
   );

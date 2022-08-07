@@ -95,7 +95,7 @@ def state2_response(type, question):
         # unsw
         #response_guide['link'] = response_guide.get("link", []) + serch_func(question, "unsw au", 3)
         # org
-        #response_guide['link'] = response_guide.get("link", []) + serch_func(question, "org au", 3) 
+        response_guide['link'] = response_guide.get("link", []) + serch_func(question, "org au", 3) 
         return response_guide
 
 

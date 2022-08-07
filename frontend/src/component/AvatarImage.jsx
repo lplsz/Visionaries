@@ -6,7 +6,7 @@ import Grid from '@mui/material/Grid';
 import Avatar from '@mui/material/Avatar';
 
 function stringAvatar(name) {
-  if (name.split(' ').length === 2) {
+  if (name.split(' ').length >= 2) {
     return {
       sx: { fontSize: '15px', height: '30px' },
 
@@ -26,19 +26,19 @@ const Input = styled('input')({
 });
 
 const AvatarImage = (props) => {
-
-  if (props.type !== undefined) {
+  console.log(props.type);
+  if (props.type === undefined) {
     if (props.profileImageSrc === "") {
       return (<Avatar
         {...stringAvatar(props.name)}
-        sx={{ m: 1, bgcolor: 'primary.main', backgroundColor: '#000000', color: 'white', height: '30px', width: '30px', fontSize: '25px' }}
+        sx={{ m: 1, bgcolor: 'primary.main', backgroundColor: '#000000', color: 'white', height: '40px', width: '40px', fontSize: '25px' }}
       >
       </Avatar>)
     } else {
 
       return (<Avatar
         src={props.profileImageSrc}
-        sx={{ m: 1, bgcolor: 'primary.main', backgroundColor: '#000000', color: 'white', height: '30px', width: '30px', fontSize: '25px' }}
+        sx={{ m: 1, bgcolor: 'primary.main', backgroundColor: '#000000', color: 'white', height: '40px', width: '40px', fontSize: '25px' }}
       >
       </Avatar>)
     }

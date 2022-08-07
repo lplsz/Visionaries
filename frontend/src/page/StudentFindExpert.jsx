@@ -11,6 +11,12 @@ import StudentBookingTime from '../component/StudentBookingTime';
 import { useNavigate, useParams, useLocation } from 'react-router-dom';
 import { apiCall } from '../Main';
 import AvatarImage from '../component/AvatarImage'
+import Box from '@mui/material/Box';
+import { styled, alpha } from '@mui/material/styles';
+import Chip from '@mui/material/Chip';
+const ListItem = styled('li')(({ theme }) => ({
+  margin: theme.spacing(0.5),
+}));
 
 const StudentFindExpert = () => {
   const navigate = useNavigate();
@@ -108,6 +114,40 @@ const StudentFindExpert = () => {
     );
   }
 
+
+  const InputInList = (propsN) => {
+    return (
+      <Box
+        sx={{
+          display: 'flex',
+          flexWrap: 'wrap',
+          listStyle: 'none',
+          p: 0.5,
+          m: 0,
+        }}
+        component="ul"
+      >
+        <ListItem>
+          <Chip
+            label={'English'}
+            size="small"
+
+          />
+        </ListItem>
+        {propsN.list.map((data, i) => {
+          return (
+            <ListItem key={i}>
+              <Chip
+                label={data.language_name}
+                size="small"
+              />
+            </ListItem>
+          );
+        })}
+      </Box>
+    );
+  }
+
   return (
     <div>
       <StudentHeader />
@@ -142,6 +182,9 @@ const StudentFindExpert = () => {
                   <div>{e.expert.username}</div>
                 </Grid>
                 <Grid item xs={5} sx={{}} >
+                  <div><span style={{ fontWeight: 'bold' }}>{"Email: "}</span> {e.expert.email}</div>
+                  <div><span style={{ fontWeight: 'bold' }}>{"Languages: "}</span><InputInList list={e.expert.languages} /></div>
+                  <div><span style={{ fontWeight: 'bold' }}>{"Biography: "}</span></div>
                   <div>{e.expert.biography}</div>
                 </Grid>
                 <Grid item xs={5} >
