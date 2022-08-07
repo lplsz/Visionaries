@@ -36,11 +36,11 @@ def serch_func(q, prefix, num):
 
 
 # DB return top3 matching qa ids
-def rank_matching_qa(id_list, category_list, title_list, q):
+def rank_matching_qa(id_list, category_list, title_list, body_list, q):
     rates = []
-    for title in title_list:
-        rates.append(fuzz.ratio(q,title))
-    res = list(zip(id_list, category_list, title_list, rates))
+    for body in body_list:
+        rates.append(fuzz.ratio(q,body))
+    res = list(zip(id_list, category_list, title_list, body_list, rates))
     df_res = pd.DataFrame(res)
     return df_res
 
@@ -81,10 +81,18 @@ def state2_response(type, question):
     elif type == "guide":
         # QA ids and category_ids from db
         qa_list = QA.query.all()
-        df_res = rank_matching_qa([qa.id for qa in qa_list],[qa.category_id for qa in qa_list], [qa.title for qa in qa_list], question)
-        # only qa matching_rank >= 50 will be returned
-        df_res = df_res[df_res[3] >= 50]
-        top3_id_list = df_res.sort_values(by=[3],ascending=False)[:3]
+
+        # case 1: extract question keyword to match
+        q_keyword = key_word_extraction(question)
+        df_res = rank_matching_qa([qa.id for qa in qa_list],[qa.category_id for qa in qa_list],[qa.title for qa in qa_list] ,[qa.body for qa in qa_list], q_keyword)
+        # return str(q_keyword)
+        
+        
+        # only qa matching_rank >= 50 will be returned          --          turn out not matching the keyword
+        # df_res = df_res[df_res[3] >= 50]
+
+
+        top3_id_list = df_res.sort_values(by=[4],ascending=False)[:3]
         qa_id_cat = []
         for idx in range(len(top3_id_list)):
             qa_id_cat.append({"id":list(top3_id_list[0])[idx], "category_id":list(top3_id_list[1])[idx], "question":list(top3_id_list[2])[idx] })
