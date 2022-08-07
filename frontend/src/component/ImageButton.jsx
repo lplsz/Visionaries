@@ -14,8 +14,10 @@ const Input = styled('input')({
   display: 'none',
 });
 
+// The profile image can be changeed by clicking this button.
 const ImageButton = (props) => {
 
+  // Chang the image into base64 string.
   const handleImage = (target) => {
     if (target.value) {
       const file = target.files[0];
@@ -38,6 +40,7 @@ const ImageButton = (props) => {
     }
   }
 
+  // If no profile image provedided, and then show the image in teh avater.
   return (
     <>
       {props.profileImageSrc === ""

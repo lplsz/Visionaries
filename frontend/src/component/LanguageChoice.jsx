@@ -5,6 +5,7 @@ import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
 import Typography from '@mui/material/Typography';
 
+// TEH checkbocx group for user ot select more than one language type.
 const LanguageChoice = (props) => {
 
   const languageList = props.languageIds;

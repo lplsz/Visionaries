@@ -14,6 +14,7 @@ const DroppableStyles = styled.div`
   background: #d4d4d4;
 `;
 
+// Retunrn a list contains the draggle sing 
 const DraggableElement = (props) => {
   return (
     <DroppableStyles>

@@ -18,6 +18,7 @@ const Input = styled('input')({
   display: 'none',
 });
 
+// Return a imge upload from wither the local device or the imaeg url.
 const UploadImageChoice = (props) => {
   const [imgSrc, setImgSrc] = React.useState("");
   const handleImage = async (target) => {

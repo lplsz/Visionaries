@@ -34,6 +34,8 @@ const theme = createTheme({
 
 });
 
+// The header for the studnet site which contains the 
+// log out or view current student's profile choice.
 export default function StudentHeader(props) {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const isMenuOpen = Boolean(anchorEl);

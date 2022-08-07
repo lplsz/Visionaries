@@ -38,7 +38,7 @@ const DragItem = styled.div`
   flex-direction: column;
 `;
 
-
+// The component is draggable and contian the title, and the title of the QA.
 const ListItem = (props) => {
   return (
     <Draggable key={props.id} draggableId={props.id} index={props.index}>

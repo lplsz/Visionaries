@@ -90,7 +90,6 @@ function stringAvatar(name) {
   return {
     sx: { fontSize: '15px', height: '40px' },
     children: `${name.split(' ')[0][0]}${name.split(' ')[1][0]}`,
-    //children: `${name.split(' ')[0][0]}`
   };
 }
 export default function StudentQuestionThread() {
@@ -104,9 +103,9 @@ export default function StudentQuestionThread() {
     }
   }
 
-
-
   const me = localStorage.getItem('name');
+
+  // Get the current content
   const getThreads = async () => {
     //const data = await apiCall(`/threads_by_user/${localStorage.getItem('id')}`, 'GET');
     const data = await apiCall(`/threads`, 'GET', {}, navigate);

@@ -12,6 +12,7 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import Slide from '@mui/material/Slide';
 
+// Convert the date format.
 function timeFormat(date) {
 	if (!date || typeof (date) === "string") {
 		this.error("error");
@@ -23,13 +24,14 @@ function timeFormat(date) {
 	return m + "/" + d;
 }
 
+// Get the week content of a date.
 function getFirstDayOfWeek(date, i) {
-
 	const weekday = date.getDay() || 7;
-
 	date.setDate(date.getDate() - weekday + i);
 	return timeFormat(date);
 }
+
+// Convert all the date record.
 function getDays(date) {
 	const l = []
 	for (let i = 1; i < 6; i++) {
@@ -37,6 +39,7 @@ function getDays(date) {
 	}
 	return l
 }
+
 const Transition = React.forwardRef(function Transition(props, ref) {
 	return <Slide direction="up" ref={ref} {...props} />;
 });

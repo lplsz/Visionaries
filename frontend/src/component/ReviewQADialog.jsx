@@ -57,6 +57,8 @@ function tagChecked(list, id) {
   }
 }
 
+// The dialog contain the detailed infomration of the cliked QA
+// and the expert can edit the detail.
 const ReviewQADialog = (props) => {
   const initalContent = props.clickedItem;
 
@@ -118,7 +120,7 @@ const ReviewQADialog = (props) => {
   }
 
 
-
+  // the selection af the group.
   const RadioButtonsGroup = () => {
     return (
       <FormControl>

@@ -53,6 +53,7 @@ export default function StudentProfile() {
     return ids;
   }
 
+  // Get the current user information.
   const getUserInfo = async () => {
     const id = localStorage.getItem('id');
     const data = await apiCall(`/user_profile/${id}`, 'GET', {}, navigate);
@@ -71,6 +72,8 @@ export default function StudentProfile() {
     }
   }
 
+  // Change the password for current user and the new password
+  //  and the confirmed password should be same.
   const changePassword = async () => {
     const id = localStorage.getItem('id');
     if (newpassword === '' || confirm_password === ' ') {
@@ -90,7 +93,6 @@ export default function StudentProfile() {
         new_password: confirm_password,
         user_id: id
       }
-      console.log('update', user);
       const data = await apiCall('update_password', 'PUT', user, navigate);
       if (typeof (data) === 'string' && (!data.startsWith('200') || !data.startsWith('201'))) {
         setErrorMessage(data.slice(3,));

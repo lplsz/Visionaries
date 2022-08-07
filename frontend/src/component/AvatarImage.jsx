@@ -1,9 +1,8 @@
-// return an avatar for the user
+// return an avatar for the user wihch constains
+// their profile image, and default image would be 
+// the captial character of the firstname and lastname.
 import * as React from 'react';
-import Box from '@mui/material/Box';
 import { styled } from '@mui/material/styles';
-import Tooltip from '@mui/material/Tooltip';
-import Grid from '@mui/material/Grid';
 import Avatar from '@mui/material/Avatar';
 
 function stringAvatar(name) {

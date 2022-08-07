@@ -2,9 +2,9 @@ import * as React from 'react';
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert from '@mui/material/Alert';
 
-
+// An notification componenet which constains
+// which contain the succeffule error.S
 export default function SuccessSnackbar(props) {
-  
 
   const handleClose = (event, reason) => {
     if (reason === 'clickaway') {

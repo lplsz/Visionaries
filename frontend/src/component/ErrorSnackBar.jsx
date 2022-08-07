@@ -2,9 +2,8 @@ import * as React from 'react';
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert from '@mui/material/Alert';
 
-
+// the errror basr conain the error message.
 export default function ErrorSnackbar(props) {
-  
 
   const handleClose = (event, reason) => {
     if (reason === 'clickaway') {

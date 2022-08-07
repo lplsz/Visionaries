@@ -36,6 +36,9 @@ const theme = createTheme({
 
 });
 
+// The header for the expert side which contian the 
+// functionalities such as logout and go to the 
+// profile detailed page
 export default function ExpertHeader() {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const isMenuOpen = Boolean(anchorEl);

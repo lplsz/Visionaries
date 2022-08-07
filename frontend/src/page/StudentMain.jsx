@@ -15,11 +15,11 @@ import Others from './img/others.jpg';
 import StudyFromHome from './img/study_from_home.jpg';
 import Vaccinations from './img/vaccinations.jpg';
 import WellBeing from '../component/img/well-being.jpg';
-import SpeedDial from '@mui/material/SpeedDial';
-import SpeedDialIcon from '@mui/material/SpeedDialIcon';
 import { apiCall } from '../Main';
 import WellBeingBot from "../component/WellBeingBot"
 
+// The main page for the studnetts,
+// which contain the all the categories.
 const StudentMain = () => {
 
 	const navigate = useNavigate();

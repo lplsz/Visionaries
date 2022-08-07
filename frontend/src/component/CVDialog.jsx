@@ -16,7 +16,8 @@ const Input = styled('input')({
   display: 'none',
 });
 
-
+// The dialog contain the space for user to 
+// upload their ID card.
 const CVDialog = (props) => {
   
   const [imgSrc, setImgSrc] = React.useState("");
@@ -42,6 +43,7 @@ const CVDialog = (props) => {
     }
   }
 
+  // Convert image into base64 string
   const handleImage = (target) => {
     if (target.value) {
       const file = target.files[0];
