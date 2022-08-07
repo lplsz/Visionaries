@@ -41,12 +41,16 @@ def get_expert_availabilities_by_week(expert_id, date):
     """
 
     # Get the start and end of the week containing date
-    end_date = date - timedelta(days=date.isoweekday()) + timedelta(days=4)
-    
-    curr_date, result = datetime_date.today(), []
-    while curr_date <= end_date:
-        result.append(get_expert_availabilities_by_date(expert_id, curr_date))
-        curr_date += timedelta(days=1)
+
+    start_of_the_week = date - timedelta(days=date.weekday())
+    end_of_the_week = date - timedelta(days=date.weekday()) + timedelta(days=4)
+
+    start_date = max(start_of_the_week, datetime_date.today())
+
+    result = []
+    while start_date <= end_of_the_week:
+        result.append(get_expert_availabilities_by_date(expert_id, start_date))
+        start_date += timedelta(days=1)
     return result
 
 
