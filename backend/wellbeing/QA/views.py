@@ -59,12 +59,12 @@ class QAByID(MethodView):
         }
     )
     @jwt_required()
-    def delete(self, qa_id, data):
+    def delete(self, qa_id):
         return controllers.delete_qa_by_id(qa_id)
 
     @qa_blueprint.input(PutQAInSchema)
     @qa_blueprint.doc(
-        # security='JWT Bearer Token',
+        security='JWT Bearer Token',
         summary='Update QA',
         description='Update QA',
         responses={
@@ -72,7 +72,7 @@ class QAByID(MethodView):
             404: 'QA Not Found',
         }
     )
-    # @jwt_required()
+    @jwt_required()
     def put(self, qa_id, data):
         return controllers.put_qa_by_id(qa_id, data)
 
@@ -182,7 +182,7 @@ class TagById(MethodView):
         }
     )
     @jwt_required()
-    def put(self, tag_id, data):
+    def put(self, tag_id):
         return controllers.put_qa_by_id(tag_id, data)
 
 
@@ -231,7 +231,7 @@ class CategoryById(MethodView):
         hide=True,
     )
     @jwt_required()
-    def delete(self, category_id, data):
+    def delete(self, category_id):
         return controllers.delete_category_by_id(category_id)
 
     @category_blueprint.input(PutCategoryInSchema)
