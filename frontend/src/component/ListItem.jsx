@@ -71,7 +71,12 @@ const ListItem = (props) => {
                   />
                   : <></>
                 }
-                <Button style={{fontWeight: 'bold', right: '0px'}}>Review</Button>
+                <Button 
+                  style={{fontWeight: 'bold', right: '0px'}}
+                  onClick={()=> {props.setClickedItem(props.item); props.setDialogOpen(true)}}
+                >
+                  Review
+                </Button>
               </Author>
             </CardFooter>
           </DragItem>
