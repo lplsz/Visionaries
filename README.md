@@ -77,3 +77,8 @@
 * Drop database: `flask dropdb`
 * Seed the database: `flask seed`
 
+## Backend OpenAPI Doc
+
+1. After starting the backend via `flask run`.
+2. Go to the backend URL printed in the terminal.
+3. Add a suffix `/docs` to the URL and hit enter in your browser.
