@@ -1,5 +1,6 @@
-from wellbeing.extensions import db
 from datetime import datetime
+
+from wellbeing.extensions import db
 
 
 class Thread(db.Model):
@@ -11,11 +12,11 @@ class Thread(db.Model):
 
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     category_id = db.Column(db.Integer, db.ForeignKey('category.id'), nullable=False)
-    resolved = db.Column(db.Boolean, default=False, nullable=False)
+    resolved = db.Column(db.Boolean, default=False, nullable=False, index=True)
 
     # Relationships
     category = db.relationship('Category', lazy=False, uselist=False, back_populates='threads')
-    replies = db.relationship('Reply', lazy=True, uselist=True, back_populates='thread')
+    replies = db.relationship('Reply', lazy=False, uselist=True, back_populates='thread')
     user = db.relationship('User', lazy=False, uselist=False, back_populates='threads')
 
     @property
@@ -51,7 +52,7 @@ class Reply(db.Model):
     updated_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow, onupdate=datetime.utcnow)
 
     # Relationships
-    thread = db.relationship('Thread', lazy=False, uselist=False, back_populates='replies')
+    thread = db.relationship('Thread', lazy=True, uselist=False, back_populates='replies')
     user = db.relationship('User', lazy=False, uselist=False, back_populates='replies')
 
     @property

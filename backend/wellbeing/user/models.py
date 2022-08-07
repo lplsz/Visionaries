@@ -36,13 +36,13 @@ class User(db.Model):
 
     # Relationships
     # # Profile
-    languages = db.relationship('Language', lazy=False, uselist=True, back_populates='users',
+    languages = db.relationship('Language', lazy=True, uselist=True, back_populates='users',
                                 secondary=UserLanguage.__tablename__)
-    qualifications = db.relationship('Qualification', lazy=False, uselist=True, back_populates='user',
+    qualifications = db.relationship('Qualification', lazy=True, uselist=True, back_populates='user',
                                      secondary=UserQualification.__tablename__)
 
     # # Threads
-    interested_categories = db.relationship('Category', lazy=False, uselist=True, backref='interested_users',
+    interested_categories = db.relationship('Category', lazy=True, uselist=True, backref='interested_users',
                                             secondary=UserCategory.__tablename__)
     threads = db.relationship('Thread', lazy=True, uselist=True, back_populates='user')
     replies = db.relationship('Reply', lazy=True, uselist=True, back_populates='user')
@@ -93,7 +93,7 @@ class Language(db.Model):
     language_name = db.Column(db.Text, nullable=False)
 
     # Relationships
-    users = db.relationship('User', lazy=False, uselist=True, back_populates='languages',
+    users = db.relationship('User', lazy=True, uselist=True, back_populates='languages',
                             secondary=UserLanguage.__tablename__)
 
     def __repr__(self):
