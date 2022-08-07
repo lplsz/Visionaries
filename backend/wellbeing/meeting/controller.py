@@ -146,7 +146,9 @@ def get_student_upcoming_availabilities(student_id):
     Returns a list of availabilities for a user.
     """
     availabilities = Availability.query \
-        .filter(_and(Availability.student_id == student_id, Availability.date >= datetime_date.today())) \
+        .filter(and_(Availability.student_id == student_id,
+                     Availability.date >= datetime_date.today(),
+                     Availability.status == 'booked')) \
         .order_by(Availability.date, Availability.time_range_id).all()
     result = [{**availability.serialized, 'expert': availability.expert.serialized}
               for availability in availabilities]
