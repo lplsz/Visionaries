@@ -131,7 +131,10 @@ def get_student_availabilities(student_id):
     """
     availabilities = Availability.query.filter_by(student_id=student_id).order_by(
         Availability.date, Availability.time_range_id).all()
-    return {"availabilities": [availability.serialized for availability in availabilities]}
+    result = [{**availability.serialized, 'expert': availability.expert.serialized}
+              for availability in availabilities]
+
+    return {"availabilities": result}
 
 
 def update_student_availability(data):

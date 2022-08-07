@@ -4,10 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f3aeeb94-3d47-4a9c-92d7-63e92f4baabb" name="Changes" comment="Add README.md">
-      <change beforePath="$PROJECT_DIR$/../README.md" beforeDir="false" afterPath="$PROJECT_DIR$/../README.md" afterDir="false" />
+    <list default="true" id="f3aeeb94-3d47-4a9c-92d7-63e92f4baabb" name="Changes" comment="Update README.md">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wellbeing/utility/google_meeting.py" beforeDir="false" afterPath="$PROJECT_DIR$/wellbeing/utility/google_meeting.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/wellbeing/meeting/controller.py" beforeDir="false" afterPath="$PROJECT_DIR$/wellbeing/meeting/controller.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/wellbeing/meeting/schemas.py" beforeDir="false" afterPath="$PROJECT_DIR$/wellbeing/meeting/schemas.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/wellbeing/meeting/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/wellbeing/meeting/views.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -499,7 +500,35 @@
       <option name="project" value="LOCAL" />
       <updated>1659869743333</updated>
     </task>
-    <option name="localTasksCounter" value="46" />
+    <task id="LOCAL-00046" summary="Fix use of token.json">
+      <created>1659870231154</created>
+      <option name="number" value="00046" />
+      <option name="presentableId" value="LOCAL-00046" />
+      <option name="project" value="LOCAL" />
+      <updated>1659870231154</updated>
+    </task>
+    <task id="LOCAL-00047" summary="Fix use of token.json">
+      <created>1659870245553</created>
+      <option name="number" value="00047" />
+      <option name="presentableId" value="LOCAL-00047" />
+      <option name="project" value="LOCAL" />
+      <updated>1659870245553</updated>
+    </task>
+    <task id="LOCAL-00048" summary="Remove token.json">
+      <created>1659870265807</created>
+      <option name="number" value="00048" />
+      <option name="presentableId" value="LOCAL-00048" />
+      <option name="project" value="LOCAL" />
+      <updated>1659870265807</updated>
+    </task>
+    <task id="LOCAL-00049" summary="Update README.md">
+      <created>1659870483603</created>
+      <option name="number" value="00049" />
+      <option name="presentableId" value="LOCAL-00049" />
+      <option name="project" value="LOCAL" />
+      <updated>1659870483603</updated>
+    </task>
+    <option name="localTasksCounter" value="50" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -521,9 +550,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Fix put user" />
-    <MESSAGE value="Put token.json" />
-    <MESSAGE value="Implement booking meeting endpoints" />
     <MESSAGE value="- Update requirements.txt&#10;- Implement availabilities endpoint" />
     <MESSAGE value="- Implement expert availabilities endpoints" />
     <MESSAGE value="Update get_unresolved_unanswered threads" />
@@ -546,7 +572,10 @@
     <MESSAGE value="Fix style" />
     <MESSAGE value="Add indexing to database" />
     <MESSAGE value="Add README.md" />
-    <option name="LAST_COMMIT_MESSAGE" value="Add README.md" />
+    <MESSAGE value="Fix use of token.json" />
+    <MESSAGE value="Remove token.json" />
+    <MESSAGE value="Update README.md" />
+    <option name="LAST_COMMIT_MESSAGE" value="Update README.md" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/backend$seed_database.coverage" NAME="seed_database Coverage Results" MODIFIED="1657343638291" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/wellbeing/utility" />

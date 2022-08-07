@@ -10,6 +10,7 @@ from wellbeing.meeting.schemas import (
     GetExpertAvailabilityByDateAndCategoryInSchema,
     GetExpertAvailabilityByDateAndCategoryOutSchema,
     GetAvailabilitiesByDateOutSchema,
+    GetStudentAvailabilitiesOutSchema,
 )
 
 expert_availability_blueprint = APIBlueprint('expert_availability', __name__)
@@ -88,13 +89,13 @@ student_availability_blueprint = APIBlueprint('student_availability', __name__)
 
 
 @student_availability_blueprint.get('/get_student_availabilities/<int:student_id>')
-@student_availability_blueprint.output(GetAvailabilitiesOutSchema, 200)
+@student_availability_blueprint.output(GetStudentAvailabilitiesOutSchema, 200)
 @student_availability_blueprint.doc(
     summary='Get availabilities of a student, ordered by date, time asc',
     responses={
         404: 'User Not Found',
     })
-def get_user_availability(student_id):
+def get_student_availability(student_id):
     return controller.get_student_availabilities(student_id)
 
 
