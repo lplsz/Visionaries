@@ -16,12 +16,16 @@ import Checkbox from '@mui/material/Checkbox';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
+import { apiCall } from '../Main';
 const ExpertAva = () => {
-  const [value, setValue] = React.useState(new Date('2014-08-18T21:11:54'));
+  const [value, setValue] = React.useState(new Date());
+
   const minDate = new Date('2022-01-01T00:00:00.000');
   const maxDate = new Date('2024-01-01T00:00:00.000');
   const time = ['09:00am-9:30am', '09:30am-10:00am', '10:00am-10:30am', '10:30am-11:00am', '11:00am-11:30am', '01:00pm-1:30am', '01:30pm-02:00pm', '02:00pm-02:30am', '02:30pm-03:00pm', '03:00pm-03:30am', '03:30pm-04:00pm', '04:00pm-04:30am', '04:30pm-05:00pm'];
-  const bookedTime = ['09:00am-9:30am', '11:00am-11:30am'];
+  const [bookedTime, setbookedTime] = React.useState([]);
+  const [bookedTimeId, setBookedTimeId] = React.useState([]);
+
   const [checked, setChecked] = React.useState([]);
   const [checkedId, setCheckedId] = React.useState([]);
   console.log(checked);
@@ -44,6 +48,7 @@ const ExpertAva = () => {
 
   const handleChangeTime = (newValue) => {
     setValue(newValue);
+    setI(1);
   };
   const TimeList = () => {
     return (
@@ -95,7 +100,7 @@ const ExpertAva = () => {
   }
 
   Date.prototype.Format = function (fmt) {
-    var o = {
+    const o = {
       'M+': this.getMonth() + 1,
       'd+': this.getDate(),
       'H+': this.getHours(),
@@ -107,7 +112,7 @@ const ExpertAva = () => {
     if (/(y+)/.test(fmt)) {
       fmt = fmt.replace(RegExp.$1, (this.getFullYear() + '').substr(4 - RegExp.$1.length));
     }
-    for (var k in o) {
+    for (const k in o) {
       if (new RegExp('(' + k + ')').test(fmt)) {
         fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (('00' + o[k]).substr(String(o[k]).length)));
       }
@@ -115,7 +120,7 @@ const ExpertAva = () => {
     return fmt;
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     const l = []
 
     for (const id of checkedId) {
@@ -123,17 +128,57 @@ const ExpertAva = () => {
       const datevalue = now.Format('yyyy-MM-dd');
       l.push({
         date: datevalue,
-        expert_id: localStorage.getItem('id'),
-        meeting_metadata: null,
+        expert_id: parseInt(localStorage.getItem('id')),
         status: "available",
-        student_id: null,
         time_range_id: id
       })
     }
-    console.log(l);
+    for (let id = 1; id <= 13; id++) {
+      const now = new Date(value);
+      const datevalue = now.Format('yyyy-MM-dd');
+      if (checkedId.indexOf(id) === -1 && bookedTimeId.indexOf(id) === -1) {
+        l.push({
+          date: datevalue,
+          expert_id: parseInt(localStorage.getItem('id')),
+          status: "unavailable",
+          time_range_id: id
+        })
+      }
+    }
+    const data = await apiCall('/update_expert_availabilities', 'POST', { availabilities: l, expert_id: parseInt(localStorage.getItem('id')) });
+
+
   }
+  const getTimeTable = async () => {
+    const datevalue = value.Format('yyyy-MM-dd');
+    const newDate = await apiCall(`/get_expert_availabilities_by_date?expert_id=${localStorage.getItem('id')}&date=${datevalue}`, 'GET')
+    console.log(newDate);
+    const newChecked = [];
+    const newCheckedId = [];
+    const newBooked = [];
+    const newBookedId = [];
+    console.log(newDate);
 
+    newDate.availabilities.map((ava) => {
+      if (ava.status === 'available') {
+        newChecked.push(time[ava.time_range.id - 1]);
+        newCheckedId.push(ava.time_range.id);
+      } else if (ava.status === 'booked') {
+        newBooked.push(time[ava.time_range.id - 1]);
+        newBookedId.push(ava.time_range.id);
+      }
+    })
+    setChecked(newChecked);
+    setCheckedId(newCheckedId);
+    setBookedTimeId(newBookedId);
+    setbookedTime(newBooked);
 
+  }
+  const [i, setI] = React.useState(1);
+  if (i === 1) {
+    getTimeTable();
+    setI(i + 1);
+  }
   return (
     <div>
       <ExpertHeader />

@@ -31,8 +31,7 @@ def serch_func(q, prefix, num):
 
     res = []
     for msg in range(num):
-        res.append({"text":results["organic_results"][msg]["title"], "herf":results["organic_results"][msg]["link"]})
-        
+        res.append({"text":results["organic_results"][msg]["title"], "herf":results["organic_results"][msg]["link"]})  
     return res
 
 
@@ -43,7 +42,6 @@ def rank_matching_qa(id_list, category_list, title_list, q):
         rates.append(fuzz.ratio(q,title))
     res = list(zip(id_list, category_list, title_list, rates))
     df_res = pd.DataFrame(res)
-
     return df_res
 
 
@@ -65,7 +63,6 @@ def key_word_extraction(text):
 
     custom_kw_extractor = yake.KeywordExtractor(lan=language, n=max_ngram_size, dedupLim=deduplication_threshold, top=numOfKeywords, features=None)
     keywords = custom_kw_extractor.extract_keywords(text)
-
     return keywords[0][0]
 
 
@@ -85,7 +82,7 @@ def state2_response(type, question):
         # QA ids and category_ids from db
         qa_list = QA.query.all()
         df_res = rank_matching_qa([qa.id for qa in qa_list],[qa.category_id for qa in qa_list], [qa.title for qa in qa_list], question)
-        # only rank >= 50 will be returned
+        # only qa matching_rank >= 50 will be returned
         df_res = df_res[df_res[3] >= 50]
         top3_id_list = df_res.sort_values(by=[3],ascending=False)[:3]
         qa_id_cat = []
@@ -111,7 +108,7 @@ def state3_response(status, question):
     db.session.commit()
 
     if status != "related":
-        return ""
+        return {'message': 'User Input ' + status}
 
     response_list_related = {}
     params = {
@@ -168,18 +165,22 @@ def state_response(data):
     u_question = UserQuestion.query.filter_by(user_id=current_user.id).order_by(UserQuestion.created_at.desc()).first_or_404()
     current_q = u_question.question_description
     if data['state'] == 2:
-        if u_question.id == 1:
+        all_user_qs = UserQuestion.query.filter_by(user_id=current_user.id).all()
+        # if more than one questions have been asked
+        # we check the status of the previous question
+        if len([user_qs.question_description for user_qs in all_user_qs]) == 1:
             return state2_response(data['input_text'], current_q)
         else:
-            # get prev and current dict of responses
-            previous_q = UserQuestion.query.filter_by(id=u_question.id-1).first_or_404()
+            # get prev and current dict of responses base on created_at
+            previous_q_status = [user_qs.status for user_qs in all_user_qs][-2]
+            previous_q_description = [user_qs.question_description for user_qs in all_user_qs][-2]
+            
             # compare only if status != True
-            if previous_q.status == "True":
+            if previous_q_status == "True":
                 return state2_response(data['input_text'], current_q) 
-
+            
             cur_response = state2_response(data['input_text'], current_q)
-            prev_response = state2_response(data['input_text'], previous_q.question_description)
-
+            prev_response = state2_response(data['input_text'], previous_q_description)
             res = {}
             if data['input_text'] == "guide":
                 res['QAs'] = remove_duplication(cur_response, prev_response, "QAs")

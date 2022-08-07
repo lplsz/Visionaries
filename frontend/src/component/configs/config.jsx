@@ -15,9 +15,59 @@ import { padding } from "@mui/system";
 
 const HerfWidget = ({ src }) => {
   console.log('memem');
-  return <div>
-    <a href={src}>{src}</a>
-  </div>
+  console.log(src)
+  return (
+    <div style={{ marginLeft: '10px', marginRight: '10px', padding: '10px', padding: '10px', border: '1px black solid', borderRadius: '10px' }}>
+      {src.link.map((s) => {
+        return (<div style={{ display: 'flex', fontSize: '4pt', marginBottom: '10px' }}>
+          <div style={{ color: 'black', flex: 1 }}>{s.text}</div>
+          <div style={{ flex: 1 }}><a href={s.herf}>{s.herf}</a></div>
+        </div>
+        )
+      })}
+    </div>
+  )
+}
+
+const HerfGuideWidget = ({ src }) => {
+  console.log('memem');
+  console.log(src)
+  return (
+    <div style={{ color: 'black', fontSize: '4pt' }}>
+      {
+        src.QAs.length !== 0 ?
+          <div>
+            <div style={{ marginLeft: '10px', marginRight: '10px' }}>
+              There are some answers from our site
+            </div>
+            <div style={{ marginLeft: '10px', marginRight: '10px', padding: '10px', padding: '10px', border: '1px black solid', borderRadius: '10px' }}>
+              {src.QAs.map((s) => {
+                return (<div style={{ display: 'flex', fontSize: '4pt', marginBottom: '10px' }}>
+                  <div style={{ flex: 1 }}>s</div>
+                </div>
+                )
+              })}
+            </div>
+          </div>
+          :
+          <></>
+      }
+      <div style={{ marginLeft: '10px', marginRight: '10px' }}>
+        There are some answers we find form authority sites
+      </div>
+      <div style={{ marginLeft: '10px', marginRight: '10px', padding: '10px', padding: '10px', border: '1px black solid', borderRadius: '10px' }}>
+        {src.link.map((s) => {
+          return (<div style={{ display: 'flex', fontSize: '4pt', marginBottom: '10px' }}>
+            <div style={{ color: 'black', flex: 1 }}>{s.text}</div>
+            <div style={{ flex: 1 }}><a href={s.herf}>{s.herf}</a></div>
+          </div>
+          )
+        })}
+      </div>
+
+    </div>
+
+  )
 }
 
 const config = {
@@ -60,7 +110,7 @@ const config = {
   },
 
   state: {
-    src: "",
+    src: {},
   },
 
   widgets: [
@@ -103,12 +153,19 @@ const config = {
       props: {
         url: './find_expert'
       }
-    }, {
+    },
+    {
       widgetName: "postform",
       widgetFunc: (props) => <PostForm {...props} />,
-    }, {
+    },
+    {
       widgetName: "herfWidget",
       widgetFunc: (props) => <HerfWidget {...props} />,
+      mapStateToProps: ["src"]
+    },
+    {
+      widgetName: "herfGuideWidget",
+      widgetFunc: (props) => <HerfGuideWidget {...props} />,
       mapStateToProps: ["src"]
     }
 

@@ -63,8 +63,6 @@ const Login = () => {
         localStorage.setItem('name', data.user.username);
         if (data.user.account_type === 'student') {
           navigate('/student_main');
-        } else if (data.user.account_type === 'admin') {
-          navigate('/addExpert');
         } else {
           navigate('/expert_main');
         }
