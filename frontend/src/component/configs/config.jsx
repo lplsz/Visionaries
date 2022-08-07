@@ -1,3 +1,4 @@
+// the config for chatbot
 import React from "react";
 import { createChatBotMessage } from "react-chatbot-kit";
 
@@ -21,6 +22,7 @@ import DOMPurify from 'dompurify';
 import { apiCall } from "../../Main";
 import { padding } from "@mui/system";
 
+// a herfwidget for video links and titles
 const HerfWidget = ({ src }) => {
   console.log('memem');
   console.log(src)
@@ -37,6 +39,7 @@ const HerfWidget = ({ src }) => {
   )
 }
 
+// a herf for guides
 const HerfGuideWidget = ({ src }) => {
   const createMarkup = (html) => {
     return {
@@ -169,17 +172,7 @@ const config = {
   },
 
   widgets: [
-    {
-      widgetName: "options",
-      widgetFunc: (props) => <Options {...props} />
-    },
-    {
-      widgetName: "linux",
-      widgetFunc: (props) => <div {...props} > linux</div>,
-      props: {
-        course: "Linux"
-      }
-    },
+
     {
       widgetName: "optionsquestion",
       widgetFunc: (props) => <OptionsQuestion {...props} />,
@@ -209,6 +202,7 @@ const config = {
         url: './find_expert/2'
       }
     },
+
     {
       widgetName: "meetingcovid19",
       widgetFunc: (props) => <MyLinks {...props} />,
@@ -216,6 +210,7 @@ const config = {
         url: './find_expert/4'
       }
     },
+
     {
       widgetName: "meetingmvaccation",
       widgetFunc: (props) => <MyLinks {...props} />,

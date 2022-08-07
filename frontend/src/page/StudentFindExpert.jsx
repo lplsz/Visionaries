@@ -31,13 +31,17 @@ const StudentFindExpert = () => {
   const [category, setCategory] = React.useState('');
   const [categoriesName, setCategoriesName] = React.useState([]);
   const [categoriesId, setCategoriesId] = React.useState([]);
+
+  const [categoriesImage, setCategoriesImage] = React.useState('');
   const time = ['09:00am-9:30am', '09:30am-10:00am', '10:00am-10:30am', '10:30am-11:00am', '11:00am-11:30am', '01:00pm-1:30am', '01:30pm-02:00pm', '02:00pm-02:30am', '02:30pm-03:00pm', '03:00pm-03:30am', '03:30pm-04:00pm', '04:00pm-04:30am', '04:30pm-05:00pm'];
   const getCategories = async () => {
     const data = await apiCall('/categories', 'GET', {}, navigate);
     setCategoriesName(data.categories.map((cate) => { return cate.category_name }));
     setCategoriesId(data.categories.map((cate) => { return cate.id }));
-    const cateName = data.categories.filter((cate) => { return cate.id.toString() === categoryid.toString() })[0].category_name
-    setCategory(cateName);
+    const cate = data.categories.filter((cate) => { return cate.id.toString() === categoryid.toString() })[0].category_name
+
+    setCategory(cate.category_name);
+    setCategoriesImage(cate.category_image_src);
   };
 
   const [experts, setExperts] = React.useState([]);
@@ -158,8 +162,8 @@ const StudentFindExpert = () => {
       <div style={{ display: 'flex', marginLeft: '200px', marginTop: '40px', marginRight: '200px' }}>
         <Typography variant="h2" sx={{ marginTop: '30px' }}>{category}</Typography>
         <img
-          style={{ width: '100px', height: '100px' }}
-          src={MAIN}
+          style={{ marginLeft: '30px', height: '100px' }}
+          src={categoriesImage}
           alt='ingred'
         />
         <div style={{
@@ -176,7 +180,7 @@ const StudentFindExpert = () => {
 
       </div>
       <div style={{ marginLeft: '100px', marginTop: '40px' }}>
-        <PageReturnButton address={'/student_main'}/>
+        <PageReturnButton address={'/student_main'} />
         {experts.map((e, i) => {
           return (
             <div key={i} style={{ width: '100%', marginBottom: '30px' }}>

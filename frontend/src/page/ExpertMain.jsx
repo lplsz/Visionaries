@@ -209,7 +209,7 @@ const ExpertMain = () => {
             </div>
             <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%', justifyItems: 'center', marginTop: '85px' }}>
               <div><BallotIcon sx={{ margin: 'auto', fontSize: 60, color: '#c01901' }} /> </div>
-              <Button sx={{ marginTop: '5px', borderColor: 'gray', height: '55px', color: '#454545' }} fullWidth variant="outlined">VIEW SCHEDULE</Button>
+              <Button sx={{ marginTop: '5px', borderColor: 'gray', height: '55px', color: '#454545' }} fullWidth variant="outlined" onClick={() => { navigate('/expert_booked_meeting'); }}>VIEW SCHEDULE</Button>
             </div>
           </Box>
         </div>

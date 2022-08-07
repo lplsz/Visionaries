@@ -1,3 +1,4 @@
+// ask the user to choose whether they would like to see video or guide
 import React from "react";
 import './Options.css';
 function OptionsQuestion(props) {

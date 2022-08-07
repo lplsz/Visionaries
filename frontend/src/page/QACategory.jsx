@@ -95,13 +95,16 @@ const QACategory = () => {
   const [qaList, setQAList] = React.useState([]);
   const [categoriesName, setCategoriesName] = React.useState([]);
   const [categoriesId, setCategoriesId] = React.useState([]);
+  const [categoriesImage, setCategoriesImage] = React.useState('');
   const getCategories = async () => {
     const data = await apiCall('/categories', 'GET', {}, navigate);
+
     setCategoriesName(data.categories.map((cate) => { return cate.category_name }));
     setCategoriesId(data.categories.map((cate) => { return cate.id }));
-    const cateName = data.categories.filter((cate) => { return cate.id.toString() === categoryid.toString() })[0].category_name
-    setCategory(cateName);
-    setQuestionCategoryName(cateName);
+    const cate = data.categories.filter((cate) => { return cate.id.toString() === categoryid.toString() })[0]
+    setCategory(cate.category_name);
+    setCategoriesImage(cate.category_image_src);
+    setQuestionCategoryName(cate.category_name);
     const data2 = await apiCall('/tags', 'GET', {}, navigate);
     data2.tags.map((tag, i) => { tag.checked = false; return tag });
     setSubCategories(data2.tags);
@@ -247,15 +250,15 @@ const QACategory = () => {
         </DialogActions>
       </Dialog>
       <div style={{ display: 'flex', marginLeft: '200px', marginTop: '40px' }}>
-        
+
         <Typography variant="h2" sx={{ marginTop: '30px' }}>{category}</Typography>
         <img
-          style={{ width: '100px', height: '100px' }}
-          src={MAIN}
+          style={{ marginLeft: '30px', height: '100px' }}
+          src={categoriesImage}
           alt='ingred'
         />
       </div>
-      <PageReturnButton address={'/student_main'}/>
+      <PageReturnButton address={'/student_main'} />
       <Container disableGutters maxWidth="lg" component="main" sx={{ pt: 8, pb: 6, padding: 0 }}>
         <div style={{ display: 'flex', width: '100%', backgroundColor: '#ffffff', borderRadius: '10px', marginBottom: '10px', paddingBottom: '80px', }}>
           <Box

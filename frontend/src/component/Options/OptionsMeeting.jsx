@@ -1,3 +1,4 @@
+// ask user to make sure they want to book a meeting
 import React from "react";
 import './Options.css';
 function OptionsMeeting(props) {
@@ -6,11 +7,6 @@ function OptionsMeeting(props) {
       text: "Yes, sure",
       handler: props.actionProvider.handleMeetingTure,
       id: 1
-    },
-    {
-      text: "No I want to find some solutions",
-      handler: props.actionProvider.handleCancle,
-      id: 2
     }
   ];
   const optionsList = data.map((option) => (
