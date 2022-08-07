@@ -15,22 +15,8 @@ import ErrorSnackbar from '../component/ErrorSnackBar';
 import SuccessSnackbar from '../component/SuccessSnackBar';
 import KeyboardReturnOutlinedIcon from '@mui/icons-material/ArrowCircleLeft';
 import { styled } from '@mui/material/styles';
-import Tooltip from '@mui/material/Tooltip';
-import UPLOAD from '@mui/icons-material/UploadFile';
-import IconButton from '@mui/material/IconButton';
 import LanguageChoice from '../component/LanguageChoice';
 import ImageButton from '../component/ImageButton';
-
-function stringAvatar(name) {
-  return {
-    sx: { fontSize: '15px', height: '40px' },
-    children: `${name.split(' ')[0][0]}${name.split(' ')[1][0]}`,
-  };
-}
-
-const Input = styled('input')({
-  display: 'none',
-});
 
 // style for button color
 const ColorButton = styled(Button)(({ theme }) => ({
@@ -159,27 +145,6 @@ export default function StudentProfile () {
       }
     }
   }
-  
-  const handleImage = (target) => {
-    if (target.value) {
-      const file = target.files[0];
-      const size = file.size;
-      if (size >= 1 * 1024 * 1024) {
-        alert('image over limit');
-        return;
-      }
-      if (!['image/jpeg', 'image/png', 'image/gif', 'image/jpg'].includes(file.type)) {
-        alert('Not an image');
-      } else {
-        const reader = new FileReader();
-        reader.readAsDataURL(file);
-        reader.onload = function (e) {
-          const dataimg = e.target.result;
-          setProfileImageSrc(dataimg);
-        }
-      }
-    }
-  }
 
   return (
     <div style = {{backgroundSize: '100% 100%'}}>
@@ -202,7 +167,7 @@ export default function StudentProfile () {
             }}
           >
             <Box sx={{ width: '35%', marginBottom:'15px'}}>
-              <ImageButton profileImageSrc={profileImageSrc} setProfileImageSrc={setProfileImageSrc} name={name}/>
+              <ImageButton profileImageSrc={profileImageSrc} setProfileImageSrc={setProfileImageSrc} name={name} update={update}/>
             </Box>
             <Box component="form" noValidate sx={{ mt: 2, width:'60%' }}>
               <div style={{marginRight:'5%', paddingRight: '5%'}}>

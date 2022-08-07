@@ -34,6 +34,7 @@ const ImageButton = (props) => {
         reader.onload = function (e) {
           const dataimg = e.target.result;
           props.setProfileImageSrc(dataimg);
+          props.update();
         }
       }
     }
