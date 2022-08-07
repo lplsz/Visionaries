@@ -11,6 +11,7 @@ from wellbeing.meeting.schemas import (
     GetExpertAvailabilityByDateAndCategoryOutSchema,
     GetAvailabilitiesByDateOutSchema,
     GetStudentAvailabilitiesOutSchema,
+    GetExpertUpcomingBookedAvailabilitiesOutSchema,
 )
 
 expert_availability_blueprint = APIBlueprint('expert_availability', __name__)
@@ -57,6 +58,15 @@ def get_experts_availabilities_by_week_and_categories(data):
     return {'result': controller.get_experts_availabilities_by_week_and_categories(data['date'], data['category_ids'])}
 
 
+@expert_availability_blueprint.get('/get_expert_upcoming_booked_availabilities/<int:expert_id>')
+@expert_availability_blueprint.output(GetExpertUpcomingBookedAvailabilitiesOutSchema, 200)
+@expert_availability_blueprint.doc(
+    summary="Get the upcoming booked availabilities of an expert",
+)
+def get_expert_upcoming_booked_availabilities(expert_id):
+    return {'booked_availabilities': controller.get_expert_upcoming_booked_availabilities(expert_id)}
+
+
 # @expert_availability_blueprint.post('/update_expert_availability')
 # @expert_availability_blueprint.input(PostAvailabilityInSchema)
 # @expert_availability_blueprint.output(PostAvailabilityOutSchema, 200)
@@ -88,15 +98,15 @@ Student availabilities
 student_availability_blueprint = APIBlueprint('student_availability', __name__)
 
 
-@student_availability_blueprint.get('/get_student_availabilities/<int:student_id>')
+@student_availability_blueprint.get('/get_student_upcoming_availabilities/<int:student_id>')
 @student_availability_blueprint.output(GetStudentAvailabilitiesOutSchema, 200)
 @student_availability_blueprint.doc(
-    summary='Get availabilities of a student, ordered by date, time asc',
+    summary='Get upcoming availabilities of a student, ordered by date, time asc',
     responses={
         404: 'User Not Found',
     })
 def get_student_availability(student_id):
-    return controller.get_student_availabilities(student_id)
+    return controller.get_student_upcoming_availabilities(student_id)
 
 
 # @student_availability_blueprint.post('/update_student_availability')

@@ -90,6 +90,21 @@ class GetStudentAvailabilitiesOutSchema(Schema):
     availabilities = List(Nested(GetStudentAvailabilitiesSchema))
 
 
+class GetExpertUpcomingBookedAvailabilitiesSchema(Schema):
+    student = Nested(UserSchema, partial=True)
+    expert_id = Integer(example=2)
+    student_id = Integer(example=3)
+    time_range = Nested(TimeRangeSchema)
+    status = String(example='booked')
+    date = Date(example="2022-08-06")
+    meeting_metadata = String(
+        example="https://www.google.com/calendar/event?eid=aDZhbHZwYXRoZm1rbjljY3NzdHFwMmY0NWsgbHBsc3oyMDAwQG0")
+
+
+class GetExpertUpcomingBookedAvailabilitiesOutSchema(Schema):
+    booked_availabilities = List(Nested(GetExpertUpcomingBookedAvailabilitiesSchema))
+
+
 '''
 Meeting Schema
 '''

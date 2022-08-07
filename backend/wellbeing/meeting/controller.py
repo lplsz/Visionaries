@@ -1,6 +1,7 @@
 from datetime import datetime, timedelta, date as datetime_date
 
 from apiflask import abort
+from sqlalchemy.sql import and_
 
 from wellbeing.QA.models import Category
 from wellbeing.extensions import db
@@ -99,6 +100,21 @@ def update_expert_availability(data):
     }
 
 
+def get_expert_upcoming_booked_availabilities(expert_id):
+    """
+    Returns a list of availabilities for a user.
+    """
+    availabilities = Availability.query \
+        .filter(and_(Availability.expert_id == expert_id,
+                     Availability.date >= datetime_date.today(),
+                     Availability.status == 'booked')) \
+        .order_by(Availability.date, Availability.time_range_id).all()
+    result = [{**availability.serialized, 'student': availability.student.serialized}
+              for availability in availabilities]
+
+    return result
+
+
 def update_expert_availabilities(expert_id, availabilities):
     """
     Sets the availability for a user. availabilities is a list of dictionaries
@@ -125,12 +141,13 @@ Student Availability
 '''
 
 
-def get_student_availabilities(student_id):
+def get_student_upcoming_availabilities(student_id):
     """
     Returns a list of availabilities for a user.
     """
-    availabilities = Availability.query.filter_by(student_id=student_id).order_by(
-        Availability.date, Availability.time_range_id).all()
+    availabilities = Availability.query \
+        .filter(_and(Availability.student_id == student_id, Availability.date >= datetime_date.today())) \
+        .order_by(Availability.date, Availability.time_range_id).all()
     result = [{**availability.serialized, 'expert': availability.expert.serialized}
               for availability in availabilities]
 
@@ -157,7 +174,7 @@ def update_student_availabilities(student_id, availabilities):
             availability_db.meeting_metadata = availability.get('meeting_metadata', None)
 
     db.session.commit()
-    return get_student_availabilities(student_id)
+    return get_student_upcoming_availabilities(student_id)
 
 
 '''
