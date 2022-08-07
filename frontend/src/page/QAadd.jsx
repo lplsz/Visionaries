@@ -13,6 +13,7 @@ import Typography from '@mui/material/Typography';
 import DOMPurify from 'dompurify';
 import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
+import { useNavigate, useParams, useLocation } from 'react-router-dom';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import FormControl from '@mui/material/FormControl';
 import FormLabel from '@mui/material/FormLabel';
@@ -24,7 +25,7 @@ import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import Button from '@mui/material/Button';
-import { display } from '@mui/system';
+import { alpha, display } from '@mui/system';
 const theme = createTheme({
   components: {
     MuiButton: {
@@ -50,13 +51,13 @@ const theme = createTheme({
   },
 });
 function QAadd() {
-
+  const navigate = useNavigate();
   const [editorState, setEditorState] = React.useState(EditorState.createEmpty()) // ContentState JSON
   const [categories, setCategories] = React.useState([]);
   const getCategories = async () => {
-    const data = await apiCall('/categories', 'GET');
+    const data = await apiCall('/categories', 'GET', {}, navigate);
     setCategories(data.categories);
-    const data2 = await apiCall('/tags', 'GET');
+    const data2 = await apiCall('/tags', 'GET', {}, navigate);
     data2.tags.map((tag, i) => { tag.checked = false; return tag });
     setSubCategories(data2.tags);
   };
@@ -115,24 +116,30 @@ function QAadd() {
     setI(i + 1);
 
   }
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     const submitData = {
       body: convertedContent,
       title: question,
       category_id: categories.filter((category) => { return category.category_name === value })[0].id,
-      tag_ids: subCategories.filter((category) => { return category.checked }).map((category) => { return category.id })
-
+      tag_ids: subCategories.filter((category) => { return category.checked }).map((category) => { return category.id }),
+      video_url: video
     }
-    apiCall('/qa', 'POST', submitData);
+    const data = await apiCall('/qa', 'POST', submitData, navigate);
+    if (typeof (data) === 'string' && (!data.startsWith('200') || !data.startsWith('201'))) {
+
+      alert('the post can not done');
+    } else {
+      navigate('/expert_main')
+    }
 
   }
   const handleSubmitTag = async () => {
     const info = {
       tag_name: tagName
     }
-    await apiCall('/tag', 'POST', info);
+    await apiCall('/tag', 'POST', info, navigate);
     console.log(info);
-    const data2 = await apiCall('/tags', 'GET');
+    const data2 = await apiCall('/tags', 'GET', navigate);
     data2.tags.map((tag, i) => { tag.checked = false; return tag });
     setSubCategories(data2.tags);
     handleClose();
@@ -141,7 +148,7 @@ function QAadd() {
   const CheckBoxButtonsGroup = () => {
     return (
       <FormControl>
-        <FormLabel id="demo-controlled-radio-buttons-group">Category</FormLabel>
+        <FormLabel id="demo-controlled-radio-buttons-group">SubCategory</FormLabel>
 
         {subCategories.map((cate, i) => {
           if (cate.checked) {

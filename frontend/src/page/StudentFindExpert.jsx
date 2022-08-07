@@ -8,48 +8,110 @@ import Grid from '@mui/material/Grid';
 import D1 from './img/doctor-img2.png'
 import D2 from './img/online-doctor-appointment.png'
 import StudentBookingTime from '../component/StudentBookingTime';
+import { useNavigate, useParams, useLocation } from 'react-router-dom';
+import { apiCall } from '../Main';
+import AvatarImage from '../component/AvatarImage'
 
 const StudentFindExpert = () => {
-  const experts = [{ img: D1, name: 'Dr Susan Hodgens', description: "General Practitioner, Male, MBChB, MRCGP, DRCOG, FRACGP \n MBChB, DRCOG, FRACGP, MRCGP \nDr Susan Hodgens qualified in Great Britain in 1990. After general training in medicine, surgery, obstetrics and gynaecology, casualty and paediatrics, she qualified as a GP in 1995. \nDr Hodgens works in all areas of family medicine and has special interests in Women's Health, Sexual Health, Skin Cancer Diagnosis and Surgery with Post Graduate Certificates in both. Dr Sue also performs mirena insertions." },
-  { img: D2, name: 'Dr Htin Kyaw', description: 'General Practitioner, Male, DCH, MBBS, FRACGP \n MBBS, DCH, FRACGP \n Dr Htin Kyaw has been working as a Medical Practitioner since 2000. He has had clinical experiences in Myanmar (Burma), UK and Australia. Htin and his wife, Dr Khin migrated to Australia in 2006. Before joining the General Practice industry, he worked in various tertiary hospitals in the UK and in Australia in a range of specialities.' },
-  { img: D1, name: 'Dr Hemangkumar Mahendra Mayatra', description: 'General Practitioner, Male, AMC \n MD Dr Hemang was born in India and studied his MD in Medicine in Russia. He has attained an AMC Certificate and is fluent in multiple languages including Hindi, Gujarati and Russian.' }]
-  const timeTable = [
-    [[true, false, true, false, false, false, false, true, true, true, false, false, false],
-    [true, true, true, true, false, true, false, false, false, false, false, false, false],
-    [true, false, false, false, true, true, true, false, false, false, true, false, false],
-    [true, false, false, false, true, true, true, false, false, true, false, false, false],
-    [true, false, false, false, false, true, false, false, true, false, false, false, false],],
-    [[true, false, true, false, false, false, false, true, true, true, false, false, false],
-    [false, true, true, true, false, false, false, false, false, false, false, false, false],
-    [false, true, false, false, false, true, false, false, false, false, true, false, false],
-    [true, false, false, false, true, true, true, false, false, false, false, false, false],
-    [true, false, false, false, false, false, false, false, true, true, false, false, false],],
-    [[true, false, false, false, false, false, false, true, true, false, false, false, false],
-    [false, false, false, true, false, true, false, false, false, false, false, false, false],
-    [true, false, false, false, false, true, true, false, false, false, true, false, false],
-    [true, false, false, false, true, false, true, false, false, false, false, false, false],
-    [true, false, false, false, false, true, false, false, true, true, false, false, false],],
-  ]
-  const category = 'Vaccinations'
+  const navigate = useNavigate();
+  const { state } = useLocation();
+  const value = state["date"]
+  console.log(value);
+  const categoryid = useParams().categoryid;
+  const [category, setCategory] = React.useState('');
+  const [categoriesName, setCategoriesName] = React.useState([]);
+  const [categoriesId, setCategoriesId] = React.useState([]);
+  const time = ['09:00am-9:30am', '09:30am-10:00am', '10:00am-10:30am', '10:30am-11:00am', '11:00am-11:30am', '01:00pm-1:30am', '01:30pm-02:00pm', '02:00pm-02:30am', '02:30pm-03:00pm', '03:00pm-03:30am', '03:30pm-04:00pm', '04:00pm-04:30am', '04:30pm-05:00pm'];
+  const getCategories = async () => {
+    const data = await apiCall('/categories', 'GET', {}, navigate);
+    setCategoriesName(data.categories.map((cate) => { return cate.category_name }));
+    setCategoriesId(data.categories.map((cate) => { return cate.id }));
+    const cateName = data.categories.filter((cate) => { return cate.id.toString() === categoryid.toString() })[0].category_name
+    setCategory(cateName);
+  };
+
+  const [experts, setExperts] = React.useState([]);
+
+  Date.prototype.Format = function (fmt) {
+    const o = {
+      'M+': this.getMonth() + 1,
+      'd+': this.getDate(),
+      'H+': this.getHours(),
+      'm+': this.getMinutes(),
+      's+': this.getSeconds(),
+      'S+': this.getMilliseconds()
+    };
+
+    if (/(y+)/.test(fmt)) {
+      fmt = fmt.replace(RegExp.$1, (this.getFullYear() + '').substr(4 - RegExp.$1.length));
+    }
+    for (const k in o) {
+      if (new RegExp('(' + k + ')').test(fmt)) {
+        fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (('00' + o[k]).substr(String(o[k]).length)));
+      }
+    }
+    return fmt;
+  };
+
+
+  const getTimeTable = async () => {
+    const datevalue = value.Format('yyyy-MM-dd');
+    const data2 = await apiCall(`/get_experts_availabilities_by_week_and_categories?category_ids=${categoryid}&date=${datevalue}`, 'GET', {}, navigate);
+    console.log(data2);
+    const l = [];
+    data2.result.map((re) => {
+      const d = {}
+      d['expert'] = re.expert;
+      const t = []
+      let un = 0
+      re.availabilities.map((day) => {
+        const oneday = [];
+        day.map((timeslot) => {
+          if (timeslot.status === 'available') {
+            oneday.push(true);
+          } else {
+            un += 1
+            oneday.push(false);
+          }
+        })
+        t.push(oneday);
+      })
+      d['time'] = t;
+      if (un !== 0) {
+        l.push(d);
+      }
+    });
+
+    setExperts(l);
+    console.log(l);
+  }
+  const [i, setI] = React.useState(1);
+  if (i === 1) {
+
+    getCategories();
+    getTimeTable();
+    setI(i + 1);
+  }
+
   const FilterCategory = () => {
     return (
       <Autocomplete
         disablePortal
         id="combo-box-demo"
-        options={[{ label: 'Breakfast' }, { label: 'Lunch' }, { label: 'dinner' }, { label: 'afternoon tea' }, { label: 'others' }]}
-
+        options={categoriesName}
+        value={category}
+        onChange={(e) => { navigate(`/student_main/find_expert/${categoriesId[e.target.getAttribute("data-option-index")]}`, { state: { date: value } }); setI(1); }}
         renderInput={(params) => <TextField {...params} label="Category" />}
         size="small"
-        sx={{ width: '250px', marginLeft: '5px' }}
+        fullWidth
       />
     );
   }
-  const dateToFormat = new Date('1976-04-19T12:59-0500');
 
   return (
     <div>
       <StudentHeader />
-      <div style={{ display: 'flex', marginLeft: '200px', marginTop: '40px' }}>
+      <div style={{ display: 'flex', marginLeft: '200px', marginTop: '40px', marginRight: '200px' }}>
         <Typography variant="h2" sx={{ marginTop: '30px' }}>{category}</Typography>
         <img
           style={{ width: '100px', height: '100px' }}
@@ -61,28 +123,29 @@ const StudentFindExpert = () => {
           flex: 1,
           alignItems: 'center',
           margin: 'auto',
-          width: '100%',
+          width: '100px',
           paddingLeft: '40px',
           paddingTop: '40px',
           paddingRight: '0px'
+
         }}>Catgory: <FilterCategory /></div>
 
       </div>
       <div style={{ marginLeft: '100px', marginTop: '40px' }}>
         {experts.map((e, i) => {
           return (
-            <div key={i} style={{ width: '100%' }}>
+            <div key={i} style={{ width: '100%', marginBottom: '30px' }}>
               <Grid container spacing={0} cent sx={{ width: '100%' }}>
                 <Grid item xs={2} sx={{ fontWeight: 'bold', textAlign: 'center' }}>
 
-                  <img alt="docter" src={e.img} style={{ height: '150px', weight: '150px' }}></img>
-                  <div>{e.name}</div>
+                  <div style={{ display: 'flex' }}><div style={{ margin: 'auto' }}><AvatarImage profileImageSrc={e.expert.profile_image_src} name={e.expert.username} /></div></div>
+                  <div>{e.expert.username}</div>
                 </Grid>
-                <Grid item xs={5} sx={{ display: 'flex', justifyContent: 'center' }} >
-                  <div>{e.description}</div>
+                <Grid item xs={5} sx={{}} >
+                  <div>{e.expert.biography}</div>
                 </Grid>
                 <Grid item xs={5} >
-                  <StudentBookingTime timeTable={timeTable[i]} name={e.name} />
+                  <StudentBookingTime timeTable={e.time} name={e.expert.name} date={value} expert={e.expert} experts={experts} setExperts={setExperts} />
                 </Grid>
               </Grid>
             </div>

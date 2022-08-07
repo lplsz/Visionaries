@@ -1,10 +1,11 @@
 import { apiCall } from '../../Main';
-
+import { useNavigate } from 'react-router-dom';
 class ActionProvider {
   constructor(createChatBotMessage, setStateFunc, createClientMessage) {
     this.createChatBotMessage = createChatBotMessage;
     this.setState = setStateFunc;
     this.createClientMessage = createClientMessage;
+    this.navigate = useNavigate();
   }
 
   handleMeeting = () => {
@@ -26,8 +27,12 @@ class ActionProvider {
     this.setChatbotMessage(message);
   }
 
-  handleQuestion = (text) => {
-    apiCall('/chatbot', 'POST', { state: 1, input_text: text })
+  handleQuestion = async (text) => {
+    const data = await apiCall('/chatbot', 'POST', { state: 1, input_text: text }, this.navigate);
+    if (typeof (data) === 'string' && (!data.startsWith('200') || !data.startsWith('201'))) {
+      this.navigate('/login');
+      return;
+    }
     const message = this.createChatBotMessage(
       "Sure! Which type of information you would like to get?",
       {
@@ -179,6 +184,7 @@ class ActionProvider {
   };
 
   handleGreeting = () => {
+    apiCall('/chatbot', 'POST', { state: 3, input_text: 'true' })
     const message = this.createChatBotMessage(
       "Thanks for trying Wellbeing Bot! We hope you had a great experience"
     );
@@ -198,6 +204,7 @@ class ActionProvider {
     this.setChatbotMessage(message);
   };
   handleSorry = () => {
+    apiCall('/chatbot', 'POST', { state: 3, input_text: 'false' })
     const message = this.createChatBotMessage(
       "I am sorry that I do not find those infromations you want :( . You can ask a new questions or ask your previous questions more detailed."
     );

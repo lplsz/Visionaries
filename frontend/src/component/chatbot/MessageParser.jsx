@@ -12,8 +12,6 @@ class MessageParser {
             this.actionProvider.handleMeeting();
         } else if (lowercase.includes("what") || lowercase.includes("know") || lowercase.includes("how") || lowercase.includes("why") || lowercase.includes("when")) {
             this.actionProvider.handleQuestion(lowercase);
-        } else if (lowercase.includes("thank")) {
-            this.actionProvider.handleGreeting();
         } else {
             this.actionProvider.handleUnknown();
         }

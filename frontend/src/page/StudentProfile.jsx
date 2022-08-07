@@ -26,7 +26,7 @@ const ColorButton = styled(Button)(({ theme }) => ({
   },
 }));
 
-export default function StudentProfile () {
+export default function StudentProfile() {
   const navigate = useNavigate();
 
   const [name, setName] = React.useState('AA BB');
@@ -39,11 +39,11 @@ export default function StudentProfile () {
   const [confirm_password, setConfirmPassword] = React.useState('');
   const [open, setOpen] = React.useState(false);
   const [errorMessage, setErrorMessage] = React.useState('');
-  const [open2,setOpen2] = React.useState(false);
+  const [open2, setOpen2] = React.useState(false);
 
-  React.useEffect(() =>{
+  React.useEffect(() => {
     getUserInfo();
-  },[]);
+  }, []);
 
   function getId(languageIds) {
     let ids = []
@@ -55,10 +55,10 @@ export default function StudentProfile () {
 
   const getUserInfo = async () => {
     const id = localStorage.getItem('id');
-    const data = await apiCall(`/user_profile/${id}`, 'GET');
+    const data = await apiCall(`/user_profile/${id}`, 'GET', {}, navigate);
     console.log("user:", data);
-    if (typeof (data) === 'string' && (! data.startsWith('200') || ! data.startsWith('201'))) {
-      setErrorMessage(data.slice(3, ));
+    if (typeof (data) === 'string' && (!data.startsWith('200') || !data.startsWith('201'))) {
+      setErrorMessage(data.slice(3,));
       setOpen(true);
     } else {
       setName(data.user.username);
@@ -78,22 +78,22 @@ export default function StudentProfile () {
       setOpen(true);
       setNewPassword('');
       setConfirmPassword('');
-    } else if (newpassword !== confirm_password ) {
+    } else if (newpassword !== confirm_password) {
       setErrorMessage('The two passwords are not the same');
       setOpen(true);
       setNewPassword('');
       setConfirmPassword('');
-    } 
-    
+    }
+
     else {
       const user = {
         new_password: confirm_password,
         user_id: id
       }
       console.log('update', user);
-      const data = await apiCall('update_password', 'PUT', user);
-      if (typeof (data) === 'string' && (! data.startsWith('200') || ! data.startsWith('201'))) {
-        setErrorMessage(data.slice(3, ));
+      const data = await apiCall('update_password', 'PUT', user, navigate);
+      if (typeof (data) === 'string' && (!data.startsWith('200') || !data.startsWith('201'))) {
+        setErrorMessage(data.slice(3,));
         setOpen(true);
         setNewPassword('');
         setConfirmPassword('');
@@ -127,11 +127,11 @@ export default function StudentProfile () {
         language_ids: languageIds
       }
       console.log('update', user);
-      const data = await apiCall('user_profile', 'PUT', user);
-      if (typeof (data) === 'string' && (! data.startsWith('200') || ! data.startsWith('201'))) {
+      const data = await apiCall('user_profile', 'PUT', user, navigate);
+      if (typeof (data) === 'string' && (!data.startsWith('200') || !data.startsWith('201'))) {
         setErrorMessage(data.slice(3, data.length));
         setOpen(true);
-      } 
+      }
       else {
         setOpen2(true);
         navigate('/student_profile');
@@ -140,70 +140,70 @@ export default function StudentProfile () {
   }
 
   return (
-    <div style = {{backgroundSize: '100% 100%'}}>
+    <div style={{ backgroundSize: '100% 100%' }}>
       <StudentHeader />
-      <ErrorSnackbar open={open} setOpen={setOpen} message={errorMessage}/>
+      <ErrorSnackbar open={open} setOpen={setOpen} message={errorMessage} />
       <SuccessSnackbar open={open2} setOpen={setOpen2} message={'You have successfully update your profile'}></SuccessSnackbar>
       <Container disableGutters maxWidth="lg" component="main" sx={{ pt: 8, pb: 6 }}>
-        <div style={{display:'flex',width:'100%', backgroundColor: '#ffffff', borderRadius: '10px', borderTop: '1px solid rgba(255, 255, 255, 0.15)', backdropFilter: 'blur(30px)', boxShadow: '0 15px 25px rgba(0,0,0,0.1)', marginBottom: '10px'}}>
+        <div style={{ display: 'flex', width: '100%', backgroundColor: '#ffffff', borderRadius: '10px', borderTop: '1px solid rgba(255, 255, 255, 0.15)', backdropFilter: 'blur(30px)', boxShadow: '0 15px 25px rgba(0,0,0,0.1)', marginBottom: '10px' }}>
           <Box
             sx={{
               display: 'flex',
               flexDirection: 'column',
               alignItems: 'center',
-              margin:'auto',
-              flex:2,
-              paddingTop:'40px',
-              paddingBottom:'40px',
+              margin: 'auto',
+              flex: 2,
+              paddingTop: '40px',
+              paddingBottom: '40px',
               borderRight: '1.5px solid rgb(230, 230, 230)'
-              
+
             }}
           >
-            <Box sx={{ width: '35%', marginBottom:'15px'}}>
-              <ImageButton profileImageSrc={profileImageSrc} setProfileImageSrc={setProfileImageSrc} name={name} update={update}/>
+            <Box sx={{ width: '35%', marginBottom: '15px' }}>
+              <ImageButton profileImageSrc={profileImageSrc} setProfileImageSrc={setProfileImageSrc} name={name} update={update} />
             </Box>
-            <Box component="form" noValidate sx={{ mt: 2, width:'60%' }}>
-              <div style={{marginRight:'5%', paddingRight: '5%'}}>
-                
-                <Box sx={{ width: '100%',display: 'flex', alignItems: 'flex-end', marginBottom:'15px'}}>
+            <Box component="form" noValidate sx={{ mt: 2, width: '60%' }}>
+              <div style={{ marginRight: '5%', paddingRight: '5%' }}>
+
+                <Box sx={{ width: '100%', display: 'flex', alignItems: 'flex-end', marginBottom: '15px' }}>
                   <Grid container spacing={0}>
                     <Grid item xs={3}>
                       <Typography component="h1" variant="h5">
-                        Name: 
+                        Name:
                       </Typography>
                     </Grid>
                     <Grid item xs={9}>
-                      <TextField 
-                        label="Enter Name Here" 
-                        fullWidth 
-                        variant="standard" 
-                        size="medium"  
-                        onChange = {e => setName(e.target.value)} 
-                        value={name}/>
+                      <TextField
+                        label="Enter Name Here"
+                        fullWidth
+                        variant="standard"
+                        size="medium"
+                        onChange={e => setName(e.target.value)}
+                        value={name} />
                     </Grid>
                   </Grid>
                 </Box>
-                <Box sx={{ display: 'flex', alignItems: 'flex-end', marginBottom:'15px'}}>
-                <Grid container spacing={0}>
-                  <Grid item xs={3}>
-                    <Typography component="h1" variant="h5">
-                      Email: 
-                    </Typography>
-                  </Grid>
-                  <Grid item xs={9}>
-                    <Typography component="h6" variant="h6">
-                      {email}
-                    </Typography>
+                <Box sx={{ display: 'flex', alignItems: 'flex-end', marginBottom: '15px' }}>
+                  <Grid container spacing={0}>
+                    <Grid item xs={3}>
+                      <Typography component="h1" variant="h5">
+                        Email:
+                      </Typography>
+                    </Grid>
+                    <Grid item xs={9}>
+                      <Typography component="h6" variant="h6">
+                        {email}
+                      </Typography>
 
+                    </Grid>
                   </Grid>
-                </Grid>
                 </Box>
-                <LanguageChoice languageIds={languageIds} setLanguageIds={setLanguageIds}/>
+                <LanguageChoice languageIds={languageIds} setLanguageIds={setLanguageIds} />
                 <ColorButton
                   fullWidth
                   id="submit_Login"
                   variant="contained"
-                  sx={{ mt: 3, mb: 2, color: 'white'}}
+                  sx={{ mt: 3, mb: 2, color: 'white' }}
                   onClick={update}
                 >
                   UPDATE
@@ -215,13 +215,13 @@ export default function StudentProfile () {
           <Box
             sx={{
               paddingLeft: '40px',
-              paddingRight:'40px',
-              paddingTop:'80px',
+              paddingRight: '40px',
+              paddingTop: '80px',
               display: 'flex',
               flexDirection: 'column',
               alignItems: 'center',
               verticalAlign: 'middle',
-              flex:1,
+              flex: 1,
               backgroundColor: 'rgb(240,240,240)',
               borderRadius: '0px 10px 10px 0px'
             }}
@@ -229,8 +229,8 @@ export default function StudentProfile () {
             <Typography component="h1" variant="h5">
               Change Password
             </Typography>
-            <div style={{alignItems: 'center', flexDirection: 'column'}}>
-              
+            <div style={{ alignItems: 'center', flexDirection: 'column' }}>
+
               <Box component="form" noValidate sx={{ mt: 1 }}>
 
                 <TextField
@@ -241,7 +241,7 @@ export default function StudentProfile () {
                   name="new password"
                   autoComplete="new password"
                   value={newpassword}
-                  onChange = {e => setNewPassword(e.target.value)}
+                  onChange={e => setNewPassword(e.target.value)}
                 />
                 <TextField
                   margin="normal"
@@ -251,23 +251,23 @@ export default function StudentProfile () {
                   name="re-enter new password"
                   autoComplete="new password"
                   value={confirm_password}
-                  onChange = {e => setConfirmPassword(e.target.value)}
+                  onChange={e => setConfirmPassword(e.target.value)}
                 />
                 <ColorButton
                   fullWidth
                   id="submit_Login"
                   variant="contained"
-                  sx={{ mt: 3, mb: 2, color:'white' }}
+                  sx={{ mt: 3, mb: 2, color: 'white' }}
                   onClick={changePassword}
                 >
                   CONFIRM
                 </ColorButton>
               </Box>
             </div>
-      </Box>
+          </Box>
         </div>
-        <div style={{display:'flex', justifyContent: 'flex-end' , alignItems: 'flex-end', marginTop: '40px'}}>
-          <Button size="large" sx={{backgroundColor:'#000000',color:'white'}} onClick={(event) => {navigate('/student_main') }} endIcon={<KeyboardReturnOutlinedIcon size="large" />} >Return</Button>
+        <div style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'flex-end', marginTop: '40px' }}>
+          <Button size="large" sx={{ backgroundColor: '#000000', color: 'white' }} onClick={(event) => { navigate('/student_main') }} endIcon={<KeyboardReturnOutlinedIcon size="large" />} >Return</Button>
         </div>
       </Container>
     </div>

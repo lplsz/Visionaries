@@ -12,7 +12,7 @@ class QATag(db.Model):
 class QA(db.Model):
     __tablename__ = 'qa'
     id = db.Column(db.Integer, primary_key=True, index=True)
-    title = db.Column(db.Text, nullable=False, index=True)
+    title = db.Column(db.String(200), nullable=False, index=True)
     body = db.Column(db.Text, nullable=False)
     created_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     review_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow, onupdate=datetime.utcnow, index=True)
