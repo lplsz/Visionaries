@@ -1,3 +1,4 @@
+// control action for chatbot
 import { apiCall } from '../../Main';
 import { useNavigate } from 'react-router-dom';
 class ActionProvider {
@@ -150,7 +151,7 @@ class ActionProvider {
   handleMeetingCovid19 = () => {
     const message = this.createChatBotMessage(
       {
-        widget: "meetingmentalhealth"
+        widget: "meetingcovid19"
       }
     );
     this.setChatbotMessage(message);
@@ -159,7 +160,7 @@ class ActionProvider {
     const message = this.createChatBotMessage(
       "You can find some doctors to meet with by click the following link at home",
       {
-        widget: "meetingmentalhealth"
+        widget: "meetingstayathome"
       }
     );
     this.setChatbotMessage(message);
@@ -168,7 +169,7 @@ class ActionProvider {
     const message = this.createChatBotMessage(
       "You can find some doctors to meet with by click the following link advice",
       {
-        widget: "meetingmentalhealth"
+        widget: "meetingcareeradvice"
       }
     );
     this.setChatbotMessage(message);
@@ -177,7 +178,7 @@ class ActionProvider {
     const message = this.createChatBotMessage(
       "You can find some doctors to meet with by click the following link vaccation",
       {
-        widget: "meetingmentalhealth"
+        widget: "meetingmvaccation"
       }
     );
     this.setChatbotMessage(message);

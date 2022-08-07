@@ -23,6 +23,9 @@ import WellBeingBot from "../component/WellBeingBot"
 const StudentMain = () => {
 
 	const navigate = useNavigate();
+	if (localStorage.getItem('type') === 'expert') {
+		navigate('/expert_main')
+	}
 	const [categories, setCategories] = React.useState([]);
 	const [showBot, toggleBot] = React.useState(false);
 	const getCategories = async () => {

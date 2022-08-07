@@ -4,7 +4,7 @@ function MyLinks(props) {
   const navigate = useNavigate();
   return (
     <button onClick={() => { navigate(props.url) }}>
-      Click hear to book meetings!
+      Click me!
     </button>
   );
 }
