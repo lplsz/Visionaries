@@ -15,21 +15,8 @@ import ErrorSnackbar from '../component/ErrorSnackBar';
 import SuccessSnackbar from '../component/SuccessSnackBar';
 import KeyboardReturnOutlinedIcon from '@mui/icons-material/ArrowCircleLeft';
 import { styled } from '@mui/material/styles';
-import Tooltip from '@mui/material/Tooltip';
-import UPLOAD from '@mui/icons-material/UploadFile';
-import IconButton from '@mui/material/IconButton';
 import LanguageChoice from '../component/LanguageChoice';
-
-function stringAvatar(name) {
-  return {
-    sx: { fontSize: '15px', height: '40px' },
-    children: `${name.split(' ')[0][0]}${name.split(' ')[1][0]}`,
-  };
-}
-
-const Input = styled('input')({
-  display: 'none',
-});
+import ImageButton from '../component/ImageButton';
 
 // style for button color
 const ColorButton = styled(Button)(({ theme }) => ({
@@ -167,27 +154,6 @@ export default function ExpertProfile () {
       }
     }
   }
-  
-  const handleImage = (target) => {
-    if (target.value) {
-      const file = target.files[0];
-      const size = file.size;
-      if (size >= 1 * 1024 * 1024) {
-        alert('image over limit');
-        return;
-      }
-      if (!['image/jpeg', 'image/png', 'image/gif', 'image/jpg'].includes(file.type)) {
-        alert('Not an image');
-      } else {
-        const reader = new FileReader();
-        reader.readAsDataURL(file);
-        reader.onload = function (e) {
-          const dataimg = e.target.result;
-          setProfileImageSrc(dataimg);
-        }
-      }
-    }
-  }
 
   return (
     <div style = {{backgroundSize: '100% 100%'}}>
@@ -209,38 +175,8 @@ export default function ExpertProfile () {
               
             }}
           >
-            <Box sx={{ width: '35%', marginBottom:'15px', paddingLeft: '30px'}}>
-              <Grid container spacing={0}>
-                <Grid item>
-                  {profileImageSrc === "" 
-                    ? <Avatar
-                        {...stringAvatar(name)} 
-                        sx={{ m: 1, bgcolor: 'primary.main', backgroundColor:'#000000',color:'white', height:'60px', width:'60px', fontSize:'25px' }}
-                      >
-                    </Avatar>
-                    : <Avatar
-                        src={profileImageSrc}
-                        sx={{ m: 1, bgcolor: 'primary.main', backgroundColor:'#000000',color:'white', height:'60px', width:'60px', fontSize:'25px' }}
-                      >
-                    </Avatar>
-                  }
-                </Grid>
-                <Grid item>
-                  <div style={{paddingTop:'20px'}}>
-                    <label htmlFor="icon-button-file">
-                      <Input accept="image/*" id="icon-button-file" type="file" onChange={(e) => {handleImage(e.target);} }/>
-                      <Tooltip
-                        title={'Upload your image'}
-                        placement="top"
-                      >
-                        <IconButton color="default" aria-label="upload picture" component="span">
-                          <UPLOAD />
-                        </IconButton>
-                      </Tooltip>
-                    </label>
-                  </div>
-                </Grid>
-              </Grid>
+            <Box sx={{ width: '35%', marginBottom:'15px'}}>
+              <ImageButton profileImageSrc={profileImageSrc} setProfileImageSrc={setProfileImageSrc} name={name} update={update}/>
             </Box>
             <Box component="form" noValidate sx={{ mt: 2, width:'60%' }}>
               <div style={{marginRight:'5%', paddingRight: '5%'}}>
