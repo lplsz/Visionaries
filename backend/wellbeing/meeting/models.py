@@ -12,13 +12,13 @@ class Availability(db.Model):
     status = db.Column(db.Enum('available', 'unavailable', 'booked'), nullable=False)
 
     # Not null only if status == 'booked'
-    student_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=True)
+    student_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=True, index=True)
     meeting_metadata = db.Column(db.Text, nullable=True)
 
     # Relationships
-    student = db.relationship('User', foreign_keys=[student_id], lazy=False, uselist=False,
+    student = db.relationship('User', foreign_keys=[student_id], lazy=True, uselist=False,
                               back_populates='availability_as_student')
-    expert = db.relationship('User', foreign_keys=[expert_id], lazy=False, uselist=False,
+    expert = db.relationship('User', foreign_keys=[expert_id], lazy=True, uselist=False,
                              back_populates='availability_as_expert')
     time_range = db.relationship('TimeRange', lazy=False, uselist=False, back_populates='availabilities')
 

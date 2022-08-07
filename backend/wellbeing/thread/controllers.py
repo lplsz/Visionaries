@@ -7,7 +7,7 @@ from wellbeing.thread.models import Thread, Reply
 
 
 def get_threads():
-    return {'threads': [thread.serialized for thread in Thread.query.filter(Thread.resolved == Falsez).all()]}
+    return {'threads': [thread.serialized for thread in Thread.query.filter(Thread.resolved == False).all()]}
 
 
 def get_threads_by_user(user_id):

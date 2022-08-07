@@ -11,11 +11,11 @@ class QATag(db.Model):
 
 class QA(db.Model):
     __tablename__ = 'qa'
-    id = db.Column(db.Integer, primary_key=True)
-    title = db.Column(db.Text, nullable=False)
+    id = db.Column(db.Integer, primary_key=True, index=True)
+    title = db.Column(db.Text, nullable=False, index=True)
     body = db.Column(db.Text, nullable=False)
     created_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
-    review_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow, onupdate=datetime.utcnow)
+    review_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow, onupdate=datetime.utcnow, index=True)
     author_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     category_id = db.Column(db.Integer, db.ForeignKey('category.id'), nullable=False)
     video_url = db.Column(db.Text, nullable=True)
@@ -50,7 +50,7 @@ class QA(db.Model):
 
 
 class Tag(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
+    id = db.Column(db.Integer, primary_key=True, index=True)
     tag_name = db.Column(db.Text, nullable=False)
 
     # Relationships
@@ -66,14 +66,14 @@ class Tag(db.Model):
 
 class Category(db.Model):
     __tablename__ = 'category'
-    id = db.Column(db.Integer, primary_key=True)
+    id = db.Column(db.Integer, primary_key=True, index=True)
     category_name = db.Column(db.Text, nullable=False)
     category_image_src = db.Column(db.Text, nullable=True)
     category_description = db.Column(db.Text, nullable=True)
 
-    # Relationships
-    threads = db.relationship('Thread', lazy=False, uselist=True, back_populates='category')
-    qas = db.relationship('QA', lazy=False, uselist=True, back_populates='category')
+    # Relationship
+    threads = db.relationship('Thread', lazy=True, uselist=True, back_populates='category')
+    qas = db.relationship('QA', lazy=True, uselist=True, back_populates='category')
 
     # interested_users = db.relationship('User', lazy=False, uselist=True, back_populates='interested_categories',
 
