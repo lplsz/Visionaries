@@ -60,16 +60,13 @@ Reply Controllers
 
 
 def post_reply(data):
-    print('before search')
     new_reply = Reply(
         body=data['body'],
         user_id=current_user.id,
         thread_id=Thread.query.filter_by(id=data['thread_id']).first_or_404('Thread Not Found').id
     )
-    print('before commit')
     db.session.add(new_reply)
     db.session.commit()
-    print('after commit')
     return {'reply': new_reply.serialized}
 
 

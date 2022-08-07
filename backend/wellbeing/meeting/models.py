@@ -49,6 +49,6 @@ class TimeRange(db.Model):
     def serialized(self):
         return {
             'id': self.id,
-            'start_at': self.start_at.iso,
+            'start_at': self.start_at,
             'end_at': self.end_at,
         }

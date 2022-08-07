@@ -9,6 +9,7 @@ from wellbeing.meeting.schemas import (
     GetExpertAvailabilityByDateInSchema,
     GetExpertAvailabilityByDateAndCategoryInSchema,
     GetExpertAvailabilityByDateAndCategoryOutSchema,
+    GetAvailabilitiesByDateOutSchema,
 )
 
 expert_availability_blueprint = APIBlueprint('expert_availability', __name__)
@@ -20,7 +21,7 @@ Expert availabilities
 
 @expert_availability_blueprint.get('/get_expert_availabilities_by_date')
 @expert_availability_blueprint.input(GetExpertAvailabilityByDateInSchema, location='query')
-@expert_availability_blueprint.output(GetAvailabilitiesOutSchema, 200)
+@expert_availability_blueprint.output(GetAvailabilitiesByDateOutSchema, 200)
 @expert_availability_blueprint.doc(
     summary="Get a day's availabilities of an expert order by time asc",
     responses={

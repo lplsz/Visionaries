@@ -72,6 +72,10 @@ class PostStudentAvailabilitiesInSchema(Schema):
 '''
 
 
+class GetAvailabilitiesByDateOutSchema(Schema):
+    availabilities = List(Nested(AvailabilitySchema))
+
+
 class GetAvailabilitiesOutSchema(Schema):
     availabilities = List(List(Nested(AvailabilitySchema)))
 
