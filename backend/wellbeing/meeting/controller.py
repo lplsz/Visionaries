@@ -1,4 +1,4 @@
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, date as datetime_date
 
 from apiflask import abort
 
@@ -40,7 +40,7 @@ def get_expert_availabilities_by_week(expert_id, date):
     """
 
     # Get the start and end of the week containing date
-    start_date = date - timedelta(days=date.weekday())
+    end_date = date - timedelta(days=date.weekday()) + timedelta(days=4)
 
     # Return the expert's availabilities with date between start_date and end_date ordered by time_range_id
     # availabilities = Availability.query.filter(and_(Availability.expert_id == expert_id,
@@ -54,9 +54,10 @@ def get_expert_availabilities_by_week(expert_id, date):
     #     result.append([availability.serialized for availability in availabilities if
     #                    availability.date == start_date + timedelta(days=day)])
 
-    result = []
-    for day in range(5):
-        result.append(get_expert_availabilities_by_date(expert_id, start_date + timedelta(days=day)))
+    curr_date, result = datetime_date.today(), []
+    while curr_date <= end_date:
+        result.append(get_expert_availabilities_by_date(expert_id, curr_date))
+        curr_date += timedelta(days=1)
 
     return result
 

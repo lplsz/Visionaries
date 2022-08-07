@@ -35,7 +35,8 @@ def get_expert_availabilities_by_date(data):
 @expert_availability_blueprint.input(GetExpertAvailabilityByDateInSchema, location='query')
 @expert_availability_blueprint.output(GetAvailabilitiesOutSchema, 200)
 @expert_availability_blueprint.doc(
-    summary="Get a week's (Mon - Fri) availability matrix of an expert",
+    summary="Get a week's (Mon - Fri) availability matrix of an expert. Not containing past availabilities (before "
+            "today)",
     description="Availabilities are grouped by date and ordered by time_range_id",
     responses={
         404: 'User Not Found',
@@ -48,7 +49,8 @@ def get_expert_availabilities_by_week(data):
 @expert_availability_blueprint.input(GetExpertAvailabilityByDateAndCategoryInSchema, location='query')
 @expert_availability_blueprint.output(GetExpertAvailabilityByDateAndCategoryOutSchema, 200)
 @expert_availability_blueprint.doc(
-    summary="Get a week's availabilities of all experts into the category_ids order by date, time asc",
+    summary="Get a week's availabilities of all experts into the category_ids order by date, time asc.  Not "
+            "containing past availabilities (before today)",
 )
 def get_experts_availabilities_by_week_and_categories(data):
     return {'result': controller.get_experts_availabilities_by_week_and_categories(data['date'], data['category_ids'])}
