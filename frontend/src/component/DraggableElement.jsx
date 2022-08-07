@@ -29,7 +29,9 @@ const DraggableElement = (props) => {
                 index={index} 
                 handleDelete={props.handleDelete} 
                 prefix={props.prefix}
-                list={props.elements} />
+                list={props.elements}
+                setDialogOpen={props.setDialogOpen}
+                setClickedItem={props.setClickedItem} />
             ))}
             {provided.placeholder}
           </div>

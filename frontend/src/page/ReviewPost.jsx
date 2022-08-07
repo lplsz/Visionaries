@@ -8,7 +8,13 @@ import GlobalStyles from '@mui/material/GlobalStyles';
 import { apiCall } from '../Main';
 import ErrorSnackbar from '../component/ErrorSnackBar';
 import SuccessSnackbar from '../component/SuccessSnackBar';
+import Dialog from "@mui/material/Dialog";
+import DialogContent from "@mui/material/DialogContent";
+import DialogActions from "@mui/material/DialogActions";
+import Button from '@mui/material/Button';
+import ReviewQADialog from '../component/ReviewQADialog';
 import { useNavigate } from 'react-router-dom';
+
 const ListGrid = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -45,34 +51,40 @@ const ReviewPost = () => {
   const [elements, setElements] = React.useState({ "Pending Review": [], "All My Post": [] });
   const [open, setOpen] = React.useState(false);
   const [errorMessage, setErrorMessage] = React.useState('');
-  const [open2, setOpen2] = React.useState(false);
+  const [open2,setOpen2] = React.useState(false);
+  const [dialogOpen, setDialogOpen] = React.useState(false);
+  const [clickedItem, setClickedItem] = React.useState('');
   const navigate = useNavigate();
+  const handleDialogClose = () => {
+    setDialogOpen(false);
+  };
+
   const getInfo = async () => {
-    const data1 = await apiCall('qa_not_reviewed', 'GET', {}, navigate);
-    const data2 = await apiCall('qa_reviewed', 'GET', {}, navigate);
+    const data1 = await apiCall('qa_not_reviewed', 'GET');
+    const data2 = await apiCall('qa_reviewed', 'GET');
 
     Promise.all([data1, data2]).then(
-      function (results) {
+      function(results) {
         const newElements = { "Pending Review": results[0].qas, "All My Post": results[1].qas };
         setElements(makeid(newElements));
-      })
+    })
   }
 
-  useEffect(() => {
+  useEffect(() =>{
     getInfo();
-  }, []);
+  },[]);
 
   // delete a QA from all listed QAs.
   const handleDelete = (list, index, rid, prefix) => {
     const listCopy = { ...elements };
-    const result = removeFromList(list, index)
+    const result = removeFromList(list,index)
     listCopy[prefix] = result[1];
     setElements(listCopy);
-    apiCall(`qa/${rid}`, 'DELETE', {}, navigate);
+    apiCall(`qa/${rid}`, 'DELETE');
   }
 
   const updateQAReview = async (id, source) => {
-
+    
     for (let key in elements[source]) {
       if (elements[source][key].id === id) {
         const item = elements[source][key];
@@ -84,17 +96,17 @@ const ReviewPost = () => {
         }
         const id_int = parseInt(item.id)
         const data = await apiCall(`qa/${id_int}`, 'PUT', info, navigate);
-        if (typeof (data) === 'string' && (!data.startsWith('200') || !data.startsWith('201'))) {
+        if (typeof (data) === 'string' && (! data.startsWith('200') || ! data.startsWith('201'))) {
           setErrorMessage(data.slice(3, data.length));
           setOpen(true);
-        }
+        } 
         else {
           setOpen2(true);
         }
         break;
       }
     }
-
+    
   }
 
   const onDragEnd = (result) => {
@@ -129,13 +141,14 @@ const ReviewPost = () => {
 
   };
 
-  console.log("ele", elements);
+  console.log("ele",elements);
+  console.log("currClick", clickedItem);
   return (
     <div style={{ backgroundSize: '100% 100%' }}>
       <GlobalStyles styles={{ ul: { margin: 0, padding: 0, listStyle: 'none' } }} />
       <CssBaseline />
       <ExpertHeader />
-      <ErrorSnackbar open={open} setOpen={setOpen} message={errorMessage} />
+      <ErrorSnackbar open={open} setOpen={setOpen} message={errorMessage}/>
       <SuccessSnackbar open={open2} setOpen={setOpen2} message={'Post has been successfully reviewed !'}></SuccessSnackbar>
       <div style={{ paddingTop: '20px', textAlign: 'center', paddingLeft: '5%', paddingRight: '5%' }}>
         <DragDropContext onDragEnd={onDragEnd}>
@@ -145,18 +158,34 @@ const ReviewPost = () => {
               key={"Pending Review"}
               prefix={"Pending Review"}
               handleDelete={handleDelete}
+              setDialogOpen={setDialogOpen}
+              setClickedItem={setClickedItem}
             />
             <DraggableElement
               elements={elements["All My Post"]}
               key={"All My Post"}
               prefix={"All My Post"}
               handleDelete={handleDelete}
+              setDialogOpen={setDialogOpen}
+              setClickedItem={setClickedItem}
             />
           </ListGrid>
         </DragDropContext>
       </div>
+      <Dialog
+				fullWidth={true}
+				maxWidth={"xl"}
+				open={dialogOpen}
+				onClose={handleDialogClose}
+			>
+				<DialogContent sx={{ marginLeft: '5%', marginRight: '5%', marginTop: '10px', textAlign: 'center' }}>
+					<ReviewQADialog clickedItem={clickedItem}></ReviewQADialog>
+				</DialogContent>
+				<DialogActions>
+					<Button onClick={() => { handleDialogClose() }}>CANCLE</Button>
+				</DialogActions>
+			</Dialog>  
     </div>
   );
 }
-
 export default ReviewPost;

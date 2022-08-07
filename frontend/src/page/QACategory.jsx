@@ -37,6 +37,8 @@ import PotentialQA from '../component/PotentialQA';
 import { apiCall } from '../Main';
 import { useNavigate, useParams } from 'react-router-dom';
 
+import PageReturnButton from '../component/PageReturnButton';
+
 // or for Day.js
 const SearchIconWrapper = styled('div')(({ theme }) => ({
   padding: theme.spacing(0, 2),
@@ -245,6 +247,7 @@ const QACategory = () => {
         </DialogActions>
       </Dialog>
       <div style={{ display: 'flex', marginLeft: '200px', marginTop: '40px' }}>
+        
         <Typography variant="h2" sx={{ marginTop: '30px' }}>{category}</Typography>
         <img
           style={{ width: '100px', height: '100px' }}
@@ -252,7 +255,15 @@ const QACategory = () => {
           alt='ingred'
         />
       </div>
-
+      <div style={{display:'flex', alignItems: 'flex-end', justifyContent: 'flex-end', paddingBottom:'10px', width: '90%'}}>
+        <button 
+          variant="outlined" 
+          style={{backgroundColor: '#000000', color: 'white', right: '0px'}} 
+          onClick={() => { navigate('/student_main') }}
+        >
+          Return
+        </button>
+      </div>
       <Container disableGutters maxWidth="lg" component="main" sx={{ pt: 8, pb: 6, padding: 0 }}>
         <div style={{ display: 'flex', width: '100%', backgroundColor: '#ffffff', borderRadius: '10px', marginBottom: '10px', paddingBottom: '80px', }}>
           <Box
