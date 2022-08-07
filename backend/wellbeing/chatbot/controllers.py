@@ -14,7 +14,7 @@ from wellbeing.chatbot.models import UserQuestion
 Chatbot Helper Functions
 '''
 
-api_key = "265f3c070749db61ef93605f55157c265d83b73a31d203ce7c9860575047adef"
+api_key = "55549ad5642e1a8b1d438c6aabda025cf15b9669a1f10fba830cac772a486d08"
 # Google API search
 def serch_func(q, prefix, num):
     q_prefix = q + prefix
@@ -87,15 +87,15 @@ def state2_response(type, question):
         top3_id_list = df_res.sort_values(by=[3],ascending=False)[:3]
         qa_id_cat = []
         for idx in range(len(top3_id_list)):
-            qa_id_cat.append({"id":list(top3_id_list[0])[idx], "category_id":list(top3_id_list[1])[idx]})
+            qa_id_cat.append({"id":list(top3_id_list[0])[idx], "category_id":list(top3_id_list[1])[idx], "question":list(top3_id_list[2])[idx] })
         response_guide['QAs'] = qa_id_cat
 
         # gov
         response_guide['link'] = serch_func(question, "gov au", 3)
         # unsw
-        response_guide['link'] = response_guide.get("link", []) + serch_func(question, "unsw au", 3)
+        #response_guide['link'] = response_guide.get("link", []) + serch_func(question, "unsw au", 3)
         # org
-        response_guide['link'] = response_guide.get("link", []) + serch_func(question, "org au", 3) 
+        #response_guide['link'] = response_guide.get("link", []) + serch_func(question, "org au", 3) 
         return response_guide
 
 

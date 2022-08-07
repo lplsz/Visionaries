@@ -94,13 +94,13 @@ const QACategory = () => {
   const [categoriesName, setCategoriesName] = React.useState([]);
   const [categoriesId, setCategoriesId] = React.useState([]);
   const getCategories = async () => {
-    const data = await apiCall('/categories', 'GET');
+    const data = await apiCall('/categories', 'GET', {}, navigate);
     setCategoriesName(data.categories.map((cate) => { return cate.category_name }));
     setCategoriesId(data.categories.map((cate) => { return cate.id }));
     const cateName = data.categories.filter((cate) => { return cate.id.toString() === categoryid.toString() })[0].category_name
     setCategory(cateName);
     setQuestionCategoryName(cateName);
-    const data2 = await apiCall('/tags', 'GET');
+    const data2 = await apiCall('/tags', 'GET', {}, navigate);
     data2.tags.map((tag, i) => { tag.checked = false; return tag });
     setSubCategories(data2.tags);
   };
@@ -119,7 +119,7 @@ const QACategory = () => {
   const handleSubmitTag = async () => {
     const tagId = subCategories.filter((cate) => { return cate.checked }).map((cate) => { return `tag_ids=${cate.id}` }).join('&');
     if (tagId.length > 0) {
-      const data = await apiCall(`qas?category_ids=${categoryid}&${tagId}`, 'GET');
+      const data = await apiCall(`qas?category_ids=${categoryid}&${tagId}`, 'GET', {}, navigate);
       setQAList(data.qas);
     }
     setOpenTag(false);
@@ -143,7 +143,7 @@ const QACategory = () => {
   };
 
   const getQADetail = async (id) => {
-    const data = await apiCall(`qas?category_ids=${id}`, 'GET');
+    const data = await apiCall(`qas?category_ids=${id}`, 'GET', {}, navigate);
     subCategories.map((tag, i) => { tag.checked = false; return tag });
     setQAList(data.qas);
   }
@@ -180,10 +180,10 @@ const QACategory = () => {
       console.log(keyword);
       const tagId = subCategories.filter((cate) => { return cate.checked }).map((cate) => { return `tag_ids=${cate.id}` }).join('&');
       if (tagId.length > 0) {
-        const data = await apiCall(`qas?category_ids=${categoryid}&${tagId}&keyword=${keyword}`, 'GET');
+        const data = await apiCall(`qas?category_ids=${categoryid}&${tagId}&keyword=${keyword}`, 'GET', {}, navigate);
         setQAList(data.qas);
       } else {
-        const data = await apiCall(`qas?category_ids=${categoryid}&keyword=${keyword}`, 'GET');
+        const data = await apiCall(`qas?category_ids=${categoryid}&keyword=${keyword}`, 'GET', {}, navigate);
         setQAList(data.qas);
       }
 
@@ -201,7 +201,7 @@ const QACategory = () => {
       body: questionDescription,
     }
 
-    apiCall('/thread', 'POST', info);
+    apiCall('/thread', 'POST', info, navigate);
     handleClose();
   }
 
@@ -344,7 +344,7 @@ const QACategory = () => {
                   renderInput={(params) => <TextField  {...params} />}
                 />
               </LocalizationProvider>
-              <Button sx={{ marginTop: '5px', borderColor: 'gray', height: '55px', color: '#b25977' }} fullWidth variant="outlined" onClick={() => { navigate('/student_main/find_expert'); }}>Schedule Meeting</Button>
+              <Button sx={{ marginTop: '5px', borderColor: 'gray', height: '55px', color: '#b25977' }} fullWidth variant="outlined" onClick={() => { navigate(`/student_main/find_expert/${categoryid}`, { state: { date: value } }); }}>Schedule Meeting</Button>
             </div>
             <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%', justifyItems: 'center', marginTop: '85px' }}>
               <div><FeedbackIcon sx={{ margin: 'auto', fontSize: 60, color: '#74b2a4' }} /> </div>

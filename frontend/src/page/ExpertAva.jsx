@@ -16,10 +16,11 @@ import Checkbox from '@mui/material/Checkbox';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
+import { useNavigate } from 'react-router-dom';
 import { apiCall } from '../Main';
 const ExpertAva = () => {
   const [value, setValue] = React.useState(new Date());
-
+  const navigate = useNavigate();
   const minDate = new Date('2022-01-01T00:00:00.000');
   const maxDate = new Date('2024-01-01T00:00:00.000');
   const time = ['09:00am-9:30am', '09:30am-10:00am', '10:00am-10:30am', '10:30am-11:00am', '11:00am-11:30am', '01:00pm-1:30am', '01:30pm-02:00pm', '02:00pm-02:30am', '02:30pm-03:00pm', '03:00pm-03:30am', '03:30pm-04:00pm', '04:00pm-04:30am', '04:30pm-05:00pm'];
@@ -145,13 +146,14 @@ const ExpertAva = () => {
         })
       }
     }
-    const data = await apiCall('/update_expert_availabilities', 'POST', { availabilities: l, expert_id: parseInt(localStorage.getItem('id')) });
+    const data = await apiCall('/update_expert_availabilities', 'POST', { availabilities: l, expert_id: parseInt(localStorage.getItem('id')) }, navigate);
 
 
   }
   const getTimeTable = async () => {
     const datevalue = value.Format('yyyy-MM-dd');
-    const newDate = await apiCall(`/get_expert_availabilities_by_date?expert_id=${localStorage.getItem('id')}&date=${datevalue}`, 'GET')
+    console.log(datevalue);
+    const newDate = await apiCall(`/get_expert_availabilities_by_date?expert_id=${localStorage.getItem('id')}&date=${datevalue}`, 'GET', {}, navigate);
     console.log(newDate);
     const newChecked = [];
     const newCheckedId = [];
@@ -159,20 +161,19 @@ const ExpertAva = () => {
     const newBookedId = [];
     console.log(newDate);
 
-    newDate.availabilities.map((ava) => {
+    newDate.availabilities.map((ava, i) => {
       if (ava.status === 'available') {
-        newChecked.push(time[ava.time_range.id - 1]);
-        newCheckedId.push(ava.time_range.id);
+        newChecked.push(time[i]);
+        newCheckedId.push(i + 1);
       } else if (ava.status === 'booked') {
-        newBooked.push(time[ava.time_range.id - 1]);
-        newBookedId.push(ava.time_range.id);
+        newBooked.push(time[i]);
+        newBookedId.push(i + 1);
       }
     })
     setChecked(newChecked);
     setCheckedId(newCheckedId);
     setBookedTimeId(newBookedId);
     setbookedTime(newBooked);
-
   }
   const [i, setI] = React.useState(1);
   if (i === 1) {

@@ -7,6 +7,7 @@ import Box from '@mui/material/Box';
 import StudentHeader from "../component/StudentHeader";
 import Badge from '@mui/material/Badge';
 import Avatar from '@mui/material/Avatar';
+import AvatarImage from '../component/AvatarImage'
 import TextField from '@mui/material/TextField';
 import { styled } from '@mui/material/styles';
 import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
@@ -16,6 +17,7 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { apiCall } from '../Main';
 import DOMPurify from 'dompurify';
 
+import { useNavigate } from 'react-router-dom';
 const theme = createTheme({
   components: {
     MuiButton: {
@@ -90,6 +92,7 @@ function stringAvatar(name) {
   };
 }
 export default function StudentQuestionThread() {
+  const navigate = useNavigate();
   const messagesEndRef = React.useRef(null)
 
   const scrollToBottom = () => {
@@ -104,7 +107,7 @@ export default function StudentQuestionThread() {
   const me = localStorage.getItem('name');
   const getThreads = async () => {
     //const data = await apiCall(`/threads_by_user/${localStorage.getItem('id')}`, 'GET');
-    const data = await apiCall(`/threads`, 'GET');
+    const data = await apiCall(`/threads`, 'GET', {}, navigate);
     setQaList(data.threads);
     scrollToBottom();
   }
@@ -147,7 +150,7 @@ export default function StudentQuestionThread() {
                 return (
                   <div>
                     <div style={{ display: 'flex', marginBottom: '3px', }}>
-                      <div style={{ display: 'flex', flex: 1, alignContent: 'flex-end', justifyContent: 'flex-end', marginRight: '10px' }}><Avatar {...stringAvatar(r.user.username)} /></div>
+                      <div style={{ display: 'flex', flex: 1, alignContent: 'flex-end', justifyContent: 'flex-end', marginRight: '10px' }}><AvatarImage profileImageSrc={r.user.profile_image_src} name={r.user.username} /></div>
                       <div style={{ display: 'flex', flex: 8 }}>
                         <div style={{ borderRadius: '15px', background: '#F4F9F9', paddingLeft: '15px', paddingRight: '15px', paddingTop: '8px', paddingBottom: '8px' }}>
                           <div className="preview" dangerouslySetInnerHTML={createMarkup(r.body)}></div>
@@ -173,7 +176,7 @@ export default function StudentQuestionThread() {
                         </div>
                       </div>
 
-                      <div style={{ display: 'flex', flex: 1, alignContent: 'flex-end', justifyContent: 'flex-start', marginLeft: '10px' }}><Avatar {...stringAvatar(r.user.username)} /></div>
+                      <div style={{ display: 'flex', flex: 1, alignContent: 'flex-end', justifyContent: 'flex-start', marginLeft: '10px' }}><AvatarImage profileImageSrc={r.user.profile_image_src} name={r.user.username} /></div>
                     </div>
                     <div style={{ display: 'flex', marginBottom: '10px' }}>
                       <div style={{ flex: 4 }}></div>
@@ -197,7 +200,7 @@ export default function StudentQuestionThread() {
   }
 
   const handleResolve = async (tid) => {
-    await apiCall(`/set_thread_resolved/${tid}`, 'PUT', { thread_id: tid });
+    await apiCall(`/set_thread_resolved/${tid}`, 'PUT', { thread_id: tid }, navigate);
     await getThreads();
     setValue(0);
   }
@@ -205,7 +208,7 @@ export default function StudentQuestionThread() {
   const HandleThread = (props) => {
     const [replyText, setReplyText] = React.useState('');
     const handleReply = async (tid) => {
-      await apiCall('reply', 'POST', { thread_id: tid, body: replyText });
+      await apiCall('reply', 'POST', { thread_id: tid, body: replyText }, navigate);
       getThreads();
     }
     return (
@@ -215,7 +218,7 @@ export default function StudentQuestionThread() {
             <div style={{ display: 'flex' }}><div style={{ fontWeight: 'bold', flex: 1 }}>Category: </div> <div style={{ flex: 6 }}>{props.q.category.category_name}</div></div>
             <div style={{ display: 'flex' }}> <div style={{ fontWeight: 'bold', flex: 1 }}>Discription: </div><div style={{ flex: 6 }}>{props.q.body}</div></div>
           </div>
-          <div style={{ flex: 1, display: 'flex', flex: 8, alignContent: 'flex-end', justifyContent: 'flex-end' }}>
+          <div style={{ flex: 1, display: 'flex', alignContent: 'flex-end', justifyContent: 'flex-end' }}>
             <button onClick={() => { handleResolve(props.q.id) }}>RESOLVED</button>
           </div>
         </div>

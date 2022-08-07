@@ -66,12 +66,12 @@ const ExpertMain = () => {
   const [replyText, setReplyText] = React.useState('');
   const [currentTid, setCurrentTid] = React.useState(0);
   const handleReply = async (tid) => {
-    await apiCall('reply', 'POST', { thread_id: tid, body: replyText });
+    await apiCall('reply', 'POST', { thread_id: tid, body: replyText }, navigate);
     getQuestions();
 
   }
   const getQuestions = async () => {
-    const data = await apiCall(`/unanswered_unresolved_threads`, 'GET');
+    const data = await apiCall(`/unanswered_unresolved_threads`, 'GET', {}, navigate);
     setQaList(data.threads);
   }
   const [i, setI] = React.useState(1);

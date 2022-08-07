@@ -26,7 +26,7 @@ const StudentMain = () => {
 	const [categories, setCategories] = React.useState([]);
 	const [showBot, toggleBot] = React.useState(false);
 	const getCategories = async () => {
-		const data = await apiCall('/categories', 'GET');
+		const data = await apiCall('/categories', 'GET', {}, navigate);
 		setCategories(data.categories);
 	};
 	const imageL = [StudyFromHome, MentalHealth, Vaccinations, COVID19, CareerAdvice]

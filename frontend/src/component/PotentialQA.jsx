@@ -51,12 +51,12 @@ const PotentialQA = (props) => {
                             </AccordionSummary>
                             <AccordionDetails>
                                 <div>
-                                    {//data.video === undefined
-                                        // ? <></>
-                                        //: 
+                                    {data.video_url === undefined || data.video_url === '' || data.video_url === null
+                                        ? <></>
+                                        :
                                         <ReactPlayer
                                             //url={data.video}
-                                            url={"https://www.youtube.com/watch?v=qXdjt8ZBQbE"}
+                                            url={data.video_url}
                                             className='react-player'
                                             width='80%'
                                             height='300px' />}

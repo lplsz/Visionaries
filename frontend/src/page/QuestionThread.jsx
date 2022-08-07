@@ -6,7 +6,6 @@ import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import ExpertHeader from "../component/ExpertHeader";
 import Badge from '@mui/material/Badge';
-import Avatar from '@mui/material/Avatar';
 import TextField from '@mui/material/TextField';
 import { styled } from '@mui/material/styles';
 import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
@@ -14,7 +13,9 @@ import UploadImageChoice from '../component/UploadImageChoice';
 import { IconButton } from '@mui/material';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { apiCall } from '../Main';
+import { useNavigate, useParams } from 'react-router-dom';
 import DOMPurify from 'dompurify';
+import AvatarImage from '../component/AvatarImage'
 
 const theme = createTheme({
   components: {
@@ -82,14 +83,8 @@ function a11yProps(index) {
     'aria-controls': `vertical-tabpanel-${index}`,
   };
 }
-function stringAvatar(name) {
-  return {
-    sx: { fontSize: '15px', height: '40px' },
-    children: `${name.split(' ')[0][0]}${name.split(' ')[1][0]}`,
-    //children: `${name.split(' ')[0][0]}`
-  };
-}
 export default function StudentQuestionThread() {
+  const navigate = useNavigate();
   const messagesEndRef = React.useRef(null)
 
   const scrollToBottom = () => {
@@ -103,7 +98,7 @@ export default function StudentQuestionThread() {
 
   const me = localStorage.getItem('name');
   const getThreads = async () => {
-    const data = await apiCall(`/threads_by_user/${localStorage.getItem('id')}`, 'GET');
+    const data = await apiCall(`/threads_by_user/${localStorage.getItem('id')}`, 'GET', {}, navigate);
     //const data = await apiCall(`/threads`, 'GET');
     setQaList(data.threads);
     scrollToBottom();
@@ -147,7 +142,7 @@ export default function StudentQuestionThread() {
                 return (
                   <div>
                     <div style={{ display: 'flex', marginBottom: '3px', }}>
-                      <div style={{ display: 'flex', flex: 1, alignContent: 'flex-end', justifyContent: 'flex-end', marginRight: '10px' }}><Avatar {...stringAvatar(r.user.username)} /></div>
+                      <div style={{ display: 'flex', flex: 1, alignContent: 'flex-end', justifyContent: 'flex-end', marginRight: '10px' }}><AvatarImage profileImageSrc={r.user.profile_image_src} name={r.user.username} /></div>
                       <div style={{ display: 'flex', flex: 8 }}>
                         <div style={{ borderRadius: '15px', background: '#F4F9F9', paddingLeft: '15px', paddingRight: '15px', paddingTop: '8px', paddingBottom: '8px' }}>
                           <div className="preview" dangerouslySetInnerHTML={createMarkup(r.body)}></div>
@@ -173,7 +168,7 @@ export default function StudentQuestionThread() {
                         </div>
                       </div>
 
-                      <div style={{ display: 'flex', flex: 1, alignContent: 'flex-end', justifyContent: 'flex-start', marginLeft: '10px' }}><Avatar {...stringAvatar(r.user.username)} /></div>
+                      <div style={{ display: 'flex', flex: 1, alignContent: 'flex-end', justifyContent: 'flex-start', marginLeft: '10px' }}><AvatarImage profileImageSrc={r.user.profile_image_src} name={r.user.username} /></div>
                     </div>
                     <div style={{ display: 'flex', marginBottom: '10px' }}>
                       <div style={{ flex: 4 }}></div>
@@ -199,7 +194,7 @@ export default function StudentQuestionThread() {
   const HandleThread = (props) => {
     const [replyText, setReplyText] = React.useState('');
     const handleReply = async (tid) => {
-      await apiCall('reply', 'POST', { thread_id: tid, body: replyText });
+      await apiCall('reply', 'POST', { thread_id: tid, body: replyText }, navigate);
       getThreads();
     }
     return (

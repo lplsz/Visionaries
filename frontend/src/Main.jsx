@@ -4,8 +4,9 @@
 import * as React from 'react';
 import Typography from '@mui/material/Typography';
 import Link from '@mui/material/Link';
+import { useNavigate } from 'react-router-dom';
 
-export const apiCall = async (path, method, body) => {
+export async function apiCall(path, method, body, navigate) {
   console.log(body)
   const token = localStorage.getItem('token');
   const url = 'http://127.0.0.1:5000/' + path;
@@ -24,6 +25,9 @@ export const apiCall = async (path, method, body) => {
       const data = await response.json()
       console.log(data);
       return `${response.status}` + data.message;
+    }
+    if (response.status == 401) {
+      navigate('/login');
     }
     const data = await response.json();
     console.log(data);

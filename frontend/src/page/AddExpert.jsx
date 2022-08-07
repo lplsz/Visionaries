@@ -13,11 +13,12 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { apiCall } from '../Main';
-
+import { useNavigate } from 'react-router-dom';
 
 const theme = createTheme();
 
 export default function AddExpert() {
+  const navigate = useNavigate();
   const handleSubmit = async (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -38,20 +39,20 @@ export default function AddExpert() {
     } else if (!(reg.test(data.get('email')))) {
       alert('The expert email format is not valid');
     } else {
-      const data2 = await apiCall('/register_expert_account', 'POST', body);
+      const data2 = await apiCall('/register_expert_account', 'POST', body, navigate);
       if (typeof (data2) === 'string' && (!data2.startsWith('200') || !data2.startsWith('201'))) {
         alert('something wrong')
       } else {
         alert('You have successfully add an expert');
       }
-    } 
+    }
   };
   const setChecked = (value, index) => {
     categories[index].checked = value;
   }
   const [categories, setCategories] = React.useState([]);
   const getCategories = async () => {
-    const data = await apiCall('/categories', 'GET');
+    const data = await apiCall('/categories', 'GET', {}, navigate);
     data.categories.map((categorie, i) => { categorie.checked = false; return categorie });
     setCategories(data.categories);
   };

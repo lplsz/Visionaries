@@ -66,6 +66,8 @@ export default function StudentHeader(props) {
         onClose={handleMenuClose}
       >
         <MenuItem onClick={() => { navigate('/student_profile'); handleMenuClose(); }}>My Profile</MenuItem>
+
+        <MenuItem onClick={() => { navigate('/student_booked_meeting'); handleMenuClose(); }}>My booked meetings</MenuItem>
         <Divider />
         <MenuItem onClick={() => {
           apiCall('/logout', 'POST', { id: id });
