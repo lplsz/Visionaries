@@ -22,7 +22,14 @@ const DraggableElement = (props) => {
         {(provided) => (
           <div {...provided.droppableProps} ref={provided.innerRef}>
             {props.elements.map((item, index) => (
-              <ListItem id={item.id} item={item} index={index} />
+              <ListItem 
+                id={item.id} 
+                rid={item.rid}
+                item={item} 
+                index={index} 
+                handleDelete={props.handleDelete} 
+                prefix={props.prefix}
+                list={props.elements} />
             ))}
             {provided.placeholder}
           </div>
