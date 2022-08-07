@@ -16,6 +16,7 @@ def post_qa(data):
         title=data['title'],
         body=data['body'],
         author_id=current_user.id,
+        video_url=data.get('video_url', None),
     )
     new_qa.category = Category.query.filter_by(
         id=data['category_id']).first_or_404()
@@ -54,6 +55,7 @@ def put_qa_by_id(qa_id, data):
     qa.author_id = data['author_id']
     qa.category = Category.query.filter_by(
         id=data['category_id']).first_or_404()
+    qa.video_url = data.get('video_url', None)
     qa.tags = Tag.query.filter(Tag.id.in_(data['tag_ids'])).all()
     db.session.commit()
     return {'message': 'QA Updated'}

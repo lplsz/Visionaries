@@ -91,6 +91,7 @@ class PostQAInSchema(Schema):
     tag_ids = List(Integer, example=[2, 3])
     title = String(required=True, example='Blank Space')
     body = String(required=True, example='Cherry lips, crystal skies')
+    video_url = String(example='https://www.youtube.com/watch?v=dQw4w9WgXcQ')
     # author_id = Integer(required=True, example=0)
 
 
