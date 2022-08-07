@@ -1,24 +1,22 @@
+import json
+import re
 from datetime import datetime, timezone
+from functools import wraps
 
 from apiflask import abort
 from flask import current_app
 from flask_jwt_extended import create_access_token, get_jwt, verify_jwt_in_request
-from functools import wraps
+from tencentcloud.common import credential
+from tencentcloud.common.exception.tencent_cloud_sdk_exception import TencentCloudSDKException
+from tencentcloud.common.profile.client_profile import ClientProfile
+from tencentcloud.common.profile.http_profile import HttpProfile
+from tencentcloud.ocr.v20181119 import ocr_client, models
 
+from wellbeing.QA.models import Category
 from wellbeing.auth.models import TokenBlocklist
 from wellbeing.extensions import db
 from wellbeing.extensions import jwt
 from wellbeing.user.models import User
-from wellbeing.QA.models import Category
-
-import json
-from tencentcloud.common import credential
-from tencentcloud.common.profile.client_profile import ClientProfile
-from tencentcloud.common.profile.http_profile import HttpProfile
-from tencentcloud.common.exception.tencent_cloud_sdk_exception import TencentCloudSDKException
-from tencentcloud.ocr.v20181119 import ocr_client, models
-
-import re
 
 '''
 JWT
@@ -156,27 +154,27 @@ def card_recognizer(data):
             info = detect['AdvancedInfo']
             text = detect['DetectedText']
 
-            if (text == 'STUDENT'):
+            if text == 'STUDENT':
                 type = 'student'
-            elif (text == 'STAFF'):
+            elif text == 'STAFF':
                 type = 'staff'
-            elif (re.match(zid_pattern, text)):
+            elif re.match(zid_pattern, text):
                 id = text
-            elif (re.match(first_name_pattern, text)):
+            elif re.match(first_name_pattern, text):
                 first_name = text
                 first_name_parag = int(info[-3])
 
-        if (first_name_parag is not None):
+        if first_name_parag is not None:
             last_info = "{\"Parag\":{\"ParagNo\":" + \
                         str(first_name_parag + 1) + "}}"
             for detect in detected_list:
                 info = detect['AdvancedInfo']
                 text = detect['DetectedText']
-                if (re.match(last_name_pattern, text) and info == last_info):
+                if re.match(last_name_pattern, text) and info == last_info:
                     last_name = text
 
         return {'id': id, 'name': f'{first_name} {last_name}', 'type': type}
 
     except TencentCloudSDKException as err:
         print(err)
-        abort(501, 'Recongnize Error: No content found!')
+        abort(501, 'Recognize Error: No content found!')
