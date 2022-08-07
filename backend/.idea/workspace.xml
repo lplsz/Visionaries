@@ -4,10 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f3aeeb94-3d47-4a9c-92d7-63e92f4baabb" name="Changes" comment="- Fix get availabilities&#10;- Add qa video_url to post and put">
+    <list default="true" id="f3aeeb94-3d47-4a9c-92d7-63e92f4baabb" name="Changes" comment="- Fix get unresolved thread">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/wellbeing/meeting/controller.py" beforeDir="false" afterPath="$PROJECT_DIR$/wellbeing/meeting/controller.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/wellbeing/thread/controllers.py" beforeDir="false" afterPath="$PROJECT_DIR$/wellbeing/thread/controllers.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wellbeing/thread/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/wellbeing/thread/views.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -429,7 +429,14 @@
       <option name="project" value="LOCAL" />
       <updated>1659853432591</updated>
     </task>
-    <option name="localTasksCounter" value="36" />
+    <task id="LOCAL-00036" summary="- Fix get unresolved thread">
+      <created>1659853705770</created>
+      <option name="number" value="00036" />
+      <option name="presentableId" value="LOCAL-00036" />
+      <option name="project" value="LOCAL" />
+      <updated>1659853705770</updated>
+    </task>
+    <option name="localTasksCounter" value="37" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -451,7 +458,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Update availability model" />
     <MESSAGE value="Fixed database scheme definition" />
     <MESSAGE value="- Implemented register_expert_account&#10;- Remove experience" />
     <MESSAGE value="Fix default datetime issue" />
@@ -476,7 +482,8 @@
     <MESSAGE value="Fix type" />
     <MESSAGE value="Fix typo" />
     <MESSAGE value="- Fix get availabilities&#10;- Add qa video_url to post and put" />
-    <option name="LAST_COMMIT_MESSAGE" value="- Fix get availabilities&#10;- Add qa video_url to post and put" />
+    <MESSAGE value="- Fix get unresolved thread" />
+    <option name="LAST_COMMIT_MESSAGE" value="- Fix get unresolved thread" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/backend$seed_database.coverage" NAME="seed_database Coverage Results" MODIFIED="1657343638291" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/wellbeing/utility" />

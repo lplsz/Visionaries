@@ -22,7 +22,7 @@ def get_expert_availabilities_by_date(expert_id, date):
     result = [{
         'date': date,
         'time_range_id': time_range_id,
-        'status': 'available',
+        'status': 'unavailable',
         'expert_id': expert_id,
     } for time_range_id in time_range_ids]
 
