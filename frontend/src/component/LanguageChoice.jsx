@@ -33,6 +33,7 @@ const LanguageChoice = (props) => {
       return (
         <Checkbox 
           id={id_str}
+          style={{color: '#000000'}}
           onChange={(e)=> {handleClick(e.target.getAttribute("id"))}}
         />
       )
@@ -41,6 +42,7 @@ const LanguageChoice = (props) => {
         <Checkbox 
           id={id_str}
           defaultChecked
+          style={{color: '#000000'}}
           onChange={(e)=> {handleClick(e.target.getAttribute("id"))}}
         />
       )

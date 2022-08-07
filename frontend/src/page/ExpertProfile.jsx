@@ -293,7 +293,7 @@ export default function ExpertProfile() {
           </Box>
         </div>
         <div style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'flex-end', marginTop: '40px' }}>
-          <Button size="large" sx={{ backgroundColor: '#000000', color: 'white' }} onClick={(event) => { navigate('/student_main') }} endIcon={<KeyboardReturnOutlinedIcon size="large" />} >Return</Button>
+          <Button size="large" sx={{ backgroundColor: '#000000', color: 'white' }} onClick={(event) => { navigate('/expert_main') }} endIcon={<KeyboardReturnOutlinedIcon size="large" />} >Return</Button>
         </div>
       </Container>
     </div>
