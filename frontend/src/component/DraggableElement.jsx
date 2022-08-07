@@ -14,20 +14,22 @@ const DroppableStyles = styled.div`
   background: #d4d4d4;
 `;
 
-const DraggableElement = (props) => (
-  <DroppableStyles>
-    <ColumnHeader>{props.prefix}</ColumnHeader>
-    <Droppable droppableId={`${props.prefix}`}>
-      {(provided) => (
-        <div {...provided.droppableProps} ref={provided.innerRef}>
-          {props.elements.map((item, index) => (
-            <ListItem id={item.id} item={item} index={index} />
-          ))}
-          {provided.placeholder}
-        </div>
-      )}
-    </Droppable>
-  </DroppableStyles>
-);
+const DraggableElement = (props) => {
+  return (
+    <DroppableStyles>
+      <ColumnHeader style={{fontWeight: 'bold'}}>{props.prefix}</ColumnHeader>
+      <Droppable droppableId={`${props.prefix}`}>
+        {(provided) => (
+          <div {...provided.droppableProps} ref={provided.innerRef}>
+            {props.elements.map((item, index) => (
+              <ListItem id={item.id} item={item} index={index} />
+            ))}
+            {provided.placeholder}
+          </div>
+        )}
+      </Droppable>
+    </DroppableStyles>
+  )
+};
 
 export default DraggableElement;

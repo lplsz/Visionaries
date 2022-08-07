@@ -18,13 +18,11 @@ const CardHeader = styled.div`
 
 const Author = styled.div`
   display: flex;
-  align-items: center;
 `;
 const CardFooter = styled.div`
   width: 100%;
   display: flex;
   justify-content: space-between;
-  align-items: center;
 `;
 
 const DragItem = styled.div`
@@ -40,9 +38,8 @@ const DragItem = styled.div`
 
 
 const ListItem = (props) => {
-  console.log(props);
   return (
-    <Draggable draggableId={props.id} index={props.index}>
+    <Draggable key={props.id} draggableId={props.id} index={props.index}>
       {(provided, snapshot) => {
         return (
           <DragItem
@@ -51,18 +48,17 @@ const ListItem = (props) => {
             {...provided.draggableProps}
             {...provided.dragHandleProps}
           >
-            <CardHeader>{props.item.question}</CardHeader>
-            <span>{props.item.description}</span>
+            <CardHeader style={{fontWeight: 'bold'}}>{props.item.title}</CardHeader>
             <CardFooter>
               <Author>
-                <Chip label={props.item.category} />
+                <Chip label={props.item.category.category_name} />
                 {props.item.image === null
                   ? <Avatar
                     src={props.item.image}
                   />
                   : <></>
                 }
-                <Button>Review</Button>
+                <Button style={{fontWeight: 'bold', right: '0px'}}>Review</Button>
               </Author>
             </CardFooter>
           </DragItem>
