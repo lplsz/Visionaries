@@ -5,7 +5,6 @@ import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid';
 import { useNavigate } from 'react-router-dom';
-import Avatar from '@mui/material/Avatar';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
@@ -32,7 +31,6 @@ export default function StudentProfile () {
 
   const [name, setName] = React.useState('AA BB');
   const [email, setEmail] = React.useState('');
-  const [password, setPassword] = React.useState('');
   const [biography, setBiography] = React.useState('');
   const [interestedCategoryIds, setInterestCategoryIds] = React.useState([]);
   const [languageIds, setLanguageIds] = React.useState([]);
@@ -65,7 +63,6 @@ export default function StudentProfile () {
     } else {
       setName(data.user.username);
       setEmail(data.user.email);
-      setPassword(data.user.password);
       setBiography(data.user.biography);
       const ids = getId(data.user.languages)
       setLanguageIds(ids);
@@ -75,6 +72,7 @@ export default function StudentProfile () {
   }
 
   const changePassword = async () => {
+    const id = localStorage.getItem('id');
     if (newpassword === '' || confirm_password === ' ') {
       setErrorMessage('Password should not be none');
       setOpen(true);
@@ -89,15 +87,11 @@ export default function StudentProfile () {
     
     else {
       const user = {
-        biography: biography,
-        interested_category_ids: interestedCategoryIds,
-        password: password,
-        profile_image_src: profileImageSrc,
-        username: name,
-        language_ids: languageIds
+        new_password: confirm_password,
+        user_id: id
       }
       console.log('update', user);
-      const data = await apiCall('user_profile', 'PUT', user);
+      const data = await apiCall('update_password', 'PUT', user);
       if (typeof (data) === 'string' && (! data.startsWith('200') || ! data.startsWith('201'))) {
         setErrorMessage(data.slice(3, ));
         setOpen(true);
@@ -128,7 +122,6 @@ export default function StudentProfile () {
       const user = {
         biography: biography,
         interested_category_ids: interestedCategoryIds,
-        password: password,
         profile_image_src: profileImageSrc,
         username: name,
         language_ids: languageIds
