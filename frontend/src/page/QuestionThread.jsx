@@ -15,7 +15,9 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { apiCall } from '../Main';
 import { useNavigate, useParams } from 'react-router-dom';
 import DOMPurify from 'dompurify';
-import AvatarImage from '../component/AvatarImage'
+import AvatarImage from '../component/AvatarImage';
+
+import PageReturnButton from '../component/PageReturnButton';
 
 const theme = createTheme({
   components: {
@@ -228,6 +230,7 @@ export default function StudentQuestionThread() {
       <div style={{ display: 'flex', marginLeft: '80px', marginTop: '40px' }}>
         <Typography variant="h3" sx={{ padding: 0, margin: 0 }}>Questions</Typography>
       </div>
+      <PageReturnButton address={'/expert_main'}/>
       <div style={{ marginLeft: '80px', marginRight: '80px' }}>
         <Box
           sx={{ flexGrow: 1, bgcolor: 'background.paper', display: 'flex', height: 524 }}

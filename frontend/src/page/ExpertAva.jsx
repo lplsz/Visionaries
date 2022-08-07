@@ -18,6 +18,9 @@ import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import { useNavigate } from 'react-router-dom';
 import { apiCall } from '../Main';
+
+import PageReturnButton from '../component/PageReturnButton';
+
 const ExpertAva = () => {
   const [value, setValue] = React.useState(new Date());
   const navigate = useNavigate();
@@ -29,8 +32,6 @@ const ExpertAva = () => {
 
   const [checked, setChecked] = React.useState([]);
   const [checkedId, setCheckedId] = React.useState([]);
-  console.log(checked);
-  console.log(checkedId);
   const handleToggle = (value) => () => {
     const currentIndex = checked.indexOf(value);
     const newChecked = [...checked];
@@ -186,7 +187,7 @@ const ExpertAva = () => {
       <div style={{ display: 'flex', marginLeft: '220px', marginTop: '10px' }}>
         <Typography variant="h3" sx={{ padding: 0, margin: 0 }}>Availability</Typography>
       </div>
-
+      <PageReturnButton address={'/expert_main'}/>
       <Container disableGutters maxWidth="lg" component="main" sx={{ pt: 6, pb: 6, paddingTop: 0, paddingLeft: 0, paddingRight: 0, paddingBottom: 0 }}>
         <div style={{ display: 'flex', width: '100%', backgroundColor: '#ffffff', borderRadius: '10px' }}>
           <Box

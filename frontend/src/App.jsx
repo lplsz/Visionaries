@@ -15,7 +15,6 @@ import ExpertAva from './page/ExpertAva.jsx';
 import StudentFindExpert from './page/StudentFindExpert.jsx';
 import QAadd from './page/QAadd.jsx';
 import QuestionThread from './page/QuestionThread.jsx';
-import ExpertPostRecord from './page/ExpertPostRecord.jsx';
 import ReviewPost from './page/ReviewPost.jsx';
 import StudentQuestionThread from './page/StudentQuestionThread.jsx';
 import AddExpert from './page/AddExpert.jsx';
@@ -39,7 +38,6 @@ function App() {
         <Route path="/qaAdd" element={<QAadd />}></Route>
         <Route path="/question_thread" element={<QuestionThread />}> </Route>
         <Route path="/student_question_thread" element={<StudentQuestionThread />}> </Route>
-        <Route path="/expert_post_record" element={<ExpertPostRecord />}> </Route>
         <Route path="/review_post" element={<ReviewPost />}> </Route>
         <Route path="/addExpert" element={<AddExpert />}> </Route>
         <Route path="/student_booked_meeting" element={<StudentBookedMeeting />}></Route>

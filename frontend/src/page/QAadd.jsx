@@ -209,7 +209,16 @@ function QAadd() {
       <div style={{ display: 'flex', marginLeft: '80px', marginTop: '40px' }}>
         <Typography variant="h3" sx={{ padding: 0, margin: 0 }}>Adding Q and A</Typography>
       </div>
-      <div style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'flex-end', marginRight: '80px' }}><button style={{}} onClick={handleSubmit}>Submit</button></div>
+      <div style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'flex-end', marginRight: '80px' }}>
+        <button style={{}} onClick={handleSubmit}>Submit</button>
+        <button 
+          variant="outlined" 
+          style={{backgroundColor: '#000000', color: 'white', right: '0px'}} 
+          onClick={() => { navigate('/expert_main') }}
+        >
+          Return
+        </button>
+      </div>
       <div style={{ display: 'flex', marginLeft: '80px', marginRight: '80px', marginTop: '20px', marginBottom: '20px' }}>
         <div style={{ border: '1px solid gray', height: '700px', borderRadius: '30px', width: '100%', padding: '30px' }}>
           <div style={{ display: 'flex', width: '100%' }}>
