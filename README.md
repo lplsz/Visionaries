@@ -82,3 +82,6 @@
 1. After starting the backend via `flask run`.
 2. Go to the backend URL printed in the terminal.
 3. Add a suffix `/docs` to the URL and hit enter in your browser.
+
+## Could serveice
+* The Wellbeing website can be accessed at: https://main.df2q30aos58ji.amplifyapp.com 
