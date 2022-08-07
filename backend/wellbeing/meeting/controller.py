@@ -19,13 +19,13 @@ def get_expert_availabilities_by_date(expert_id, date):
     Return the expert's availabilities on 'date' ordered by time_range_id.
     """
 
-    time_range_ids = [t[0] for t in db.session.query(TimeRange.id).all()]
+    time_ranges = TimeRange.query.all()
     result = [{
         'date': date,
-        'time_range_id': time_range_id,
+        'time_range': time_range,
         'status': 'unavailable',
         'expert_id': expert_id,
-    } for time_range_id in time_range_ids]
+    } for time_range in time_ranges]
 
     availabilities = Availability.query.filter_by(expert_id=expert_id, date=date).order_by(
         Availability.time_range_id).all()
@@ -41,25 +41,16 @@ def get_expert_availabilities_by_week(expert_id, date):
     """
 
     # Get the start and end of the week containing date
-    end_date = date - timedelta(days=date.weekday()) + timedelta(days=4)
 
-    # Return the expert's availabilities with date between start_date and end_date ordered by time_range_id
-    # availabilities = Availability.query.filter(and_(Availability.expert_id == expert_id,
-    #                                                 Availability.date >= start_date,
-    #                                                 Availability.date <= end_date)).order_by(
-    #     Availability.date, Availability.time_range_id).all()
-    #
-    # # Return the expert's availabilities as a list of availabilities list for each day of the week
-    # result = []
-    # for day in range(5):
-    #     result.append([availability.serialized for availability in availabilities if
-    #                    availability.date == start_date + timedelta(days=day)])
+    start_of_the_week = date - timedelta(days=date.weekday())
+    end_of_the_week = date - timedelta(days=date.weekday()) + timedelta(days=4)
 
-    curr_date, result = datetime_date.today(), []
-    while curr_date <= end_date:
-        result.append(get_expert_availabilities_by_date(expert_id, curr_date))
-        curr_date += timedelta(days=1)
+    start_date = max(start_of_the_week, datetime_date.today())
 
+    result = []
+    while start_date <= end_of_the_week:
+        result.append(get_expert_availabilities_by_date(expert_id, start_date))
+        start_date += timedelta(days=1)
     return result
 
 
