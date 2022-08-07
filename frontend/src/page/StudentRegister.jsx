@@ -23,6 +23,7 @@ import Photo from './img/OIP.jpg'
 import Paper from '@mui/material/Paper';
 import CVDialog from '../component/CVDialog';
 import PhotoCamera from '@mui/icons-material/PhotoCamera';
+import UploadFileIcon from '@mui/icons-material/UploadFile';
 
 const theme = createTheme();
 
@@ -122,6 +123,12 @@ const StudentRegister = () => {
 						<Typography component="h1" variant="h5">
 							Register
 						</Typography>
+            <div style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'flex-end', marginTop: '10px' ,width: '100%'}}>
+              
+              <IconButton aria-label="upload picture" component="label" style={{right: '0px'}} onClick={()=>{setDiaOpen(true);}}>
+                <PhotoCamera />
+              </IconButton>
+            </div>
 						<Box component="form" noValidate sx={{ mt: 3 }}>
 							<Grid container spacing={2}>
 								<Grid item xs={12}>
@@ -180,14 +187,10 @@ const StudentRegister = () => {
 						if (newValue === 0) {
 							navigate('/login');
 						}
-						else if (newValue === 2) {
-							setDiaOpen(true);
-						}
 					}}
 				>
 					<BottomNavigationAction label="Login" icon={<LoginIcon />} />
 					<BottomNavigationAction label="Register" icon={<AssignmentIndIcon />} />
-					<BottomNavigationAction label="Upload" icon={<PhotoCamera />} />
 					<CVDialog dialogOpen={dialogOpen} setDiaOpen={setDiaOpen} setName={setName} setEmail={setEmail} setOpen={setOpen} />
 				</BottomNavigation>
 			</Container>
