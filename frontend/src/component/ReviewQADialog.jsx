@@ -1,10 +1,10 @@
 import React from 'react';
-import { EditorState } from 'draft-js';
+import { EditorState, ContentState, convertToRaw, convertFromHTML } from 'draft-js';
 import { Editor } from 'react-draft-wysiwyg';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import '../page/QAadd.css'
 import TextField from '@mui/material/TextField';
-import { convertToRaw } from 'draft-js';
+import { stateFromHTML } from 'draft-js-import-html';
 import draftToHtml from 'draftjs-to-html';
 import { apiCall } from '../Main';
 import Typography from '@mui/material/Typography';
@@ -45,9 +45,9 @@ const theme = createTheme({
       main: '#D82148'
     }
   },
-}); 
+});
 
-function tagChecked(list, id){
+function tagChecked(list, id) {
   for (const tag in list) {
     if (tag.id === id) {
       return true;
@@ -59,7 +59,30 @@ function tagChecked(list, id){
 
 const ReviewQADialog = (props) => {
   const initalContent = props.clickedItem;
-  const [editorState, setEditorState] = React.useState(EditorState.createEmpty()) // ContentState JSON
+
+  const createMarkup = (html) => {
+    return {
+      __html: DOMPurify.sanitize(html)
+    }
+  }
+
+  function cleanBodyString(str) {
+    let str_no_figure = str.replace(/(<figure>|<\/figure>)/g, '');
+    const match_pattern = /<img src=.*\/>/;
+    let match = match_pattern.exec(str_no_figure);
+    if (match !== null) {
+      const target = "<figure>" + match[0] + "</figure>"
+      return str_no_figure.replace(match[0], target)
+    }
+    return str
+
+  }
+
+  const blocksFromHTML = convertFromHTML(cleanBodyString(initalContent.body));
+  const [editorState, setEditorState] = React.useState(EditorState.createWithContent(ContentState.createFromBlockArray(
+    blocksFromHTML.contentBlocks,
+    blocksFromHTML.entityMap,
+  ))) // ContentState JSON
   const [categories, setCategories] = React.useState([]);
 
   const getCategories = async () => {
@@ -94,11 +117,7 @@ const ReviewQADialog = (props) => {
     setConvertedContent(markup);
   }
 
-  const createMarkup = (html) => {
-    return {
-      __html: DOMPurify.sanitize(html)
-    }
-  }
+
 
   const RadioButtonsGroup = () => {
     return (
@@ -130,7 +149,7 @@ const ReviewQADialog = (props) => {
       tag_ids: subCategories.filter((category) => { return category.checked }).map((category) => { return category.id })
 
     }
-    apiCall('/qa', 'POST', submitData);
+    apiCall(`/qa/${initalContent.rid}`, 'PUT', submitData);
 
   }
   const handleSubmitTag = async () => {
@@ -211,7 +230,7 @@ const ReviewQADialog = (props) => {
       <div style={{ display: 'flex', marginLeft: '30px', marginRight: '30px', marginTop: '20px', marginBottom: '20px' }}>
         <div style={{ border: '1px solid gray', height: '750px', borderRadius: '30px', width: '100%', padding: '30px' }}>
           <div style={{ display: 'flex', width: '100%' }}>
-            <div style={{ flex: 1 }}><RadioButtonsGroup/></div>
+            <div style={{ flex: 1 }}><RadioButtonsGroup /></div>
             <div style={{ flex: 1 }}><CheckBoxButtonsGroup /><button onClick={() => { setOpen(true); }}>Add subcategory</button></div>
             <div style={{ flex: 3, width: '100%' }}>
               <div style={{ marginRight: '15px', color: 'gray' }}>{"Q&A detail:"}</div>

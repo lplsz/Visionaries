@@ -206,7 +206,35 @@ const config = {
       widgetName: "meetingmentalhealth",
       widgetFunc: (props) => <MyLinks {...props} />,
       props: {
-        url: './find_expert'
+        url: './find_expert/2'
+      }
+    },
+    {
+      widgetName: "meetingcovid19",
+      widgetFunc: (props) => <MyLinks {...props} />,
+      props: {
+        url: './find_expert/4'
+      }
+    },
+    {
+      widgetName: "meetingmvaccation",
+      widgetFunc: (props) => <MyLinks {...props} />,
+      props: {
+        url: './find_expert/3'
+      }
+    },
+    {
+      widgetName: "meetingstayathome",
+      widgetFunc: (props) => <MyLinks {...props} />,
+      props: {
+        url: './find_expert/1'
+      }
+    },
+    {
+      widgetName: "meetingcareeradvice",
+      widgetFunc: (props) => <MyLinks {...props} />,
+      props: {
+        url: './find_expert/5'
       }
     },
     {

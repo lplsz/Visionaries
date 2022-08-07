@@ -21,11 +21,13 @@ import AddExpert from './page/AddExpert.jsx';
 import StudentBookedMeeting from './page/StudentBookedMeeting.jsx'
 import ExpertBookedMeeting from './page/ExpertBookedMeeting';
 function App() {
+
   return (
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<StudentMain />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/" element={<StudentMain />} />
         <Route path="/student_register" element={<StudentRegister />} />
         <Route path="/student_main" element={<StudentMain />} />
         <Route path="/expert_main" element={<ExpertMain />} />

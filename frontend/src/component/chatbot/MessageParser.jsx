@@ -1,3 +1,4 @@
+// phrase messages
 class MessageParser {
     constructor(actionProvider, state) {
         this.actionProvider = actionProvider;

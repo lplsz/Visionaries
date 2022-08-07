@@ -61,6 +61,7 @@ const Login = () => {
         localStorage.setItem('token', data.access_token);
         localStorage.setItem('id', data.user.id);
         localStorage.setItem('name', data.user.username);
+        localStorage.setItem('type', data.user.account_type);
         if (data.user.account_type === 'student') {
           navigate('/student_main');
         } else {

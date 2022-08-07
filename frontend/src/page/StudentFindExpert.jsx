@@ -24,7 +24,8 @@ const ListItem = styled('li')(({ theme }) => ({
 const StudentFindExpert = () => {
   const navigate = useNavigate();
   const { state } = useLocation();
-  const value = state["date"]
+
+  const value = state !== null ? state["date"] : new Date();
   console.log(value);
   const categoryid = useParams().categoryid;
   const [category, setCategory] = React.useState('');

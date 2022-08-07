@@ -1,3 +1,4 @@
+// The components of chatbot avatar
 import React from "react";
 import "./BotAvatar.css";
 import botavatar from "../../assets/bot.png";
