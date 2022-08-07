@@ -7,12 +7,13 @@ from wellbeing.thread.models import Thread, Reply
 
 
 def get_threads():
-    return {'threads': [thread.serialized for thread in Thread.query.all()]}
+    return {'threads': [thread.serialized for thread in Thread.query.filter(Thread.resolved == False).all()]}
 
 
 def get_threads_by_user(user_id):
     return {'threads': [thread.serialized for thread in
-                        Thread.query.filter(Thread.replies.any(Reply.user_id == user_id)).order_by(
+                        Thread.query.filter(
+                            and_(Thread.replies.any(Reply.user_id == user_id), Thread.resolved == False)).order_by(
                             Thread.updated_at.desc()).all()]}
 
 

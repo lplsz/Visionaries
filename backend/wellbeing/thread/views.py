@@ -24,7 +24,7 @@ Thread Endpoints
 class ThreadsByUser(MethodView):
     @thread_blueprint.output(GetThreadsOutSchema, 200)
     @thread_blueprint.doc(
-        summary='Get all the threads the current user has replied to',
+        summary='Get all the unresolved threads the current user has replied to',
         responses={200: 'OK', 404: 'User Not Found'},
     )
     def get(self, user_id):
@@ -48,8 +48,8 @@ class UnreadThreads(MethodView):
 class Threads(MethodView):
     @thread_blueprint.output(GetThreadsOutSchema, 200)
     @thread_blueprint.doc(
-        summary='Get all threads',
-        description='Get all threads',
+        summary='Get all unresolved threads',
+        description='Get all unresolved threads',
     )
     def get(self):
         return controllers.get_threads()
