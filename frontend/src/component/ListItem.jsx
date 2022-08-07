@@ -4,6 +4,8 @@ import React, { useMemo } from "react";
 import styled, { css } from "styled-components";
 import Chip from '@mui/material/Chip';
 import Button from '@mui/material/Button';
+import IconButton from '@mui/material/IconButton';
+import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 
 const Avatar = styled.img`
   height: 30px;
@@ -48,7 +50,18 @@ const ListItem = (props) => {
             {...provided.draggableProps}
             {...provided.dragHandleProps}
           >
-            <CardHeader style={{fontWeight: 'bold'}}>{props.item.title}</CardHeader>
+            <CardHeader style={{fontWeight: 'bold'}}>
+              <div style={{textAlign: 'right'}}>
+                <IconButton aria-label="settings" 
+                  onClick={()=>{props.handleDelete(props.list, props.index, props.rid, props.prefix)}}
+                  >
+                  <DeleteForeverIcon />
+                </IconButton>
+              </div>
+              <div>
+                {props.item.title}
+              </div>
+            </CardHeader>
             <CardFooter>
               <Author>
                 <Chip label={props.item.category.category_name} />
