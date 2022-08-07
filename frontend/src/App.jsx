@@ -10,7 +10,6 @@ import StudentProfile from './page/StudentProfile';
 import ExpertProfile from './page/ExpertProfile';
 import Login from './page/Login';
 import StudentRegister from './page/StudentRegister.jsx';
-import StudentQAList from './page/StudentQAList.jsx';
 import QACategory from './page/QACategory'
 import ExpertAva from './page/ExpertAva.jsx';
 import StudentFindExpert from './page/StudentFindExpert.jsx';
@@ -32,11 +31,10 @@ function App() {
         <Route path="/expert_main" element={<ExpertMain />} />
         <Route path="/student_profile" element={<StudentProfile />} />
         <Route path="/expert_profile" element={<ExpertProfile />} />
-        <Route path="/student_QA_list" element={<StudentQAList />} />
         <Route path="/QACategory" element={<QACategory />} />
         <Route path="/QACategory/:categoryid" element={<QACategory />} />
         <Route path="/expert_ava" element={<ExpertAva />} />
-        <Route path="/student_main/find_expert" element={<StudentFindExpert />} />
+        <Route path="/student_main/find_expert/:categoryid" element={<StudentFindExpert />} />
         <Route path="/qaAdd" element={<QAadd />}></Route>
         <Route path="/question_thread" element={<QuestionThread />}> </Route>
         <Route path="/student_question_thread" element={<StudentQuestionThread />}> </Route>
