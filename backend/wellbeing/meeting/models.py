@@ -1,5 +1,4 @@
 from wellbeing.extensions import db
-from wellbeing.user.models import User
 
 
 class Availability(db.Model):
@@ -50,6 +49,6 @@ class TimeRange(db.Model):
     def serialized(self):
         return {
             'id': self.id,
-            'start_at': self.start_at,
+            'start_at': self.start_at.iso,
             'end_at': self.end_at,
         }

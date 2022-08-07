@@ -19,6 +19,7 @@ class QASchema(Schema):
     body = String(required=True, example='Cherry lips, crystal skies')
     created_at = DateTime(required=True, example='2020-01-01T00:00:00Z')
     reviewed_at = DateTime(required=True, example='2020-01-01T00:00:00Z')
+    video_url = String(example='https://www.youtube.com/watch?v=dQw4w9WgXcQ')
     author = Nested(UserSchema, required=True, partial=True)
     category = Nested(CategorySchema, required=True)
     tags = List(Nested(TagSchema, required=True), required=True)

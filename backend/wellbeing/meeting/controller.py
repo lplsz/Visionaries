@@ -20,25 +20,30 @@ def get_expert_availabilities_by_date(expert_id, date):
     """
     availabilities = Availability.query.filter_by(expert_id=expert_id, date=date).order_by(
         Availability.time_range_id).all()
-    print('after search')
-    return {"availabilities": [availability.serialized for availability in availabilities]}
+    return availabilities
 
 
 def get_expert_availabilities_by_week(expert_id, date):
     """
-    Return the expert's availabilities of the week containing the 'date' ordered by date, time_range_id
+    Return the expert's availabilities as a list of availabilities list for each day of the week.
     """
 
     # Get the start and end of the week containing date
     start_date = date - timedelta(days=date.weekday())
-    end_date = start_date + timedelta(days=6)
+    end_date = start_date + timedelta(days=4)
 
     # Return the expert's availabilities with date between start_date and end_date ordered by time_range_id
     availabilities = Availability.query.filter(and_(Availability.expert_id == expert_id,
                                                     Availability.date >= start_date,
                                                     Availability.date <= end_date)).order_by(
         Availability.date, Availability.time_range_id).all()
-    return {"availabilities": [availability.serialized for availability in availabilities]}
+
+    # Return the expert's availabilities as a list of availabilities list for each day of the week
+    result = []
+    for day in range(5):
+        result.append([availability.serialized for availability in availabilities if
+                       availability.date == start_date + timedelta(days=day)])
+    return result
 
 
 def get_experts_availabilities_by_week_and_categories(date, category_ids):
@@ -54,12 +59,10 @@ def get_experts_availabilities_by_week_and_categories(date, category_ids):
     for expert in experts:
         result.append({
             'expert': expert.serialized,
-            **get_expert_availabilities_by_week(expert.id, date),
+            'availabilities': get_expert_availabilities_by_week(expert.id, date),
         })
 
-    # Get the availabilities of the experts on the given date
-
-    return {"result": result}
+    return result
 
 
 def get_expert_availabilities(expert_id):
@@ -68,7 +71,6 @@ def get_expert_availabilities(expert_id):
     """
     availabilities = Availability.query.filter_by(expert_id=expert_id).order_by(
         Availability.date, Availability.time_range_id).all()
-    print([availability.serialized for availability in availabilities])
     return {"availabilities": [availability.serialized for availability in availabilities]}
 
 
@@ -99,7 +101,7 @@ def update_expert_availabilities(expert_id, availabilities):
             availability_db.meeting_metadata = availability.get('meeting_metadata', None)
 
     db.session.commit()
-    return get_expert_availabilities(expert_id)
+    return {}
 
 
 '''

@@ -1,6 +1,8 @@
+import datetime
+
 from flask_jwt_extended import current_user
 from sqlalchemy.sql import or_
-import datetime
+
 from wellbeing.QA.models import QA, Tag, Category
 from wellbeing.extensions import db
 
@@ -25,7 +27,7 @@ def post_qa(data):
 
 
 def get_qa_by_id(qa_id):
-    return {'qa': QA.query.filter_by(id=qa_id).first_or_404().serialized}
+    return {'qa': QA.query.filter_by(id=qa_id, ).first_or_404().serialized}
 
 
 def get_qas_by_time():

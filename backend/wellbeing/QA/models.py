@@ -1,4 +1,3 @@
-from sqlalchemy.sql import func
 from datetime import datetime
 
 from wellbeing.extensions import db
@@ -19,6 +18,7 @@ class QA(db.Model):
     review_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow, onupdate=datetime.utcnow)
     author_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     category_id = db.Column(db.Integer, db.ForeignKey('category.id'), nullable=False)
+    video_url = db.Column(db.Text, nullable=True)
 
     # Relationships
     category = db.relationship('Category', lazy=False, uselist=False, back_populates='qas')
@@ -33,6 +33,7 @@ class QA(db.Model):
             'body': self.body,
             'created_at': self.created_at,
             'review_at': self.review_at,
+            'video_url': self.video_url,
             'author': {
                 'id': self.author.id,
                 'username': self.author.username,
