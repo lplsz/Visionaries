@@ -14,6 +14,8 @@ import DialogActions from "@mui/material/DialogActions";
 import Button from '@mui/material/Button';
 import ReviewQADialog from '../component/ReviewQADialog';
 import { useNavigate } from 'react-router-dom';
+import PageReturnButton from '../component/PageReturnButton';
+import Typography from '@mui/material/Typography';
 
 const ListGrid = styled.div`
   display: grid;
@@ -151,6 +153,8 @@ const ReviewPost = () => {
       <ErrorSnackbar open={open} setOpen={setOpen} message={errorMessage}/>
       <SuccessSnackbar open={open2} setOpen={setOpen2} message={'Post has been successfully reviewed !'}></SuccessSnackbar>
       <div style={{ paddingTop: '20px', textAlign: 'center', paddingLeft: '5%', paddingRight: '5%' }}>
+        <Typography variant="h3" sx={{ padding: 0, margin: 0 }}>Review Your Posts Here</Typography>
+        <PageReturnButton address={'/expert_main'}/>
         <DragDropContext onDragEnd={onDragEnd}>
           <ListGrid spacing={50} alignItems="flex-end">
             <DraggableElement

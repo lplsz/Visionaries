@@ -14,6 +14,9 @@ import AvatarImage from '../component/AvatarImage'
 import Box from '@mui/material/Box';
 import { styled, alpha } from '@mui/material/styles';
 import Chip from '@mui/material/Chip';
+
+import PageReturnButton from '../component/PageReturnButton';
+
 const ListItem = styled('li')(({ theme }) => ({
   margin: theme.spacing(0.5),
 }));
@@ -173,6 +176,7 @@ const StudentFindExpert = () => {
 
       </div>
       <div style={{ marginLeft: '100px', marginTop: '40px' }}>
+        <PageReturnButton address={'/student_main'}/>
         {experts.map((e, i) => {
           return (
             <div key={i} style={{ width: '100%', marginBottom: '30px' }}>

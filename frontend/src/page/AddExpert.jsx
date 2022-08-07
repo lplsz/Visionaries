@@ -5,8 +5,6 @@ import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
-import Link from '@mui/material/Link';
-import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
@@ -14,8 +12,20 @@ import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { apiCall } from '../Main';
 import { useNavigate } from 'react-router-dom';
+import ExpertHeader from '../component/ExpertHeader';
+import { styled } from '@mui/material/styles';
+import PageReturnButton from '../component/PageReturnButton';
 
 const theme = createTheme();
+
+// style for button color
+const ColorButton = styled(Button)(({ theme }) => ({
+  color: theme.palette.getContrastText('#000000'),
+  backgroundColor: '#000000',
+  '&:hover': {
+    backgroundColor: '#000000',
+  },
+}));
 
 export default function AddExpert() {
   const navigate = useNavigate();
@@ -63,8 +73,19 @@ export default function AddExpert() {
   }
   return (
     <ThemeProvider theme={theme}>
+      <ExpertHeader/>
+      <div style={{display:'flex', alignItems: 'flex-end', justifyContent: 'flex-end', width: '85%', paddingTop: '50px'}}>
+        <button 
+          variant="outlined" 
+          style={{backgroundColor: '#000000', color: 'white', right: '0px'}} 
+          onClick={() => { navigate('/expert_main') }}
+        >
+          Return
+        </button>
+      </div>
       <Container component="main" maxWidth="xs">
         <CssBaseline />
+        
         <Box
           sx={{
             marginTop: 8,
@@ -73,7 +94,8 @@ export default function AddExpert() {
             alignItems: 'center',
           }}
         >
-          <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
+      
+          <Avatar sx={{ m: 1, bgcolor: 'primary.main', backgroundColor: '#000000', color: 'white' }}>
             <LockOutlinedIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
@@ -123,14 +145,14 @@ export default function AddExpert() {
               }
             </div>
 
-            <Button
+            <ColorButton
               type="submit"
               fullWidth
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
             >
               Submit
-            </Button>
+            </ColorButton>
           </Box>
         </Box>
       </Container>
