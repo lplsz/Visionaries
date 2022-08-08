@@ -1,3 +1,11 @@
+<!--
+ * @Author: Echooooo-zhn haonanZHONG17@outlook.com
+ * @Date: 2022-08-07 22:47:36
+ * @LastEditors: Echooooo-zhn haonanZHONG17@outlook.com
+ * @LastEditTime: 2022-08-08 13:24:07
+ * @FilePath: \Visionaries\README.md
+ * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
+-->
 # Visionaries
 
 ## Prerequisite
@@ -84,4 +92,5 @@
 3. Add a suffix `/docs` to the URL and hit enter in your browser.
 
 ## Could serveice
-* The Wellbeing website can be accessed at: https://main.df2q30aos58ji.amplifyapp.com 
+* The Wellbeing website can be accessed at: https://main.df2q30aos58ji.amplifyapp.com
+* For the deploy convience, the frontend and backend were deployed separately, the frontend is deployed based on the this repository: https://github.com/Echooooo-zhn/Visionaries-Wellbeing.git (A separated version of the frontend which is same as the group repository: https://github.com/lplsz/Visionaries.git)
