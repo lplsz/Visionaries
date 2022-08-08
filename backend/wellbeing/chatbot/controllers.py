@@ -14,7 +14,7 @@ from wellbeing.chatbot.models import UserQuestion
 Chatbot Helper Functions
 '''
 
-api_key = "55549ad5642e1a8b1d438c6aabda025cf15b9669a1f10fba830cac772a486d08"
+api_key = "a61426918f7c9cef90b28d2a60e02f67487437422290708c44910c98587d1393"
 # Google API search
 def serch_func(q, prefix, num):
     q_prefix = q + prefix
@@ -30,6 +30,8 @@ def serch_func(q, prefix, num):
     results = search.get_dict()
 
     res = []
+    if len(results["organic_results"]) < num:
+        num = len(results["organic_results"])
     for msg in range(num):
         res.append({"text":results["organic_results"][msg]["title"], "herf":results["organic_results"][msg]["link"]})  
     return res
@@ -196,7 +198,10 @@ def state_response(data):
             prev_response = state2_response(data['input_text'], previous_q_description)
 
             res = {}
-            res['QAs'] = cur_response['QAs']
+            if (data['input_text'] == "guide"):
+                res['QAs'] = cur_response['QAs']
+            
+            
             res['link'] = remove_duplication(cur_response, prev_response, "link")
             return res
 
