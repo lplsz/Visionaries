@@ -87,10 +87,8 @@ def state2_response(type, question):
         df_res = rank_matching_qa([qa.id for qa in qa_list],[qa.category_id for qa in qa_list],[qa.title for qa in qa_list] ,[qa.body for qa in qa_list], q_keyword)
         # return str(q_keyword)
         
-        
         # only qa matching_rank >= 50 will be returned          --          turn out not matching the keyword
         # df_res = df_res[df_res[3] >= 50]
-
 
         top3_id_list = df_res.sort_values(by=[4],ascending=False)[:3]
         qa_id_cat = []
@@ -146,7 +144,10 @@ def state3_response(status, question):
         results = search.get_dict()
 
     res = {}
-    res['text'] = [f"{result['question']}"  for result in results["related_questions"][:3]]
+    if "related_questions" not in results.keys():
+        return []
+    else:
+        res['text'] = [f"{result['question']}"  for result in results["related_questions"][:3]]
     return res
 
 
@@ -183,15 +184,19 @@ def state_response(data):
             previous_q_status = [user_qs.status for user_qs in all_user_qs][-2]
             previous_q_description = [user_qs.question_description for user_qs in all_user_qs][-2]
             
+            # user asked the same question again
+            if previous_q_description == current_q:
+                return state2_response(data['input_text'], current_q)
+
             # compare only if status != True
             if previous_q_status == "True":
                 return state2_response(data['input_text'], current_q) 
             
             cur_response = state2_response(data['input_text'], current_q)
             prev_response = state2_response(data['input_text'], previous_q_description)
+
             res = {}
-            if data['input_text'] == "guide":
-                res['QAs'] = remove_duplication(cur_response, prev_response, "QAs")
+            res['QAs'] = cur_response['QAs']
             res['link'] = remove_duplication(cur_response, prev_response, "link")
             return res
 
