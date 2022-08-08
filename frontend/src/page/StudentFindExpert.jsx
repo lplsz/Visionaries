@@ -46,6 +46,7 @@ const StudentFindExpert = () => {
 
   const [experts, setExperts] = React.useState([]);
 
+  // Define the date type.
   Date.prototype.Format = function (fmt) {
     const o = {
       'M+': this.getMonth() + 1,
@@ -68,6 +69,7 @@ const StudentFindExpert = () => {
   };
 
 
+  // Ge the availabilities of the experts.
   const getTimeTable = async () => {
     const datevalue = value.Format('yyyy-MM-dd');
     const data2 = await apiCall(`/get_experts_availabilities_by_week_and_categories?category_ids=${categoryid}&date=${datevalue}`, 'GET', {}, navigate);
@@ -107,6 +109,7 @@ const StudentFindExpert = () => {
     setI(i + 1);
   }
 
+  // Filter the experts by the category.
   const FilterCategory = () => {
     return (
       <Autocomplete
@@ -123,6 +126,7 @@ const StudentFindExpert = () => {
   }
 
 
+  // The input list containes the lanugage choice.
   const InputInList = (propsN) => {
     return (
       <Box
