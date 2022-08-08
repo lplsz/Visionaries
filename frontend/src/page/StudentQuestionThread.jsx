@@ -101,7 +101,6 @@ export default function StudentQuestionThread() {
 
   const scrollToBottom = () => {
     if (messagesEndRef.current !== null) {
-      console.log('sadsad')
       messagesEndRef.current.scrollIntoView({});
     }
   }

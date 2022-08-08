@@ -26,7 +26,6 @@ const StudentFindExpert = () => {
   const { state } = useLocation();
 
   const value = state !== null ? state["date"] : new Date();
-  console.log(value);
   const categoryid = useParams().categoryid;
   const [category, setCategory] = React.useState('');
   const [categoriesName, setCategoriesName] = React.useState([]);
@@ -73,7 +72,6 @@ const StudentFindExpert = () => {
   const getTimeTable = async () => {
     const datevalue = value.Format('yyyy-MM-dd');
     const data2 = await apiCall(`/get_experts_availabilities_by_week_and_categories?category_ids=${categoryid}&date=${datevalue}`, 'GET', {}, navigate);
-    console.log(data2);
     const l = [];
     data2.result.map((re) => {
       const d = {}
@@ -99,7 +97,6 @@ const StudentFindExpert = () => {
     });
 
     setExperts(l);
-    console.log(l);
   }
   const [i, setI] = React.useState(1);
   if (i === 1) {

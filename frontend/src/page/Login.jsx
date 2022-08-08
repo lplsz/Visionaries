@@ -52,7 +52,6 @@ const Login = () => {
         password: password,
       }
       const data = await apiCall('/login', 'POST', info, navigate);
-      console.log(data);
       if (typeof (data) === 'string' && (!data.startsWith('200') || !data.startsWith('201'))) {
         setErrorMessage(data.slice(3,));
         setOpen(true);
