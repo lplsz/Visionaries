@@ -53,14 +53,14 @@
 
 > Ensure that you have followed the **Installation** steps before starting the system.
 
-1. Under the backend directory, run
+1. Under the backend directory `Visionaries/backend`, run
 
     ```
     source venv/bin/activate
     flask run
     ```
 
-2. Under the frontend directory, run
+2. Under the frontend directory `Visionaries/frontend`, run
 
     ```
     npm start
@@ -71,6 +71,8 @@
 ## Useful Commands
 
 ### Backend
+
+> To be run under `/Visionaries/backend`
 
 * Start the server: `flask run`
 * Create database tables: `flask createdb`
