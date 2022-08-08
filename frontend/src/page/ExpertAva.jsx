@@ -155,14 +155,11 @@ const ExpertAva = () => {
   // Get the expert avaliable time by date.
   const getTimeTable = async () => {
     const datevalue = value.Format('yyyy-MM-dd');
-    console.log(datevalue);
     const newDate = await apiCall(`/get_expert_availabilities_by_date?expert_id=${localStorage.getItem('id')}&date=${datevalue}`, 'GET', {}, navigate);
-    console.log(newDate);
     const newChecked = [];
     const newCheckedId = [];
     const newBooked = [];
     const newBookedId = [];
-    console.log(newDate);
 
     newDate.availabilities.map((ava, i) => {
       if (ava.status === 'available') {

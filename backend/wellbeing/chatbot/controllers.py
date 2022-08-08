@@ -31,6 +31,8 @@ def serch_func(q, prefix, num):
     results = search.get_dict()
 
     res = []
+    if len(results["organic_results"]) < num:
+        num = len(results["organic_results"])
     for msg in range(num):
         res.append({"text":results["organic_results"][msg]["title"], "herf":results["organic_results"][msg]["link"]})  
     return res
@@ -68,7 +70,7 @@ def remove_duplication(cur, prev, key):
 def key_word_extraction(text):
     kw_extractor = yake.KeywordExtractor()
     language = "en"
-    max_ngram_size = 3
+    max_ngram_size = 1
     deduplication_threshold = 0.9
     numOfKeywords = 1
 
@@ -99,7 +101,6 @@ def state2_response(type, question):
         df_res = rank_matching_qa([qa.id for qa in qa_list],[qa.category_id for qa in qa_list],[qa.title for qa in qa_list],[qa.body for qa in qa_list], q_keyword)
 
         top3_id_list = df_res.sort_values(by=[4],ascending=False)[:3]
-        print(top3_id_list)
         qa_id_cat = []
         for idx in top3_id_list.index:
             if top3_id_list[4][idx] != -1:            
@@ -108,11 +109,8 @@ def state2_response(type, question):
         response_guide['QAs'] = qa_id_cat
         # gov
         response_guide['link'] = serch_func(question, "gov au", 3)
-        # unsw
-        #response_guide['link'] = response_guide.get("link", []) + serch_func(question, "unsw au", 3)
         # org
         response_guide['link'] = response_guide.get("link", []) + serch_func(question, "org au", 3) 
-        print(response_guide)
         return response_guide
 
 
@@ -203,13 +201,13 @@ def state_response(data):
             if previous_q_status == "True":
                 return state2_response(data['input_text'], current_q) 
             
-            print("current questio is: ",current_q)
             cur_response = state2_response(data['input_text'], current_q)
             prev_response = state2_response(data['input_text'], previous_q_description)
 
             res = {}
-            if data['input_text'] == "guide":
+            if (data['input_text'] == "guide"):
                 res['QAs'] = cur_response['QAs']
+                   
             res['link'] = remove_duplication(cur_response, prev_response, "link")
             return res
 

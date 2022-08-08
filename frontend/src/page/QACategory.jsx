@@ -107,13 +107,13 @@ const QACategory = () => {
 
   const [subCategories, setSubCategories] = React.useState([]);
   const [i, setI] = React.useState(1);
+  
+  // Set the subcategories to be selected.
   const setChecked = (value, index) => {
-    console.log(subCategories);
     subCategories[index].checked = value;
-    console.log(subCategories);
     setI(i + 1);
-
   }
+
   const [openTag, setOpenTag] = React.useState(false);
 
   const handleSubmitTag = async () => {
@@ -156,6 +156,7 @@ const QACategory = () => {
     setI(i + 1);
   };
 
+  // Get the QA by category.
   const FilterCategory = () => {
     return (
       <Autocomplete
@@ -172,7 +173,7 @@ const QACategory = () => {
   }
 
 
-
+  // Implement the QA search.
   const solveSearch = async (event) => {
     if (event.keyCode === 13) {
       let keyword = document.getElementById('searchInput').value;
