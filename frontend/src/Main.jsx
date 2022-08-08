@@ -17,7 +17,7 @@ import { useNavigate } from 'react-router-dom';
 export async function apiCall(path, method, body, navigate) {
   console.log(body)
   const token = localStorage.getItem('token');
-  const url = 'http://54.206.26.58:8000/' + path;
+  const url = 'http://localhost:5000/' + path;
   const init = {
     method: method,
     headers: {
