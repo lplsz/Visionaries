@@ -25,6 +25,7 @@ import { padding } from "@mui/system";
 // a herfwidget for video links and titles
 const HerfWidget = ({ src }) => {
   console.log('memem');
+  console.log('herfwidge');
   console.log(src)
   return (
     <div style={{ marginLeft: '10px', marginRight: '10px', padding: '10px', padding: '10px', border: '1px black solid', borderRadius: '10px' }}>

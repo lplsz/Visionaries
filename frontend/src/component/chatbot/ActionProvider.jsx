@@ -59,6 +59,7 @@ class ActionProvider {
         widget: "herfWidget"
       }
     );
+    console.log('herfwidge');
     this.setChatbotMessage(message);
     const message7 = this.createChatBotMessage(
       "Do you satisfied with this result or do want want to see some related questions?",

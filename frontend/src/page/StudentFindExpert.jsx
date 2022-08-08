@@ -38,7 +38,7 @@ const StudentFindExpert = () => {
     const data = await apiCall('/categories', 'GET', {}, navigate);
     setCategoriesName(data.categories.map((cate) => { return cate.category_name }));
     setCategoriesId(data.categories.map((cate) => { return cate.id }));
-    const cate = data.categories.filter((cate) => { return cate.id.toString() === categoryid.toString() })[0].category_name
+    const cate = data.categories.filter((cate) => { return cate.id.toString() === categoryid.toString() })[0]
 
     setCategory(cate.category_name);
     setCategoriesImage(cate.category_image_src);
