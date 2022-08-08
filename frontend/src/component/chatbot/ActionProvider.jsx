@@ -137,7 +137,7 @@ class ActionProvider {
   // Reply the unknown questions.
   handleUnknown = () => {
     const message = this.createChatBotMessage(
-      "Please type continue to try again"
+      "Please ask a question"
     );
     this.setChatbotMessage(message);
   };
