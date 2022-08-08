@@ -5,6 +5,7 @@ from fuzzywuzzy import fuzz
 from fuzzywuzzy import process
 import yake
 import pandas as pd
+from nltk.stem import PorterStemmer
 
 from wellbeing.extensions import db
 from wellbeing.QA.models import QA
@@ -14,7 +15,7 @@ from wellbeing.chatbot.models import UserQuestion
 Chatbot Helper Functions
 '''
 
-api_key = "55549ad5642e1a8b1d438c6aabda025cf15b9669a1f10fba830cac772a486d08"
+api_key = "a61426918f7c9cef90b28d2a60e02f67487437422290708c44910c98587d1393"
 # Google API search
 def serch_func(q, prefix, num):
     q_prefix = q + prefix
@@ -35,12 +36,22 @@ def serch_func(q, prefix, num):
     return res
 
 
+
 # DB return top3 matching qa ids
 def rank_matching_qa(id_list, category_list, title_list, body_list, q):
-    rates = []
+    # rates = []
+    # for title in title_list:
+    #     rates.append(fuzz.ratio(q,title))
+
+    counts = []
     for body in body_list:
-        rates.append(fuzz.ratio(q,body))
-    res = list(zip(id_list, category_list, title_list, body_list, rates))
+        if q in body:
+            counts.append(body.count(q))
+        else:
+            not_match = -1
+            counts.append(not_match)
+    
+    res = list(zip(id_list, category_list, title_list, body_list, counts))
     df_res = pd.DataFrame(res)
     return df_res
 
@@ -82,26 +93,26 @@ def state2_response(type, question):
         # QA ids and category_ids from db
         qa_list = QA.query.all()
 
-        # case 1: extract question keyword to match
-        q_keyword = key_word_extraction(question)
-        df_res = rank_matching_qa([qa.id for qa in qa_list],[qa.category_id for qa in qa_list],[qa.title for qa in qa_list] ,[qa.body for qa in qa_list], q_keyword)
-        # return str(q_keyword)
-        
-        # only qa matching_rank >= 50 will be returned          --          turn out not matching the keyword
-        # df_res = df_res[df_res[3] >= 50]
+        # case 1: extract question keyword and stem to match
+        ps = PorterStemmer()
+        q_keyword = ps.stem(key_word_extraction(question))
+        df_res = rank_matching_qa([qa.id for qa in qa_list],[qa.category_id for qa in qa_list],[qa.title for qa in qa_list],[qa.body for qa in qa_list], q_keyword)
 
         top3_id_list = df_res.sort_values(by=[4],ascending=False)[:3]
+        print(top3_id_list)
         qa_id_cat = []
-        for idx in range(len(top3_id_list)):
-            qa_id_cat.append({"id":list(top3_id_list[0])[idx], "category_id":list(top3_id_list[1])[idx], "question":list(top3_id_list[2])[idx] })
+        for idx in top3_id_list.index:
+            if top3_id_list[4][idx] != -1:            
+                qa_id_cat.append({"id":int(top3_id_list[0][idx]), "category_id":int(top3_id_list[1][idx]), "question":top3_id_list[2][idx] })
+        
         response_guide['QAs'] = qa_id_cat
-
         # gov
         response_guide['link'] = serch_func(question, "gov au", 3)
         # unsw
         #response_guide['link'] = response_guide.get("link", []) + serch_func(question, "unsw au", 3)
         # org
         response_guide['link'] = response_guide.get("link", []) + serch_func(question, "org au", 3) 
+        print(response_guide)
         return response_guide
 
 
@@ -192,11 +203,13 @@ def state_response(data):
             if previous_q_status == "True":
                 return state2_response(data['input_text'], current_q) 
             
+            print("current questio is: ",current_q)
             cur_response = state2_response(data['input_text'], current_q)
             prev_response = state2_response(data['input_text'], previous_q_description)
 
             res = {}
-            res['QAs'] = cur_response['QAs']
+            if data['input_text'] == "guide":
+                res['QAs'] = cur_response['QAs']
             res['link'] = remove_duplication(cur_response, prev_response, "link")
             return res
 
