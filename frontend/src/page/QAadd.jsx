@@ -91,6 +91,8 @@ function QAadd() {
       __html: DOMPurify.sanitize(html)
     }
   }
+  
+  // The category checkbox group.
   const RadioButtonsGroup = () => {
     return (
       <FormControl>
@@ -133,18 +135,20 @@ function QAadd() {
     }
 
   }
+
+  // Add a new subcategory.
   const handleSubmitTag = async () => {
     const info = {
       tag_name: tagName
     }
     await apiCall('/tag', 'POST', info, navigate);
-    console.log(info);
     const data2 = await apiCall('/tags', 'GET', navigate);
     data2.tags.map((tag, i) => { tag.checked = false; return tag });
     setSubCategories(data2.tags);
     handleClose();
   }
 
+  // The subcategory checkbox group.
   const CheckBoxButtonsGroup = () => {
     return (
       <FormControl>
@@ -167,7 +171,6 @@ function QAadd() {
   const [open, setOpen] = React.useState(false);
   const [tagName, setTageName] = React.useState('');
 
-  //<div className="preview" dangerouslySetInnerHTML={createMarkup(convertedContent)}></div>
   return (
     <ThemeProvider theme={theme}>
       <ExpertHeader />

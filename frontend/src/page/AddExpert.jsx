@@ -29,6 +29,9 @@ const ColorButton = styled(Button)(({ theme }) => ({
 
 export default function AddExpert() {
   const navigate = useNavigate();
+  
+  // Before submit the infomation, check the name, email format
+  // are valid, and then submit it to add a new expert.
   const handleSubmit = async (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -57,10 +60,14 @@ export default function AddExpert() {
       }
     }
   };
+
+  // set the categories to be checked.
   const setChecked = (value, index) => {
     categories[index].checked = value;
   }
   const [categories, setCategories] = React.useState([]);
+
+  // Get the categories list.
   const getCategories = async () => {
     const data = await apiCall('/categories', 'GET', {}, navigate);
     data.categories.map((categorie, i) => { categorie.checked = false; return categorie });

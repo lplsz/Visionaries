@@ -21,7 +21,6 @@ import AssignmentIndIcon from '@mui/icons-material/AssignmentInd';
 import CardMedia from '@mui/material/CardMedia';
 import Photo from './img/OIP.jpg';
 
-// import CVDialog from '../component/CVDialog';
 
 const theme = createTheme();
 
@@ -70,9 +69,6 @@ const Login = () => {
       }
     }
   }
-
-  // const [dialogOpen, setDiaOpen] = React.useState(false);
-
 
   return (
     <ThemeProvider theme={theme}>

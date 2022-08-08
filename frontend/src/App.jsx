@@ -25,7 +25,6 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<StudentMain />} />
         <Route path="/login" element={<Login />} />
         <Route path="/" element={<StudentMain />} />
         <Route path="/student_register" element={<StudentRegister />} />

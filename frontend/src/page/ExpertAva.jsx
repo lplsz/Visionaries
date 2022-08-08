@@ -1,11 +1,9 @@
 /* eslint-disable no-unused-vars */
 import * as React from 'react';
-import isWeekend from 'date-fns/isWeekend';
 import TextField from '@mui/material/TextField';
 import ExpertHeader from "../component/ExpertHeader";
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { CalendarPicker } from '@mui/x-date-pickers/CalendarPicker';
 import { StaticDatePicker } from '@mui/x-date-pickers/StaticDatePicker';
 import Container from '@mui/material/Container';
 import List from '@mui/material/List';
@@ -52,6 +50,8 @@ const ExpertAva = () => {
     setValue(newValue);
     setI(1);
   };
+
+  // Return the times check list.
   const TimeList = () => {
     return (
       time.map((value, i) => {
@@ -101,6 +101,7 @@ const ExpertAva = () => {
       }))
   }
 
+  // Set the date format.
   Date.prototype.Format = function (fmt) {
     const o = {
       'M+': this.getMonth() + 1,
@@ -122,6 +123,7 @@ const ExpertAva = () => {
     return fmt;
   };
 
+  // Submit the expert time choice.
   const handleSubmit = async () => {
     const l = []
 
@@ -148,9 +150,9 @@ const ExpertAva = () => {
       }
     }
     const data = await apiCall('/update_expert_availabilities', 'POST', { availabilities: l, expert_id: parseInt(localStorage.getItem('id')) }, navigate);
-
-
   }
+
+  // Get the expert avaliable time by date.
   const getTimeTable = async () => {
     const datevalue = value.Format('yyyy-MM-dd');
     console.log(datevalue);

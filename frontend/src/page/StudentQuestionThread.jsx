@@ -86,12 +86,15 @@ function a11yProps(index) {
     'aria-controls': `vertical-tabpanel-${index}`,
   };
 }
+
+// Get the first character in firstname and lastname.
 function stringAvatar(name) {
   return {
     sx: { fontSize: '15px', height: '40px' },
     children: `${name.split(' ')[0][0]}${name.split(' ')[1][0]}`,
   };
 }
+
 export default function StudentQuestionThread() {
   const navigate = useNavigate();
   const messagesEndRef = React.useRef(null)
@@ -107,7 +110,6 @@ export default function StudentQuestionThread() {
 
   // Get the current content
   const getThreads = async () => {
-    //const data = await apiCall(`/threads_by_user/${localStorage.getItem('id')}`, 'GET');
     const data = await apiCall(`/threads`, 'GET', {}, navigate);
     setQaList(data.threads);
     scrollToBottom();
@@ -126,11 +128,15 @@ export default function StudentQuestionThread() {
 
   ])
 
+  // And the mark up tp the content
   const createMarkup = (html) => {
     return {
       __html: DOMPurify.sanitize(html)
     }
   }
+
+  // when the thread question has changed, update the value
+  // and keep the screen in on the bottom of the thread.
   const handleChange = async (event, newValue) => {
     await setValue(newValue);
     scrollToBottom();
@@ -188,8 +194,6 @@ export default function StudentQuestionThread() {
 
                 )
               }
-
-
             })
             :
             <></>
@@ -206,6 +210,7 @@ export default function StudentQuestionThread() {
     setValue(0);
   }
 
+  // When the thread is answered.
   const HandleThread = (props) => {
     const [replyText, setReplyText] = React.useState('');
     const handleReply = async (tid) => {
@@ -277,10 +282,7 @@ export default function StudentQuestionThread() {
                 )
               }
             })}
-
           </Tabs>
-
-
           {qaList.map((q, i) => {
             return (
               <TabPanel value={value} index={i} sx={{ borderRight: 1, borderColor: 'divider', minwidth: '450px', maxwidth: '450px', float: 'left', }}>
@@ -289,10 +291,7 @@ export default function StudentQuestionThread() {
             )
           })}
         </Box>
-
       </div>
-
     </ThemeProvider>
-
   );
 }

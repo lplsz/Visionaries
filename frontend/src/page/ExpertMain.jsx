@@ -25,6 +25,7 @@ import Grid from '@mui/material/Grid';
 import { useNavigate } from 'react-router-dom';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { apiCall } from '../Main';
+
 const theme = createTheme({
   status: {
     danger: '#000000',
@@ -70,6 +71,8 @@ const ExpertMain = () => {
     getQuestions();
 
   }
+
+  // Get the unanswered and unresolved thread.
   const getQuestions = async () => {
     const data = await apiCall(`/unanswered_unresolved_threads`, 'GET', {}, navigate);
     setQaList(data.threads);
@@ -80,6 +83,8 @@ const ExpertMain = () => {
 
     setI(i + 1);
   }
+
+  // Reuturn a component contains a single QA content.
   const SingleQA = (props) => {
     return (
       <div>
@@ -98,14 +103,13 @@ const ExpertMain = () => {
             >
               <EditIcon fontSize="middle" />
             </IconButton>
-
           </div>
         </div>
       </div>
-
     )
   }
 
+  // Return all QAs.
   const PotantialQA = () => {
     return (
       <div>

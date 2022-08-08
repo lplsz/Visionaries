@@ -6,12 +6,10 @@ import Typography from '@mui/material/Typography';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import Container from '@mui/material/Container';
 import Box from '@mui/material/Box';
-import TextField from '@mui/material/TextField';
-import Autocomplete from '@mui/material/Autocomplete';
 import { styled, alpha } from '@mui/material/styles';
 
 import StudentHeader from '../component/StudentHeader'
-import Button from '@mui/material/Button';
+
 // date-fns
 import Chip from '@mui/material/Chip';
 import Grid from '@mui/material/Grid';
@@ -25,8 +23,8 @@ const ListItem = styled('li')(({ theme }) => ({
 	margin: theme.spacing(0.5),
 }));
 
+// Get the students availabilities.
 const StudentBookedMeeting = () => {
-	// const [expanded, setExpanded] = React.useState(false);
 	const navigate = useNavigate();
 	const time = ['09:00am-9:30am', '09:30am-10:00am', '10:00am-10:30am', '10:30am-11:00am', '11:00am-11:30am', '01:00pm-1:30am', '01:30pm-02:00pm', '02:00pm-02:30am', '02:30pm-03:00pm', '03:00pm-03:30am', '03:30pm-04:00pm', '04:00pm-04:30am', '04:30pm-05:00pm'];
 	const [i, setI] = React.useState(1);
@@ -37,13 +35,12 @@ const StudentBookedMeeting = () => {
 		setQAList(data.availabilities);
 	}
 
-
-
 	if (i === 1) {
 		getQADetail();
 		setI(i + 1);
 	};
 
+  // The list contains the language choice.
 	const InputInList = (propsN) => {
 		return (
 			<Box
@@ -77,7 +74,7 @@ const StudentBookedMeeting = () => {
 		);
 	}
 
-
+  // Return the meeting schedule of the student.
 	const PotentialMeeting = (props) => {
 		const [expanded, setExpanded] = React.useState(false);
 
@@ -140,7 +137,6 @@ const StudentBookedMeeting = () => {
 	return (
 		<div>
 			<StudentHeader />
-
 			<div style={{ display: 'flex', marginLeft: '200px', marginTop: '40px' }}>
 				<Typography variant="h2" sx={{ marginTop: '30px' }}>Your Booked Meetings</Typography>
 			</div>
@@ -161,14 +157,10 @@ const StudentBookedMeeting = () => {
 
 						}}
 					>
-
 						<div style={{ width: '100%' }}>
-							{/* <PotantialQA /> */}
 							<PotentialMeeting qaList={qaList} />
 						</div>
-
 					</Box>
-
 				</div>
 			</Container >
 		</div >

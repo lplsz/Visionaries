@@ -85,26 +85,26 @@ function a11yProps(index) {
     'aria-controls': `vertical-tabpanel-${index}`,
   };
 }
+
 export default function StudentQuestionThread() {
   const navigate = useNavigate();
   const messagesEndRef = React.useRef(null)
 
   const scrollToBottom = () => {
     if (messagesEndRef.current !== null) {
-      console.log('sadsad')
       messagesEndRef.current.scrollIntoView({});
     }
   }
 
-
-
   const me = localStorage.getItem('name');
+
+  // Get the thread contend.
   const getThreads = async () => {
     const data = await apiCall(`/threads_by_user/${localStorage.getItem('id')}`, 'GET', {}, navigate);
-    //const data = await apiCall(`/threads`, 'GET');
     setQaList(data.threads);
     scrollToBottom();
   }
+
   const [i, setI] = React.useState(1);
   if (i === 1) {
     getThreads();
@@ -116,7 +116,6 @@ export default function StudentQuestionThread() {
     { name: 'Rhea Chang', time: '04/09/2022', question: 'Why do I need two vaccines?', category: 'vacation', discription: 'According to the current recommendation, why do I need two caccines? Does two vaccines can protect me from attacking by COVID-19.', new: 1, reply: [{ name: 'Jimmy Oliver', time: '2022/7/5 22:30', body: 'Hi I think you should go and get another booster' }, { name: 'Rhea Chang', time: '2022/7/5 22:31', body: 'Thanks a lot, but can I take it in UNSW?' }, { name: 'Rhea Chang', time: '2022/7/5 22:32', body: 'Do I need to book 1?' }, { name: 'Jimmy Oliver', time: '2022/7/5 22:32', body: 'Yes, you should do on hotdoc' }, { name: 'Rhea Chang', time: '2022/7/5 22:30', body: 'Thanks' }, { name: 'Rhea Chang', time: '2022/7/5 22:32', body: 'byebye' }, { name: 'Jimmy Oliver', time: '2022/7/5 22:32', body: 'byebye' }] },
     { name: 'Echo', time: '10/09/2022', question: 'Worried about sharing your concerns?', category: 'mentor', discription: 'All information we gather is completely confidential. Your personal information will not be shared with anyo ', new: 0, reply: [{ name: 'Jimmy Oliver', time: '2022/7/5 22:30', body: 'Hi I think you should go ' }, { name: 'Rhea Chang', time: '2022/7/5 22:31', body: 'Hi I think you should go too' }, { name: 'Rhea Chang', time: '2022/7/5 22:32', body: 'byebye' }, { name: 'Jimmy Oliver', time: '2022/7/5 22:32', body: 'byebye' }] },
     { name: 'Skylar', time: '04/06/2022', question: 'What can I expect if offered an appointment?', category: 'vacation', discription: 'Appointments are scheduled to last around 30 minutes. We will ask you some questions to help work', new: 0, reply: [{ name: 'Jimmy Oliver', time: '2022/7/5 22:30', body: 'Hi I think you should go ' }, { name: 'Rhea Chang', time: '2022/7/5 22:31', body: 'Hi I think you should go too' }, { name: 'Rhea Chang', time: '2022/7/5 22:32', body: 'byebye' }, { name: 'Jimmy Oliver', time: '2022/7/5 22:32', body: 'byebye' }] },
-
   ])
 
   const createMarkup = (html) => {
@@ -124,6 +123,7 @@ export default function StudentQuestionThread() {
       __html: DOMPurify.sanitize(html)
     }
   }
+
   const handleChange = async (event, newValue) => {
     await setValue(newValue);
     scrollToBottom();
@@ -133,6 +133,7 @@ export default function StudentQuestionThread() {
     return time.split('T').join(' ');
   }
 
+  // Return the reply content.
   const HandleReply = (props) => {
     return (
       <div style={{ display: 'flex', flexDirection: 'column', marginTop: '20px', height: '350px', width: '850px', overflow: 'hidden', overflowY: 'scroll' }}>
@@ -181,8 +182,6 @@ export default function StudentQuestionThread() {
 
                 )
               }
-
-
             })
             :
             <></>
@@ -193,6 +192,7 @@ export default function StudentQuestionThread() {
 
   }
 
+  // Return the contend detail of the question.
   const HandleThread = (props) => {
     const [replyText, setReplyText] = React.useState('');
     const handleReply = async (tid) => {
@@ -258,8 +258,6 @@ export default function StudentQuestionThread() {
             })}
 
           </Tabs>
-
-
           {qaList.map((q, i) => {
             return (
               <TabPanel value={value} index={i} sx={{ borderRight: 1, borderColor: 'divider', minwidth: '450px', maxwidth: '450px', float: 'left', }}>
@@ -268,10 +266,7 @@ export default function StudentQuestionThread() {
             )
           })}
         </Box>
-
       </div>
-
     </ThemeProvider>
-
   );
 }

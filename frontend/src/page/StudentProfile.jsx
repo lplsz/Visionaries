@@ -45,6 +45,8 @@ export default function StudentProfile() {
     getUserInfo();
   }, []);
 
+  // change the language dictionary list in to a list
+  // containly only the language is.
   function getId(languageIds) {
     let ids = []
     languageIds.map((languageId) => {
@@ -108,6 +110,7 @@ export default function StudentProfile() {
     }
   }
 
+  // When update the profile, the name, password value format will be checked.
   const update = async () => {
     // eslint-disable-next-line prefer-regex-literals
     const nameReg = new RegExp(/^[0-9A-Za-z]+ [0-9A-Za-z]+/);
@@ -128,7 +131,6 @@ export default function StudentProfile() {
         username: name,
         language_ids: languageIds
       }
-      console.log('update', user);
       const data = await apiCall('user_profile', 'PUT', user, navigate);
       if (typeof (data) === 'string' && (!data.startsWith('200') || !data.startsWith('201'))) {
         setErrorMessage(data.slice(3, data.length));

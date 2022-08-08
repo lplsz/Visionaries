@@ -23,12 +23,14 @@ const ListGrid = styled.div`
   grid-gap: 30px;
 `;
 
+// Remove the QA card from the current list it in.
 const removeFromList = (list, index) => {
   const result = Array.from(list);
   const [removed] = result.splice(index, 1);
   return [removed, result];
 };
 
+// Add the QA card into the current list.
 const addToList = (list, index, element) => {
   const result = Array.from(list);
   result.splice(index, 0, element);
@@ -111,14 +113,17 @@ const ReviewPost = () => {
     
   }
 
+  // When the drag finish, update the QA post content
+  // and the post can only be moved from the "Pending Review" to
+  // "All my posts", the reverse way is not allowed.
   const onDragEnd = (result) => {
 
     if (!result.destination) {
       return;
     }
-    // else if (result.destination.droppableId === "Pending Review") {
-    //   return;
-    // }
+    else if (result.destination.droppableId === "Pending Review") {
+      return;
+    }
 
     const source = result.source.droppableId;
     const currentDragCardId = result.draggableId;
@@ -143,8 +148,6 @@ const ReviewPost = () => {
 
   };
 
-  console.log("ele",elements);
-  console.log("currClick", clickedItem);
   return (
     <div style={{ backgroundSize: '100% 100%' }}>
       <GlobalStyles styles={{ ul: { margin: 0, padding: 0, listStyle: 'none' } }} />

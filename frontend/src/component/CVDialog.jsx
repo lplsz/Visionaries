@@ -65,6 +65,7 @@ const CVDialog = (props) => {
     }
   }
   
+  // The box contains the template image or uploaded image.
   const CardTextDetectBox = () => {
     return (
       <div>

@@ -45,6 +45,7 @@ export default function ExpertProfile() {
     getUserInfo();
   }, []);
 
+  // Return a list contains the language ids.
   function getId(languageIds) {
     let ids = []
     languageIds.map((languageId) => {
@@ -53,6 +54,7 @@ export default function ExpertProfile() {
     return ids;
   }
 
+  // Get the expert information.
   const getUserInfo = async () => {
     const id = localStorage.getItem('id');
     const data = await apiCall(`/user_profile/${id}`, 'GET', {}, navigate);
@@ -72,6 +74,8 @@ export default function ExpertProfile() {
     }
   }
 
+  // If the new password and the confirmed password is same
+  // update the expert's password.
   const changePassword = async () => {
     const id = localStorage.getItem('id');
     if (newpassword === '' || confirm_password === ' ') {
@@ -107,6 +111,8 @@ export default function ExpertProfile() {
     }
   }
 
+  // Before update the profile, check the email, name field value
+  // meet the requirements, and then update the expert profile.
   const update = async () => {
     // eslint-disable-next-line prefer-regex-literals
     const reg = new RegExp(/^([a-zA-Z0-9._-])+@([a-zA-Z0-9_-])+(\.[a-zA-Z0-9_-])+/);

@@ -6,11 +6,8 @@ import Typography from '@mui/material/Typography';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import Container from '@mui/material/Container';
 import Box from '@mui/material/Box';
-import TextField from '@mui/material/TextField';
-import Autocomplete from '@mui/material/Autocomplete';
 import { styled, alpha } from '@mui/material/styles';
 
-import Button from '@mui/material/Button';
 // date-fns
 import Chip from '@mui/material/Chip';
 import Grid from '@mui/material/Grid';
@@ -31,19 +28,20 @@ const ExpertBookedMeeting = () => {
 	const time = ['09:00am-9:30am', '09:30am-10:00am', '10:00am-10:30am', '10:30am-11:00am', '11:00am-11:30am', '01:00pm-1:30am', '01:30pm-02:00pm', '02:00pm-02:30am', '02:30pm-03:00pm', '03:00pm-03:30am', '03:30pm-04:00pm', '04:00pm-04:30am', '04:30pm-05:00pm'];
 	const [i, setI] = React.useState(1);
 	const [qaList, setQAList] = React.useState([]);
-	const getQADetail = async (id) => {
+	
+  // Get the expert available time.
+  const getQADetail = async (id) => {
 		const data = await apiCall(`/get_expert_upcoming_booked_availabilities/${localStorage.getItem('id')}`, 'GET', {}, navigate);
 
 		setQAList(data.booked_availabilities);
 	}
-
-
 
 	if (i === 1) {
 		getQADetail();
 		setI(i + 1);
 	};
 
+  // Retunr a list containes the expert perfered languages.
 	const InputInList = (propsN) => {
 		return (
 			<Box
@@ -77,7 +75,7 @@ const ExpertBookedMeeting = () => {
 		);
 	}
 
-
+  // Return the experts meeting table.
 	const PotentialMeeting = (props) => {
 		const [expanded, setExpanded] = React.useState(false);
 
@@ -134,11 +132,9 @@ const ExpertBookedMeeting = () => {
 		);
 	}
 
-
 	return (
 		<div>
 			<ExpertHeader />
-
 			<div style={{ display: 'flex', marginLeft: '200px', marginTop: '40px' }}>
 				<Typography variant="h2" sx={{ marginTop: '30px' }}>Your Booked Meetings</Typography>
 			</div>

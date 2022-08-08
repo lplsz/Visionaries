@@ -1,10 +1,6 @@
 /* eslint-disable no-unused-vars */
 import * as React from 'react';
-import Accordion from '@mui/material/Accordion';
-import AccordionDetails from '@mui/material/AccordionDetails';
-import AccordionSummary from '@mui/material/AccordionSummary';
 import Typography from '@mui/material/Typography';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import SearchIcon from '@mui/icons-material/Search';
 import InputBase from '@mui/material/InputBase';
 import Container from '@mui/material/Container';
@@ -12,13 +8,11 @@ import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import Autocomplete from '@mui/material/Autocomplete';
 import { styled, alpha } from '@mui/material/styles';
-import ReactPlayer from 'react-player';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import FormControl from '@mui/material/FormControl';
 import FormLabel from '@mui/material/FormLabel';
 import Checkbox from '@mui/material/Checkbox';
 
-import MAIN from './img/vaccinations.jpg';
 import StudentHeader from '../component/StudentHeader'
 import Button from '@mui/material/Button';
 // date-fns
@@ -30,7 +24,6 @@ import FeedbackIcon from '@mui/icons-material/Feedback';
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
-import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import Grid from '@mui/material/Grid';
 import PotentialQA from '../component/PotentialQA';
@@ -63,6 +56,8 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
   width: '100%',
 }));
+
+
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
   borderRadius: theme.shape.borderRadius,
