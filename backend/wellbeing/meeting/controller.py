@@ -15,10 +15,7 @@ Expert Availability
 
 
 def get_expert_availabilities_by_date(expert_id, date):
-    """
-    Return the expert's availabilities on 'date' ordered by time_range_id.
-    """
-
+    # Get the availabilities of the expert on the given date
     time_ranges = TimeRange.query.all()
     result = [{
         'date': date,
@@ -36,12 +33,7 @@ def get_expert_availabilities_by_date(expert_id, date):
 
 
 def get_expert_availabilities_by_week(expert_id, date):
-    """
-    Return the expert's availabilities as a list of availabilities list for each day of the week.
-    """
-
-    # Get the start and end of the week containing date
-
+    # Get a weeks upcoming booked availabilities of the expert
     start_of_the_week = date - timedelta(days=date.weekday())
     end_of_the_week = date - timedelta(days=date.weekday()) + timedelta(days=4)
 
@@ -74,27 +66,21 @@ def get_experts_availabilities_by_week_and_categories(date, category_ids):
 
 
 def get_expert_availabilities(expert_id):
-    """
-    Returns a list of availabilities for a user.
-    """
+    # Get the availabilities of the expert
     availabilities = Availability.query.filter_by(expert_id=expert_id).order_by(
         Availability.date, Availability.time_range_id).all()
     return {"availabilities": [availability.serialized for availability in availabilities]}
 
 
 def update_expert_availability(data):
-    """
-    Updates the availability of a user.
-    """
+    # Update the availability of a user.
     return {
         "availability": update_expert_availabilities(data['expert_id'], [data]).get('availabilities')[0]
     }
 
 
 def get_expert_upcoming_booked_availabilities(expert_id):
-    """
-    Returns a list of availabilities for a user.
-    """
+    # Get the upcoming booked availabilities of the expert
     availabilities = Availability.query \
         .filter(and_(Availability.expert_id == expert_id,
                      Availability.date >= datetime_date.today(),
@@ -133,9 +119,7 @@ Student Availability
 
 
 def get_student_upcoming_availabilities(student_id):
-    """
-    Returns a list of availabilities for a user.
-    """
+    # Get the upcoming availabilities of the student
     availabilities = Availability.query \
         .filter(and_(Availability.student_id == student_id,
                      Availability.date >= datetime_date.today(),
@@ -148,13 +132,12 @@ def get_student_upcoming_availabilities(student_id):
 
 
 def update_student_availability(data):
-    """
-    Updates the availability of a user.
-    """
+    # Update the availability of a user.
     return update_student_availabilities(data['student_id'], [data])
 
 
 def update_student_availabilities(student_id, availabilities):
+    # Update the availabilities of the student
     for availability in availabilities:
         availability_db = Availability.query.filter_by(student_id=student_id, date=availability['date'],
                                                        time_range_id=availability['time_range_id']).first()

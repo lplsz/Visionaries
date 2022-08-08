@@ -36,7 +36,8 @@ class UnreadThreads(MethodView):
     @thread_blueprint.output(GetThreadsOutSchema, 200)
     @thread_blueprint.doc(
         security='JWT Bearer Token',
-        summary='Get all unanswered & unresolved threads current user is interested in order by update_at desc',
+        summary='Get all unanswered & unresolved threads the current user is interested in',
+        description='Threads returned are ordered by update_at desc',
         responses={200: 'OK', 404: 'User Not Found'},
     )
     @jwt_required()
@@ -91,8 +92,9 @@ class ResolveThread(MethodView):
     @thread_blueprint.output(PostThreadOutSchema, 200)
     @thread_blueprint.doc(
         security='JWT Bearer Token',
-        summary='Set thread resolved',
-        description='Set thread resolved',
+        summary='Set thread as resolved or unresolved',
+        description='If the thread is resolved, it will be marked as resolved. If the thread is unresolved, '
+                    'it will be marked as unresolved',
         responses={
             404: 'Thread not found'
         }

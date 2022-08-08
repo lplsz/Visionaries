@@ -79,7 +79,6 @@ class QAByID(MethodView):
 
 @qa_blueprint.route('/qas')
 class QAs(MethodView):
-
     @qa_blueprint.input(GetQAsInSchema, location='query')
     @qa_blueprint.output(GetQAsOutSchema, 200)
     @qa_blueprint.doc(

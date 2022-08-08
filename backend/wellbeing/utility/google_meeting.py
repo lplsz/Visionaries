@@ -42,8 +42,8 @@ def create_meeting(expert_email, student_email, start_at, end_at):
         service = build('calendar', 'v3', credentials=creds)
 
         event = {
-            'summary': 'Meeting',
-            'description': 'A chance to hear more about Google\'s developer products.',
+            'summary': 'A Scheduled Meeting with Wellbeing Expert',
+            'description': 'A chance to get your concerns and worries out of your head.',
             'start': {
                 'dateTime': start_at.isoformat(),
                 'timeZone': 'Australia/Sydney',
@@ -56,13 +56,6 @@ def create_meeting(expert_email, student_email, start_at, end_at):
                 {'email': expert_email},
                 {'email': student_email},
             ],
-            # 'reminders': {
-            #     'useDefault': False,
-            #     'overrides': [
-            #         {'method': 'email', 'minutes': 24 * 60},
-            #         {'method': 'popup', 'minutes': 10},
-            #     ],
-            # },
             "conferenceData": {
                 "createRequest": {
                     "conferenceSolutionKey": {

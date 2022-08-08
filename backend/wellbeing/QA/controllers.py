@@ -12,6 +12,7 @@ QA Controllers
 
 
 def post_qa(data):
+    # Post a qa
     new_qa = QA(
         title=data['title'],
         body=data['body'],

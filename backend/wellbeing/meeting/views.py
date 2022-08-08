@@ -67,18 +67,6 @@ def get_expert_upcoming_booked_availabilities(expert_id):
     return {'booked_availabilities': controller.get_expert_upcoming_booked_availabilities(expert_id)}
 
 
-# @expert_availability_blueprint.post('/update_expert_availability')
-# @expert_availability_blueprint.input(PostAvailabilityInSchema)
-# @expert_availability_blueprint.output(PostAvailabilityOutSchema, 200)
-# @expert_availability_blueprint.doc(
-#     summary='Update availability of expert',
-#     responses={
-#         404: 'User Not Found',
-#     })
-# def update_expert_availability(data):
-#     return controller.update_expert_availability(data)
-
-
 @expert_availability_blueprint.post('/update_expert_availabilities')
 @expert_availability_blueprint.input(PostExpertAvailabilitiesInSchema)
 # @expert_availability_blueprint.output(GetAvailabilitiesOutSchema, 200)
@@ -107,30 +95,6 @@ student_availability_blueprint = APIBlueprint('student_availability', __name__)
     })
 def get_student_availability(student_id):
     return controller.get_student_upcoming_availabilities(student_id)
-
-
-# @student_availability_blueprint.post('/update_student_availability')
-# @student_availability_blueprint.input(PostAvailabilityInSchema)
-# @student_availability_blueprint.output(PostAvailabilityOutSchema, 200)
-# @student_availability_blueprint.doc(
-#     summary='Update availability of student',
-#     responses={
-#         404: 'User Not Found',
-#     })
-# def update_student_availability(data):
-#     return controller.update_student_availability(data)
-#
-#
-# @student_availability_blueprint.post('/update_student_availabilities')
-# @student_availability_blueprint.input(PostStudentAvailabilitiesInSchema)
-# @student_availability_blueprint.output(GetAvailabilitiesOutSchema, 200)
-# @student_availability_blueprint.doc(
-#     summary='Update availabilities of student',
-#     responses={
-#         404: 'User Not Found',
-#     })
-# def update_student_availabilities(data):
-#     return controller.update_student_availabilities(data['student_id'], data['availabilities'])
 
 
 '''

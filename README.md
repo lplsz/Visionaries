@@ -40,9 +40,8 @@
     GUNICORN_WORKERS=1
     LOG_LEVEL=debug
     JWT_SECRET_KEY=""
-    JWT_ACCESS_TOKEN_EXPIRE=datetime.timedelta(days=1)
     ```
-
+    
 5. Initialize the database
     1. Ensure your MySQL server is up and running
     2. Navigate to the backend directory in the terminal
@@ -83,7 +82,6 @@
 
 1. After starting the backend via `flask run`.
 2. Go to the backend URL printed in the terminal.
-3. Add a suffix `/docs` to the URL and hit enter in your browser.
 
 ## Deployment on Could serveice
 * The Wellbeing website can be accessed at: https://main.df2q30aos58ji.amplifyapp.com

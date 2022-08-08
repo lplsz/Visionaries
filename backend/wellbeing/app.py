@@ -16,14 +16,12 @@ def create_app(config_object="wellbeing.settings"):
 
     :param config_object: The configuration object to use.
     """
-    app = APIFlask(__name__.split(".")[0])
+    app = APIFlask(__name__.split(".")[0], docs_path='/')
     app.config.from_object(config_object)
     CORS(app, supports_credentials=True)
     register_extensions(app)
     register_blueprints(app)
-    # register_shellcontext(app)
     register_commands(app)
-    # configure_logger(app)
     configure_security_schemes(app)
     return app
 
@@ -48,30 +46,12 @@ def register_blueprints(app):
     app.register_blueprint(chatbot.views.blueprint)
 
 
-# def register_shellcontext(app):
-#     """Register shell context objects."""
-#
-#     def shell_context():
-#         """Shell context objects."""
-#         return {"db": db, "User": user.models.User}
-#
-#     app.shell_context_processor(shell_context)
-#
-#
 def register_commands(app):
     """Register Click commands."""
     app.cli.add_command(commands.createdb)
     app.cli.add_command(commands.dropdb)
     app.cli.add_command(commands.seed)
 
-
-#
-#
-# def configure_logger(app):
-#     """Configure loggers."""
-#     handler = logging.StreamHandler(sys.stdout)
-#     if not app.logger.handlers:
-#         app.logger.addHandler(handler)
 
 def configure_security_schemes(app):
     app.security_schemes = {  # equals to use config SECURITY_SCHEMES

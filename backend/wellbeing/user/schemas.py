@@ -2,6 +2,10 @@ from apiflask import Schema
 from apiflask.fields import String, Integer, Email, List, Nested, DateTime
 from apiflask.validators import OneOf
 
+'''
+Class Schema
+'''
+
 
 class QualificationSchema(Schema):
     id = Integer(required=True, example=1)
@@ -36,6 +40,11 @@ class UserSchema(Schema):
     interested_categories = List(Nested(CategorySchema))
 
 
+'''
+User Schema
+'''
+
+
 class GetUserOutSchema(Schema):
     user = Nested(UserSchema, required=True, partial=True)
 
@@ -47,7 +56,6 @@ class PutUserInSchema(Schema):
 
     language_ids = List(Integer())
     interested_category_ids = List(Integer())
-    # qualifications = List(Nested(QualificationSchema))       // can't be changed by user
 
 
 class UpdatePasswordInSchema(Schema):

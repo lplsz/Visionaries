@@ -59,6 +59,13 @@ class UserProfile(MethodView):
 
 @blueprint.put('/update_password')
 @blueprint.input(UpdatePasswordInSchema)
+@blueprint.doc(
+    summary='Update User password',
+    description='Update User password',
+    responses={
+        200: 'User password Updated',
+        404: 'User Not Found',
+    })
 def update_password(data):
     return controllers.update_user_password(data['user_id'], data['new_password'])
 
