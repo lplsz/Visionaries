@@ -66,6 +66,7 @@
     ```
 
 3. After running `npm start`, a url will be printed in the terminal, go to that link using any web browser to use our system.
+   <img width="375" alt="image" src="https://user-images.githubusercontent.com/30895546/183391525-95e61c8b-fe29-4449-8750-f518dbc1fc55.png">
 
 ## Useful Commands
 
