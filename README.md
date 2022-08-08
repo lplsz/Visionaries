@@ -82,6 +82,7 @@
 
 1. After starting the backend via `flask run`.
 2. Go to the backend URL printed in the terminal.
+<img width="495" alt="image" src="https://user-images.githubusercontent.com/30895546/183390627-ecf7d6d8-bab1-4aff-a89f-1860f3caaaa0.png">
 
 ## Deployment on Could serveice
 * The Wellbeing website can be accessed at: https://main.df2q30aos58ji.amplifyapp.com
