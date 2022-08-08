@@ -15,7 +15,7 @@ from wellbeing.chatbot.models import UserQuestion
 Chatbot Helper Functions
 '''
 
-api_key = "a61426918f7c9cef90b28d2a60e02f67487437422290708c44910c98587d1393"
+api_key = "f9b5954e11db017d770bde2b9b011dc2233c276d4b87091e560851c998c06977"
 # Google API search
 def serch_func(q, prefix, num):
     q_prefix = q + prefix
