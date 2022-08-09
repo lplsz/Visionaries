@@ -1,7 +1,7 @@
 import datetime
 
 from flask_jwt_extended import current_user
-from sqlalchemy.sql import or_
+from sqlalchemy.sql import and_
 
 from wellbeing.QA.models import QA, Tag, Category
 from wellbeing.extensions import db
@@ -63,14 +63,14 @@ def put_qa_by_id(qa_id, data):
 
 def get_qas(data):
     conditions = []
-    if 'category_ids' in data:
+    if data.get('category_ids', []) != []:
         conditions.append(QA.category_id.in_(data['category_ids']))
-    if 'tag_ids' in data:
+    if data.get('tag_ids', []) != []:
         conditions.append(QA.tags.any(Tag.id.in_(data['tag_ids'])))
-    if 'keyword' in data:
+    if data.get('keyword', "") != "":
         conditions.append(QA.title.like('%' + data['keyword'] + '%'))
 
-    qas = QA.query.filter(or_(*conditions)).all()
+    qas = QA.query.filter(and_(*conditions)).all()
     return {'qas': [qa.serialized for qa in qas]}
 
 
