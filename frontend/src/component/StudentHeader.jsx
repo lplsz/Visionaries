@@ -41,6 +41,7 @@ export default function StudentHeader(props) {
   const isMenuOpen = Boolean(anchorEl);
   const navigate = useNavigate();
   const id = localStorage.getItem('id');
+  console.log(id);
   const handleProfileMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -74,6 +75,9 @@ export default function StudentHeader(props) {
         <MenuItem onClick={() => {
           apiCall('/logout', 'POST', { id: id }, navigate);
           localStorage.removeItem('id');
+          localStorage.removeItem('name');
+          localStorage.removeItem('type');
+          localStorage.removeItem('token');
           navigate('/login'); handleMenuClose()
         }}>Logout</MenuItem>
       </Menu>
@@ -95,50 +99,53 @@ export default function StudentHeader(props) {
             <Box sx={{ flexGrow: 1 }} />
             <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
 
-              {id == null
-                ? <IconButton
+              {id === null || id === undefined
+                ? <button
                   size="large"
                   aria-label="show 4 new mails"
                   color="primary"
-                  onClick={() => { navigate('/student_login') }}
+                  onClick={() => { navigate('/login') }}
                 >
-                  <AssignmentIcon fontSize="middle" />
-                </IconButton>
-                : <IconButton
+                  Login
+                </button>
+                : <div style={{ display: 'flex' }}><IconButton
                   size="large"
                   aria-label="show 4 new mails"
                   color="primary"
                   onClick={() => { navigate('/student_question_thread') }}
                 >
                   <AssignmentIcon fontSize="middle" />
-                </IconButton>}
-              <IconButton
-                size="large"
-                edge="end"
-                aria-label="account of current user"
-                aria-controls={menuId}
-                aria-haspopup="true"
-                onClick={handleProfileMenuOpen}
-                color="primary"
-              >
-                <AccountCircle fontSize="large" />
-              </IconButton>
-              {
-                props.type !== undefined ?
-                  <div>
-                    <button
-                      style={{ width: '50px', height: '50px', marginLeft: '20px', backgroundColor: 'black', borderRadius: '30px', display: 'flex' }}
-                      onClick={() => props.toggleBot((prev) => !prev)}
-                    >
-                      <svg viewBox="0 0 640 512" style={{ width: '45px', height: '45px', paddingBottom: '15px', fill: 'white' }}>
-                        <path d="M192,408h64V360H192ZM576,192H544a95.99975,95.99975,0,0,0-96-96H344V24a24,24,0,0,0-48,0V96H192a95.99975,95.99975,0,0,0-96,96H64a47.99987,47.99987,0,0,0-48,48V368a47.99987,47.99987,0,0,0,48,48H96a95.99975,95.99975,0,0,0,96,96H448a95.99975,95.99975,0,0,0,96-96h32a47.99987,47.99987,0,0,0,48-48V240A47.99987,47.99987,0,0,0,576,192ZM96,368H64V240H96Zm400,48a48.14061,48.14061,0,0,1-48,48H192a48.14061,48.14061,0,0,1-48-48V192a47.99987,47.99987,0,0,1,48-48H448a47.99987,47.99987,0,0,1,48,48Zm80-48H544V240h32ZM240,208a48,48,0,1,0,48,48A47.99612,47.99612,0,0,0,240,208Zm160,0a48,48,0,1,0,48,48A47.99612,47.99612,0,0,0,400,208ZM384,408h64V360H384Zm-96,0h64V360H288Z"></path>
-                      </svg>
-                    </button>
+                </IconButton>
+                  <IconButton
+                    size="large"
+                    edge="end"
+                    aria-label="account of current user"
+                    aria-controls={menuId}
+                    aria-haspopup="true"
+                    onClick={handleProfileMenuOpen}
+                    color="primary"
+                  >
+                    <AccountCircle fontSize="large" />
+                  </IconButton>
+                  {
+                    props.type !== undefined ?
 
-                  </div>
-                  :
-                  <></>
+                      <button
+                        style={{ width: '50px', height: '50px', marginLeft: '20px', backgroundColor: 'black', borderRadius: '30px', display: 'flex' }}
+                        onClick={() => props.toggleBot((prev) => !prev)}
+                      >
+                        <svg viewBox="0 0 640 512" style={{ width: '45px', height: '45px', paddingBottom: '15px', fill: 'white' }}>
+                          <path d="M192,408h64V360H192ZM576,192H544a95.99975,95.99975,0,0,0-96-96H344V24a24,24,0,0,0-48,0V96H192a95.99975,95.99975,0,0,0-96,96H64a47.99987,47.99987,0,0,0-48,48V368a47.99987,47.99987,0,0,0,48,48H96a95.99975,95.99975,0,0,0,96,96H448a95.99975,95.99975,0,0,0,96-96h32a47.99987,47.99987,0,0,0,48-48V240A47.99987,47.99987,0,0,0,576,192ZM96,368H64V240H96Zm400,48a48.14061,48.14061,0,0,1-48,48H192a48.14061,48.14061,0,0,1-48-48V192a47.99987,47.99987,0,0,1,48-48H448a47.99987,47.99987,0,0,1,48,48Zm80-48H544V240h32ZM240,208a48,48,0,1,0,48,48A47.99612,47.99612,0,0,0,240,208Zm160,0a48,48,0,1,0,48,48A47.99612,47.99612,0,0,0,400,208ZM384,408h64V360H384Zm-96,0h64V360H288Z"></path>
+                        </svg>
+                      </button>
+
+
+                      :
+                      <></>
+                  }
+                </div>
               }
+
 
             </Box>
           </Toolbar>

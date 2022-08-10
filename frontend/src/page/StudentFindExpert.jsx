@@ -76,23 +76,29 @@ const StudentFindExpert = () => {
     data2.result.map((re) => {
       const d = {}
       d['expert'] = re.expert;
-      const t = []
-      let un = 0
-      re.availabilities.map((day) => {
-        const oneday = [];
-        day.map((timeslot) => {
-          if (timeslot.status === 'available') {
-            oneday.push(true);
-          } else {
-            un += 1
-            oneday.push(false);
-          }
+      if (re.expert.account_type !== 'admin') {
+        const t = [];
+        let un = 0;
+        let j;
+        for (j = 0; j < 5 - re.availabilities.length; j++) {
+          t.push([false, false, false, false, false, false, false, false, false, false, false, false, false])
+        }
+        re.availabilities.map((day) => {
+          const oneday = [];
+          day.map((timeslot) => {
+            if (timeslot.status === 'available') {
+              oneday.push(true);
+            } else {
+              un += 1
+              oneday.push(false);
+            }
+          })
+          t.push(oneday);
         })
-        t.push(oneday);
-      })
-      d['time'] = t;
-      if (un !== 0) {
-        l.push(d);
+        d['time'] = t;
+        if (un !== 0) {
+          l.push(d);
+        }
       }
     });
 

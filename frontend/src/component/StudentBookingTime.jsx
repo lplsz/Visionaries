@@ -67,6 +67,10 @@ const StudentBookingTime = (props) => {
 		console.log(data2);
 		console.log(data2.availabilities);
 		const t = []
+		let j;
+		for (j = 0; j < 5 - data2.availabilities.length; j++) {
+			t.push([false, false, false, false, false, false, false, false, false, false, false, false, false])
+		}
 		data2.availabilities.map((day) => {
 			const oneday = [];
 			day.map((timeslot) => {
