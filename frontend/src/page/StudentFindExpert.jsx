@@ -193,7 +193,7 @@ const StudentFindExpert = () => {
               <Grid container spacing={0} cent sx={{ width: '100%' }}>
                 <Grid item xs={2} sx={{ fontWeight: 'bold', textAlign: 'center' }}>
 
-                  <div style={{ display: 'flex' }}><div style={{ margin: 'auto' }}><AvatarImage profileImageSrc={e.expert.profile_image_src} name={e.expert.username} /></div></div>
+                  <div style={{ display: 'flex' }}><div style={{ margin: 'auto' }}><AvatarImage profileImageSrc={e.expert.profile_image_src} name={e.expert.username} type={'expert'} /></div></div>
                   <div>{e.expert.username}</div>
                 </Grid>
                 <Grid item xs={5} sx={{}} >
