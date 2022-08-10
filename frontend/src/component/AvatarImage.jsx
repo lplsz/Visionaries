@@ -28,7 +28,7 @@ const Input = styled('input')({
 const AvatarImage = (props) => {
   console.log(props.type);
   if (props.type === undefined) {
-    if (props.profileImageSrc === "") {
+    if (props.profileImageSrc === "" || props.profileImageSrc === null) {
       return (<Avatar
         {...stringAvatar(props.name)}
         sx={{ m: 1, bgcolor: 'primary.main', backgroundColor: '#000000', color: 'white', height: '40px', width: '40px', fontSize: '25px' }}
@@ -43,7 +43,7 @@ const AvatarImage = (props) => {
       </Avatar>)
     }
   } else {
-    if (props.profileImageSrc === "") {
+    if (props.profileImageSrc === "" || props.profileImageSrc === null) {
       return (<Avatar
         {...stringAvatar(props.name)}
         sx={{ m: 1, bgcolor: 'primary.main', backgroundColor: '#000000', color: 'white', height: '80px', width: '80px', fontSize: '25px' }}

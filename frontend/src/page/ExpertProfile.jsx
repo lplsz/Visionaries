@@ -8,7 +8,7 @@ import { useNavigate } from 'react-router-dom';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
-import StudentHeader from '../component/StudentHeader';
+import ExpertHeader from '../component/ExpertHeader';
 import { apiCall } from '../Main';
 import ErrorSnackbar from '../component/ErrorSnackBar';
 import SuccessSnackbar from '../component/SuccessSnackBar';
@@ -156,7 +156,7 @@ export default function ExpertProfile() {
 
   return (
     <div style={{ backgroundSize: '100% 100%' }}>
-      <StudentHeader />
+      <ExpertHeader />
       <ErrorSnackbar open={open} setOpen={setOpen} message={errorMessage} />
       <SuccessSnackbar open={open2} setOpen={setOpen2} message={'You have successfully update your profile'}></SuccessSnackbar>
       <Container disableGutters maxWidth="lg" component="main" sx={{ pt: 8, pb: 6 }}>

@@ -76,23 +76,29 @@ const StudentFindExpert = () => {
     data2.result.map((re) => {
       const d = {}
       d['expert'] = re.expert;
-      const t = []
-      let un = 0
-      re.availabilities.map((day) => {
-        const oneday = [];
-        day.map((timeslot) => {
-          if (timeslot.status === 'available') {
-            oneday.push(true);
-          } else {
-            un += 1
-            oneday.push(false);
-          }
+      if (re.expert.account_type !== 'admin') {
+        const t = [];
+        let un = 0;
+        let j;
+        for (j = 0; j < 5 - re.availabilities.length; j++) {
+          t.push([false, false, false, false, false, false, false, false, false, false, false, false, false])
+        }
+        re.availabilities.map((day) => {
+          const oneday = [];
+          day.map((timeslot) => {
+            if (timeslot.status === 'available') {
+              oneday.push(true);
+            } else {
+              un += 1
+              oneday.push(false);
+            }
+          })
+          t.push(oneday);
         })
-        t.push(oneday);
-      })
-      d['time'] = t;
-      if (un !== 0) {
-        l.push(d);
+        d['time'] = t;
+        if (un !== 0) {
+          l.push(d);
+        }
       }
     });
 
@@ -187,7 +193,7 @@ const StudentFindExpert = () => {
               <Grid container spacing={0} cent sx={{ width: '100%' }}>
                 <Grid item xs={2} sx={{ fontWeight: 'bold', textAlign: 'center' }}>
 
-                  <div style={{ display: 'flex' }}><div style={{ margin: 'auto' }}><AvatarImage profileImageSrc={e.expert.profile_image_src} name={e.expert.username} /></div></div>
+                  <div style={{ display: 'flex' }}><div style={{ margin: 'auto' }}><AvatarImage profileImageSrc={e.expert.profile_image_src} name={e.expert.username} type={'expert'} /></div></div>
                   <div>{e.expert.username}</div>
                 </Grid>
                 <Grid item xs={5} sx={{}} >

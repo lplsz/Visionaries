@@ -74,6 +74,9 @@ export default function ExpertHeader() {
       <MenuItem onClick={() => {
         apiCall('/logout', 'POST', { id: id });
         localStorage.removeItem('id');
+        localStorage.removeItem('name');
+        localStorage.removeItem('type');
+        localStorage.removeItem('token');
         navigate('/login'); handleMenuClose()
       }}>Logout</MenuItem>
     </Menu>
@@ -93,7 +96,7 @@ export default function ExpertHeader() {
             />
             <Box sx={{ flexGrow: 1 }} />
             <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
-              {localStorage.getItem('name') === 'Administer' ?
+              {localStorage.getItem('type') === 'admin' ?
                 <IconButton
                   size="small"
                   edge="end"
